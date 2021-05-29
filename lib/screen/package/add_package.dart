@@ -92,7 +92,7 @@ class _AddPackageState extends State<AddPackage> {
     // });
     super.initState();
     controller.getBoardList();
-   // controller.getPackagesList();
+  //  controller.getPackagesList();
   }
 
   @override
@@ -191,15 +191,16 @@ class _AddPackageState extends State<AddPackage> {
                         ],
                       )),
                     )),
+
+
 //                Expanded(
 //                  child:Obx((){
 //                    return
-//                     controller.addPackagePrice.isEmpty
-//                      ? Center(child:textWidget('Package not added',Colors.black, 15, weight: FontWeight.bold))
-//                      :
-//                      ListView.builder(
+//                     controller.addedPackageLength==0
+//                  ? Text('NA')
+//                   : ListView.builder(
 //                          shrinkWrap: true,
-//                          itemCount: controller.addPackagePrice.length,
+//                          itemCount: controller.addedPackageLength,
 //                          itemBuilder: (context,index){
 //                            return
 //                              SingleChildScrollView(
@@ -214,13 +215,12 @@ class _AddPackageState extends State<AddPackage> {
 //                                            child: Row(
 //                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                                              children: [
-//                                               // textWidget(controller.addedPackageStandard[index] + " + " + controller.addedPackageBoard[index], Colors.black, 15, weight: FontWeight.bold),
+//                                                textWidget(controller.showAddPackagesStdName[index], Colors.black, 15, weight: FontWeight.bold),
 //                                                textWidget("Price: "  + Strings.currency + controller.addPackagePrice[index]??'', Colors.black, 15),
 //                                              ],
 //                                            ),
 //                                          ),
 //                                          Divider(height: 1, thickness: 1, color: Colors.grey,),
-//                                        //  Expanded(child: _myAddedListView(context,controller.addedPackageSubjectList[index])),
 //                                        ],
 //                                      )),
 //                                    )),
@@ -321,7 +321,7 @@ class _AddPackageState extends State<AddPackage> {
                     ),
                   ),
                   Divider(height: 1, thickness: 1, color: Colors.grey,),
-                  //Expanded(child: _myListView(context)),
+                  Expanded(child: _myListView(context)),
                   Divider(height: 1, thickness: 1, color: Colors.grey,),
                 ],
               )),
@@ -523,49 +523,25 @@ class _AddPackageState extends State<AddPackage> {
   }
 
   Widget _myAddedListView(BuildContext context,String addedSubjectsList) {
-    String addedSubjects="";
-    List<String> showSubjects=[];
-//    return ListView.builder(
-//      padding: EdgeInsets.all(6),
-//      itemCount: Strings.subjectList.length,
-//      itemBuilder: (context, index) {
-//        return Container(
-//          padding: EdgeInsets.all(5),
-//          child: Row(
-//            children: [
-//              Icon(
-//                Icons.assignment_turned_in_sharp,
-//                color: Colors.green,
-//                size: 15,
-//              ),
-//              SizedBox(width: 5),
-//              textWidget(addedSubjectsList, Colors.black, 14),
-//            ],
-//          ),
-//        );
-//      },
-//    );
-
-  if(addedSubjectsList.contains('\n')){
-    addedSubjects = addedSubjectsList.replaceAll('\n', "");
-  }
-  else{
-    addedSubjects = addedSubjectsList;
-  }
-
-    showSubjects=addedSubjects.split(',');
-  print("Show Subjects");
-  print(showSubjects.length);
-  return Row(
-    children: [
-      Icon(
+    return ListView.builder(
+      padding: EdgeInsets.all(6),
+      itemCount: Strings.subjectList.length,
+      itemBuilder: (context, index) {
+        return Container(
+          padding: EdgeInsets.all(5),
+          child: Row(
+            children: [
+              Icon(
                 Icons.assignment_turned_in_sharp,
                 color: Colors.green,
                 size: 15,
               ),
               SizedBox(width: 5),
-      textWidget(addedSubjectsList, Colors.black, 14)
-    ],
-  );
+              textWidget(addedSubjectsList, Colors.black, 14),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -4,11 +4,8 @@ import 'package:get/get.dart';
 import 'package:mlm/api/api_service.dart';
 import 'package:mlm/api/urlManage.dart';
 import 'package:mlm/model/get_package_list_model.dart';
-import 'package:mlm/model/get_board_list_model.dart';
 import 'package:mlm/model/get_standard_list_model.dart';
 import 'package:mlm/utils/strings.dart';
-import 'dart:convert' as convert;
-
 import 'package:mlm/utils/toast_component.dart';
 
 class AddPackageController extends GetxController{
@@ -24,33 +21,28 @@ class AddPackageController extends GetxController{
     return [...packageDetails];
   }
 
-  RxList<GetPackagesModel> items = RxList<GetPackagesModel>();
   RxList<String> addPackagePrice = RxList<String>();
   RxList<String> addedPackageStandard = RxList<String>();
   RxList<String> addedPackageBoard = RxList<String>();
   RxList<String> addedPackageSubjectList = RxList<String>();
-  RxInt totalPrice;
-
-  /// List of subjects
-  List<String> subjectsList=[];
-  String subject="";
-
-  String standard_id="";
-  List<String> result=[];
 
   /// Send to add package
   int boardId;
   int standardId;
   String packagePrice;
   String allSubjects="";
-  String addedPackageSubjects="";
 
   /// Show Add packages
-  RxList<String> showPackageName=RxList<String>();
+  int addedPackageLength;
+  RxList<String> showAddPackagesStdName=RxList<String>();
+  RxList<String> showAddPackagesSubName=RxList<String>();
+  RxList<String> showAddPackagesBoardName=RxList<String>();
 
   /// Get all board list
   void getBoardList() async {
     var res = await ApiService.get(getBoardsUrl,tokenOptional: true);
+    Strings.allBoards.clear();
+    Strings.allBoardsId.clear();
     if(res['message']==Strings.get_board_list_success){
       List jsonresponse=res['result'] as List;
       jsonresponse.forEach((id) {
@@ -122,9 +114,14 @@ class AddPackageController extends GetxController{
   void getPackagesList() async {
     var res = await ApiService.get(getPackageUrl,params:Strings.userId.toString(),tokenOptional: true);
     addPackagePrice.clear();
+    showAddPackagesBoardName.clear();
+    showAddPackagesStdName.clear();
+    showAddPackagesSubName.clear();
     if(res['message']==Strings.get_package_suceess){
       List jsonResponse=res['result'] as List;
-      print(jsonResponse);
+      addedPackageLength=res['result'].length;
+      print(addedPackageLength);
+      print(addedPackageLength);
       jsonResponse.forEach((id) async {
         addPackagePrice.add(id['total_price']);
         getSelectedPackageDetails(id['board_id'].toString(),id['standard_id'].toString());
@@ -137,14 +134,23 @@ class AddPackageController extends GetxController{
   }
 
   void getSelectedPackageDetails(String board,String stdId) async {
+    var boardResponse = await ApiService.get(getBoardsUrl,tokenOptional: true);
+    if(boardResponse['message']==Strings.get_board_list_success){
+      List boardJsonResponse=boardResponse['result'] as List;
+      showAddPackagesBoardName.clear();
+      boardJsonResponse.forEach((id) {
+        if(board== id['id_boards'].toString()){
+          showAddPackagesBoardName.add(id['board_name']);
+        }
+      });
+    }
       var res = await ApiService.get(getStandardsUrl,params:board,tokenOptional: true);
       if(res['message']== Strings.get_standard_list_success){
         List jsonResponse = res['result'] as List;
         jsonResponse.forEach((id) {
-          if(stdId==id['id_standards']){
-            showPackageName.add(id['standard_name']);
-            print(id['standard_name']);
-            print(id['subject_list']);
+          if(stdId==id['id_standards'].toString() && board== id['board_id'].toString()){
+            showAddPackagesStdName.add(id['standard_name']);
+            showAddPackagesSubName.add(id['subject_list']);
           }
         });
       }
