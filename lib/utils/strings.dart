@@ -62,7 +62,14 @@ class Strings {
   static const String aadhar_card_front_success = "Aadhaar Front uploaded successfully";
   static const String aadhar_card_back_success = "Aadhaar Back uploaded successfully";
   static const String failed_message = "Failed to upload";
+  static const String get_package_suceess = "Purchase Package by User";
+  static const String added_package_suceess = "Package added successfully";
   static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
   static List<String> allBoards=[];
   static List<int> allBoardsId=[];
+  static List<String> allStandardsName=[];
+  static List<int> allStandardsId=[];
+  static List<String> subjectList=[];
+  static List<String> priceList=[];
+  static int userId;
 }

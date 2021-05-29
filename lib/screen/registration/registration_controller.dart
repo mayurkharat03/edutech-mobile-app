@@ -149,6 +149,7 @@ class RegistrationController extends GetxController {
       else{
         uploadProfileImage(context);
       }
+      Strings.userId = res['userId'];
       print(res['userId']);
     }
     else if(res['message']=='Emailid already exists'){
@@ -176,13 +177,13 @@ class RegistrationController extends GetxController {
   }
   /// Upload aadhar card front image
   Future<void> uploadAadharFrontImage(BuildContext context) async {
+
     var res = await ApiService.upload(File(frontImagePath.path), uploadAadharFrontImageUrl,'image');
     String response;
     res.listen((value) {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_front_success)){
-       // uploadAadharBackImage(context);
-        print('success');
+        uploadAadharBackImage(context);
       }
       else{
         isLoading.value = false;

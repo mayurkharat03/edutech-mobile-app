@@ -5,6 +5,7 @@ import 'package:mlm/api/api_service.dart';
 import 'package:mlm/api/urlManage.dart';
 import 'package:mlm/navigation-Animator/navigation.dart';
 import 'package:mlm/screen/dashboard_screen.dart';
+import 'package:mlm/screen/student/student_details_screen.dart';
 import 'package:mlm/utils/Functions.dart';
 import 'package:mlm/utils/strings.dart';
 import 'package:mlm/utils/toast_component.dart';
@@ -52,6 +53,7 @@ class LoginController extends GetxController {
       ToastComponent.showDialog("Login SuccessFull", context);
 
       Navigator.pushReplacement(context, FadeNavigation(widget: DashBoard()));
+      //Navigator.pushReplacement(context, FadeNavigation(widget: StudentDetailsScreen()));
     } else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
@@ -90,12 +92,6 @@ class LoginController extends GetxController {
       isReferLoading.value=false;
       ToastComponent.showDialog(res["message"], context);
     }
-  }
-
-  void getStandardList(int boardId) async {
-    isMobileVerify.value = true;
-    var res = await ApiService.get(getStandardsUrl, params: boardId,tokenOptional:true);
-    print(res);
   }
 
   @override

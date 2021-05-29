@@ -22,9 +22,7 @@ class ApiService {
     if (tokenOptional == false) {
 //      String token = dataStorage.read("token");
 //      headers["Authorization"] = Strings.token;
-      headers={
-        "Content-Type": "application/json",
-      };
+      headers={"Content-Type": "application/json",};
     }
     else{
       headers = {
@@ -34,8 +32,7 @@ class ApiService {
     }
     var responseJson;
     try {
-      final response = await http.get(
-          params==null ? url : url + "/" + params, headers: headers);
+      final response = await http.get(params==null ? url : url + "/" + params, headers: headers);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -60,6 +57,21 @@ class ApiService {
     return responseJson;
   }
 
+  /// Post method with String,dynamic
+  static Future<dynamic> postWithDynamic(String url, Map<String, dynamic> body, {bool tokenOptional}) async {
+    if (tokenOptional == false) {
+      String token = dataStorage.read("token");
+      headers["Authorization"] = token;
+    }
+    var responseJson;
+    try {
+      final response = await http.post(url, body: json.encode(body), headers: headers);
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    return responseJson;
+  }
   /// Post method without using token
   static Future<dynamic> postWithoutToken(String url, Map<String, dynamic> body, {bool tokenOptional}) async
   {

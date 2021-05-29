@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menu_button/menu_button.dart';
-import 'package:mlm/model/get_board_list_model.dart';
 import 'package:mlm/screen/login/login_screen.dart';
 import 'package:mlm/screen/package/add_package_controller.dart';
 import 'package:mlm/utils/Functions.dart';
@@ -15,12 +14,13 @@ class AddPackage extends StatefulWidget {
 }
 
 class _AddPackageState extends State<AddPackage> {
- // final AddPackageController addPackageController = Get.put(AddPackageController());
   var controller=Get.put(AddPackageController());
   String category="";
   String selectedKey = "Standard";
+  int selectedStandardIndex;
   String board = "Board";
   int selectedBoardIndex;
+  String price="";
   List<String> keys = <String>[
     '9 th',
     '8 th',
@@ -31,7 +31,7 @@ class _AddPackageState extends State<AddPackage> {
     'State Board',
     'CBSE',
   ];
-
+  String subjects="";
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,
@@ -92,6 +92,7 @@ class _AddPackageState extends State<AddPackage> {
     // });
     super.initState();
     controller.getBoardList();
+    controller.getPackagesList();
   }
 
   @override
@@ -180,10 +181,8 @@ class _AddPackageState extends State<AddPackage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                textWidget("CBSE + 9 th Class", Colors.black, 15,
-                                    weight: FontWeight.bold),
-                                textWidget("Price: "  + Strings.currency + "1500",
-                                    Colors.black, 15),
+                                textWidget(board + " + " + selectedKey, Colors.black, 15, weight: FontWeight.bold),
+                                textWidget("Price: "  + Strings.currency + price??'', Colors.black, 15),
                               ],
                             ),
                           ),
@@ -192,6 +191,43 @@ class _AddPackageState extends State<AddPackage> {
                         ],
                       )),
                     )),
+//                Expanded(
+//                  child:Obx((){
+//                    return
+//                     controller.addPackagePrice.isEmpty
+//                      ? Center(child:textWidget('Package not added',Colors.black, 15, weight: FontWeight.bold))
+//                      :
+//                      ListView.builder(
+//                          shrinkWrap: true,
+//                          itemCount: controller.addPackagePrice.length,
+//                          itemBuilder: (context,index){
+//                            return
+//                              SingleChildScrollView(
+//                                child: Container(
+//                                    height: Get.height * 0.4,
+//                                    child: Padding(
+//                                      padding: const EdgeInsets.all(8.0),
+//                                      child: Card(elevation: 4, child: Column(
+//                                        children: [
+//                                          Padding(
+//                                            padding: const EdgeInsets.all(8.0),
+//                                            child: Row(
+//                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                              children: [
+//                                               // textWidget(controller.addedPackageStandard[index] + " + " + controller.addedPackageBoard[index], Colors.black, 15, weight: FontWeight.bold),
+//                                                textWidget("Price: "  + Strings.currency + controller.addPackagePrice[index]??'', Colors.black, 15),
+//                                              ],
+//                                            ),
+//                                          ),
+//                                          Divider(height: 1, thickness: 1, color: Colors.grey,),
+//                                        //  Expanded(child: _myAddedListView(context,controller.addedPackageSubjectList[index])),
+//                                        ],
+//                                      )),
+//                                    )),
+//                              );
+//                          });
+//                  }),
+//                )
               ],
             ),
             Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
@@ -214,7 +250,13 @@ class _AddPackageState extends State<AddPackage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               textWidget("Total amount:", Colors.grey, 14),
-              textWidget(Strings.currency + "1500", Colors.black, 14)
+//              Obx((){
+//                return
+//                  controller.totalPrice==null
+//                      ? textWidget(Strings.currency + "0", Colors.black, 14)
+//                      : textWidget(Strings.currency + "${controller.totalPrice}", Colors.black, 14);
+//              })
+              //textWidget(Strings.currency + price, Colors.black, 14)
             ],
           ),
         ),
@@ -270,9 +312,9 @@ class _AddPackageState extends State<AddPackage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        textWidget("CBSE + 9 th Class", Colors.black, 15,
+                        textWidget(board + " + " + selectedKey, Colors.black, 15,
                             weight: FontWeight.bold),
-                        textWidget("Price: "  + Strings.currency + "1500",
+                        textWidget("Price: "  + Strings.currency + price??'',
                             Colors.black, 15),
 
                       ],
@@ -288,7 +330,12 @@ class _AddPackageState extends State<AddPackage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: button("Add Package"),
+            child: InkWell(
+              onTap: (){
+                  controller.addPackage(context);
+              },
+              child:button("Add Package")
+            ),
           ),
         ]));
   }
@@ -364,8 +411,11 @@ class _AddPackageState extends State<AddPackage> {
         onItemSelected: (String value) {
           setState(() {
             board = value;
-           selectedBoardIndex=Strings.allBoards.indexOf(board);
-           print(Strings.allBoardsId[selectedBoardIndex]);
+            Strings.subjectList.clear();
+            selectedKey='Standard';
+            selectedBoardIndex=Strings.allBoards.indexOf(board);
+            controller.boardId=Strings.allBoardsId[selectedBoardIndex];
+            controller.getStandardList(Strings.allBoardsId[selectedBoardIndex].toString());
           });
         },
         onMenuButtonToggle: (bool isToggle) {
@@ -373,15 +423,7 @@ class _AddPackageState extends State<AddPackage> {
         },
       ),
     );
-
   }
-//  ListView.builder(
-//  shrinkWrap: true,
-//  itemCount: controller.getlist.length,
-//  itemBuilder: (context,index){
-//  var item=controller.getlist[index];
-//  return Text(item.boardName);
-//  })
   Widget getClass(StateSetter setState) {
     final Widget normalChildButton = Container(
       decoration:
@@ -415,7 +457,8 @@ class _AddPackageState extends State<AddPackage> {
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(9)),
         child: normalChildButton,
-        items: boardList,
+        //items: boardList,
+        items: Strings.allStandardsName,
         topDivider: true,
         itemBuilder: (String value) =>
             Container(
@@ -435,6 +478,18 @@ class _AddPackageState extends State<AddPackage> {
         onItemSelected: (String value) {
           setState(() {
             selectedKey = value;
+            selectedStandardIndex=Strings.allStandardsName.indexOf(selectedKey);
+            subjects=controller.getStandardDetails[selectedStandardIndex].subject_list;
+            if(controller.getStandardDetails[selectedStandardIndex].subject_list.contains('\n')) {
+              subjects = controller.getStandardDetails[selectedStandardIndex].subject_list.replaceAll('\n', "");
+              Strings.subjectList = subjects.split(",");
+            }
+            else{
+              Strings.subjectList = subjects.split(",");
+            }
+            price=Strings.priceList[selectedStandardIndex];
+            controller.standardId=Strings.allStandardsId[selectedStandardIndex];
+            controller.packagePrice=price;
           });
         },
         onMenuButtonToggle: (bool isToggle) {
@@ -445,20 +500,9 @@ class _AddPackageState extends State<AddPackage> {
   }
 
   Widget _myListView(BuildContext context) {
-    // backing data
-    final subjectList = [
-      'Cursive Writing',
-      'Pixie Dust',
-      'Drawing and Colouring',
-      'Drawing and Colouring',
-      'Drawing and Colouring',
-      'Computer',
-      'General Knowledge'
-    ];
-
     return ListView.builder(
       padding: EdgeInsets.all(6),
-      itemCount: subjectList.length,
+      itemCount: Strings.subjectList.length,
       itemBuilder: (context, index) {
         return Container(
           padding: EdgeInsets.all(5),
@@ -470,11 +514,58 @@ class _AddPackageState extends State<AddPackage> {
                 size: 15,
               ),
               SizedBox(width: 5),
-              textWidget(subjectList[index], Colors.black, 14),
+              textWidget(Strings.subjectList[index], Colors.black, 14),
             ],
           ),
         );
       },
     );
+  }
+
+  Widget _myAddedListView(BuildContext context,String addedSubjectsList) {
+    String addedSubjects="";
+    List<String> showSubjects=[];
+//    return ListView.builder(
+//      padding: EdgeInsets.all(6),
+//      itemCount: Strings.subjectList.length,
+//      itemBuilder: (context, index) {
+//        return Container(
+//          padding: EdgeInsets.all(5),
+//          child: Row(
+//            children: [
+//              Icon(
+//                Icons.assignment_turned_in_sharp,
+//                color: Colors.green,
+//                size: 15,
+//              ),
+//              SizedBox(width: 5),
+//              textWidget(addedSubjectsList, Colors.black, 14),
+//            ],
+//          ),
+//        );
+//      },
+//    );
+
+  if(addedSubjectsList.contains('\n')){
+    addedSubjects = addedSubjectsList.replaceAll('\n', "");
+  }
+  else{
+    addedSubjects = addedSubjectsList;
+  }
+
+    showSubjects=addedSubjects.split(',');
+  print("Show Subjects");
+  print(showSubjects.length);
+  return Row(
+    children: [
+      Icon(
+                Icons.assignment_turned_in_sharp,
+                color: Colors.green,
+                size: 15,
+              ),
+              SizedBox(width: 5),
+      textWidget(addedSubjectsList, Colors.black, 14)
+    ],
+  );
   }
 }

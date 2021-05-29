@@ -189,31 +189,30 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
       padding: const EdgeInsets.all(10.0),
       child: InkWell(
           onTap: () {
-            _registrationController.uploadProfileImage(context);
-//            String firstName = _registrationController.firstNameController.text;
-//            String middleName = _registrationController.middleNameController.text;
-//            String lastName = _registrationController.lastNameController.text;
-//            if (firstName.isEmpty) {
-//              ToastComponent.showDialog("Please Enter FirstName", context,
-//                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-//            } else if (middleName.isEmpty) {
-//              ToastComponent.showDialog("Please Enter MiddleName", context,
-//                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-//            } else if (lastName.isEmpty) {
-//              ToastComponent.showDialog("Please Enter LastName", context,
-//                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-//            } else if (_selectedDate.isEmpty) {
-//              ToastComponent.showDialog("Please Enter Date Of Birth", context,
-//                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-//            } else if (selectedKey == "Gender") {
-//              ToastComponent.showDialog("Please Select Gender", context,
-//                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-//            } else {
-//              setState(() {
-//                stepperCount++;
-//                percentage = percentage + 20;
-//              });
-//            }
+            String firstName = _registrationController.firstNameController.text;
+            String middleName = _registrationController.middleNameController.text;
+            String lastName = _registrationController.lastNameController.text;
+            if (firstName.isEmpty) {
+              ToastComponent.showDialog("Please Enter FirstName", context,
+                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+            } else if (middleName.isEmpty) {
+              ToastComponent.showDialog("Please Enter MiddleName", context,
+                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+            } else if (lastName.isEmpty) {
+              ToastComponent.showDialog("Please Enter LastName", context,
+                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+            } else if (_selectedDate.isEmpty) {
+              ToastComponent.showDialog("Please Enter Date Of Birth", context,
+                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+            } else if (selectedKey == "Gender") {
+              ToastComponent.showDialog("Please Select Gender", context,
+                  gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+            } else {
+              setState(() {
+                stepperCount++;
+                percentage = percentage + 20;
+              });
+            }
           },
           child: button("Next")),
     );
