@@ -104,8 +104,7 @@ class AddPackageController extends GetxController{
   Map <String,dynamic> addPackageParams={
     "boardId" : boardId,
     "standardId" : standardId,
-    //"userId" : Strings.userId,
-    "userId" : 26,//for try..change
+    "userId" : Strings.userId,
     "totalPrice" : packagePrice,
   };
     var res = await ApiService.postWithDynamic(addPackageUrl,addPackageParams,tokenOptional: true);
@@ -145,6 +144,7 @@ class AddPackageController extends GetxController{
           if(stdId==id['id_standards']){
             showPackageName.add(id['standard_name']);
             print(id['standard_name']);
+            print(id['subject_list']);
           }
         });
       }

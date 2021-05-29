@@ -150,7 +150,7 @@ class RegistrationController extends GetxController {
         uploadProfileImage(context);
       }
       Strings.userId = res['userId'];
-      print(res['userId']);
+      print("User Id: "+res['userId'].toString());
     }
     else if(res['message']=='Emailid already exists'){
       ToastComponent.showDialog(res["message"], context);

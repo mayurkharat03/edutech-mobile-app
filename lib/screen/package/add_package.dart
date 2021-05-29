@@ -92,7 +92,7 @@ class _AddPackageState extends State<AddPackage> {
     // });
     super.initState();
     controller.getBoardList();
-    controller.getPackagesList();
+   // controller.getPackagesList();
   }
 
   @override
@@ -256,7 +256,7 @@ class _AddPackageState extends State<AddPackage> {
 //                      ? textWidget(Strings.currency + "0", Colors.black, 14)
 //                      : textWidget(Strings.currency + "${controller.totalPrice}", Colors.black, 14);
 //              })
-              //textWidget(Strings.currency + price, Colors.black, 14)
+              textWidget(Strings.currency + price, Colors.black, 14)
             ],
           ),
         ),
@@ -321,9 +321,8 @@ class _AddPackageState extends State<AddPackage> {
                     ),
                   ),
                   Divider(height: 1, thickness: 1, color: Colors.grey,),
-                  Expanded(child: _myListView(context)),
+                  //Expanded(child: _myListView(context)),
                   Divider(height: 1, thickness: 1, color: Colors.grey,),
-
                 ],
               )),
             ),
@@ -413,6 +412,7 @@ class _AddPackageState extends State<AddPackage> {
             board = value;
             Strings.subjectList.clear();
             selectedKey='Standard';
+            price="";
             selectedBoardIndex=Strings.allBoards.indexOf(board);
             controller.boardId=Strings.allBoardsId[selectedBoardIndex];
             controller.getStandardList(Strings.allBoardsId[selectedBoardIndex].toString());

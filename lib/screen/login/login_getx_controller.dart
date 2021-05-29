@@ -51,7 +51,6 @@ class LoginController extends GetxController {
 
       ApiService.dataStorage.write("token", res["token"]);
       ToastComponent.showDialog("Login SuccessFull", context);
-
       Navigator.pushReplacement(context, FadeNavigation(widget: DashBoard()));
       //Navigator.pushReplacement(context, FadeNavigation(widget: StudentDetailsScreen()));
     } else {
