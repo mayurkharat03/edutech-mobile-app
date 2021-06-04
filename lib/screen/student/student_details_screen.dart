@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:menu_button/menu_button.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
 import 'package:mlm/screen/student/bottom_navigation_screen.dart';
 import 'package:mlm/utils/Functions.dart';
 import 'package:mlm/utils/colors.dart';

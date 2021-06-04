@@ -72,4 +72,5 @@ class Strings {
   static List<String> subjectList=[];
   static List<String> priceList=[];
   static int userId;
+  static int showTotalPrice=0;
 }

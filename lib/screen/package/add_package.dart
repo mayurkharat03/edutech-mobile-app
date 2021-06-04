@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_button/menu_button.dart';
+import 'package:mlm/api/api_service.dart';
 import 'package:mlm/screen/login/login_screen.dart';
 import 'package:mlm/screen/package/add_package_controller.dart';
 import 'package:mlm/utils/Functions.dart';
@@ -32,6 +34,9 @@ class _AddPackageState extends State<AddPackage> {
     'CBSE',
   ];
   String subjects="";
+  int totalPrice=0;
+  static MethodChannel channel = MethodChannel('easebuzz');
+
   Future<bool> _onBackPressed() {
     return showDialog(
       context: context,
@@ -92,7 +97,7 @@ class _AddPackageState extends State<AddPackage> {
     // });
     super.initState();
     controller.getBoardList();
-  //  controller.getPackagesList();
+    controller.getPackagesList();
   }
 
   @override
@@ -170,64 +175,71 @@ class _AddPackageState extends State<AddPackage> {
                 SizedBox(
                   height: Get.height * 0.30,
                 ),
-                Container(
-                    height: Get.height * 0.4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Card(elevation: 4, child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                textWidget(board + " + " + selectedKey, Colors.black, 15, weight: FontWeight.bold),
-                                textWidget("Price: "  + Strings.currency + price??'', Colors.black, 15),
-                              ],
-                            ),
-                          ),
-                          Divider(height: 1, thickness: 1, color: Colors.grey,),
-                          Expanded(child: _myListView(context)),
-                        ],
-                      )),
-                    )),
-
-
-//                Expanded(
-//                  child:Obx((){
-//                    return
-//                     controller.addedPackageLength==0
-//                  ? Text('NA')
-//                   : ListView.builder(
-//                          shrinkWrap: true,
-//                          itemCount: controller.addedPackageLength,
-//                          itemBuilder: (context,index){
-//                            return
-//                              SingleChildScrollView(
-//                                child: Container(
-//                                    height: Get.height * 0.4,
-//                                    child: Padding(
-//                                      padding: const EdgeInsets.all(8.0),
-//                                      child: Card(elevation: 4, child: Column(
-//                                        children: [
-//                                          Padding(
-//                                            padding: const EdgeInsets.all(8.0),
-//                                            child: Row(
-//                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                                              children: [
-//                                                textWidget(controller.showAddPackagesStdName[index], Colors.black, 15, weight: FontWeight.bold),
-//                                                textWidget("Price: "  + Strings.currency + controller.addPackagePrice[index]??'', Colors.black, 15),
-//                                              ],
-//                                            ),
-//                                          ),
-//                                          Divider(height: 1, thickness: 1, color: Colors.grey,),
-//                                        ],
-//                                      )),
-//                                    )),
-//                              );
-//                          });
-//                  }),
-//                )
+//                Container(
+//                    height: Get.height * 0.4,
+//                    child: Padding(
+//                      padding: const EdgeInsets.all(8.0),
+//                      child: Card(elevation: 4, child: Column(
+//                        children: [
+//                          Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                              children: [
+//                                textWidget(board + " + " + selectedKey, Colors.black, 15, weight: FontWeight.bold),
+//                                textWidget("Price: "  + Strings.currency + price??'', Colors.black, 15),
+//                              ],
+//                            ),
+//                          ),
+//                          Divider(height: 1, thickness: 1, color: Colors.grey,),
+//                          Expanded(child: _myListView(context)),
+//                        ],
+//                      )),
+//                    )),
+                Expanded(
+                  child:Obx((){
+                    return
+                      controller.showAddPackagesStdName.isEmpty
+                   ? Center(child: CupertinoActivityIndicator())
+                   :
+                      controller.showAddPackagesStdName.isEmpty
+                      ? Align(alignment: Alignment.topCenter,child:textWidget("Package Not Added", Colors.black, 15))
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.showAddPackagesStdName.length,
+                          itemBuilder: (context,index){
+                            return
+                              SingleChildScrollView(
+                                child: Container(
+                                    height: Get.height * 0.4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(elevation: 4, child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                textWidget(controller.showAddPackagesStdName[index]+ " + " +
+                                                    controller.showAddPackagesBoardName[index],
+                                                    Colors.black, 15, weight: FontWeight.bold),
+                                                textWidget("Price: "  + Strings.currency + "${controller.showAddPackagesPrice[index]}"??'', Colors.black, 15),
+                                              ],
+                                            ),
+                                          ),
+                                          Divider(height: 1, thickness: 1, color: Colors.grey,),
+                                          Expanded(child: _myAddedListView(context,controller.showAddPackagesSubName[index])),
+                                        ],
+                                      )),
+                                    )),
+                              );
+                          });
+                  }),
+                ),
+                SizedBox(
+                  height: Get.height * 0.11,
+                ),
               ],
             ),
             Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
@@ -250,19 +262,38 @@ class _AddPackageState extends State<AddPackage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               textWidget("Total amount:", Colors.grey, 14),
-//              Obx((){
-//                return
-//                  controller.totalPrice==null
-//                      ? textWidget(Strings.currency + "0", Colors.black, 14)
-//                      : textWidget(Strings.currency + "${controller.totalPrice}", Colors.black, 14);
-//              })
-              textWidget(Strings.currency + price, Colors.black, 14)
+             // textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14)
+              Obx((){
+                return
+                  controller.totalPrice==null || controller.totalPrice==0
+                  ? textWidget("Price: " + Strings.currency + "0", Colors.black, 14)
+                  : textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14);
+              })
+
+//              GetBuilder<AddPackageController>(
+//                init: AddPackageController(), // INIT IT ONLY THE FIRST TIME
+//                builder: (_) => Text(
+//                  '${_.totalPrice}',
+//                ),
+//              ),
+
+
+//              GetBuilder<AddPackageController>(
+//                  builder: (_) => textWidget("Price: " + Strings.currency +
+//                      "${controller.total}", Colors.black, 14)),
             ],
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: InkWell(onTap: () {}, child: button("Proceed For Payment")),
+          child: InkWell(onTap: () {
+            if(controller.totalPrice==null || controller.totalPrice==0){
+
+            }
+            else{
+              startPayment();
+            }
+          }, child: button("Proceed For Payment")),
         ),
       ],
     );
@@ -332,6 +363,8 @@ class _AddPackageState extends State<AddPackage> {
             child: InkWell(
               onTap: (){
                   controller.addPackage(context);
+                  controller.getPackagesList();
+                  controller.increment();
               },
               child:button("Add Package")
             ),
@@ -424,6 +457,7 @@ class _AddPackageState extends State<AddPackage> {
       ),
     );
   }
+
   Widget getClass(StateSetter setState) {
     final Widget normalChildButton = Container(
       decoration:
@@ -523,9 +557,18 @@ class _AddPackageState extends State<AddPackage> {
   }
 
   Widget _myAddedListView(BuildContext context,String addedSubjectsList) {
+    List<String> showSepearateList=[];
+     String showSubjectList="";
+     if(addedSubjectsList.contains('\n')){
+       showSubjectList=addedSubjectsList.replaceAll("\n", "");
+     }
+     else{
+       showSubjectList=addedSubjectsList;
+     }
+     showSepearateList=showSubjectList.split(',');
     return ListView.builder(
       padding: EdgeInsets.all(6),
-      itemCount: Strings.subjectList.length,
+      itemCount: showSepearateList.length,
       itemBuilder: (context, index) {
         return Container(
           padding: EdgeInsets.all(5),
@@ -537,11 +580,60 @@ class _AddPackageState extends State<AddPackage> {
                 size: 15,
               ),
               SizedBox(width: 5),
-              textWidget(addedSubjectsList, Colors.black, 14),
+              textWidget(showSepearateList[index], Colors.black, 14),
             ],
           ),
         );
       },
     );
+  }
+
+  startPayment() async{
+      String txnid = "TRX123"; //This txnid should be unique every time.
+      String amount = "2.0";
+      String productinfo= "Edutech Payment";
+      String firstname= "test user";
+      String email = "testing@gamil.com";
+      String phone = "1234567890";
+      String surl = "enquiry@edu-teck.com";
+      String furl = "enquiry@edu-teck.com";
+      String key = "55ZPS8QEU4";
+      String udf1 = "";
+      String udf2 = "";
+      String udf3 = "";
+      String udf4 = "";
+      String udf5 = "";
+      String address1="test address one";
+      String address2="test address two";
+      String city="";
+      String state="";
+      String country="";
+      String zipcode="";
+      String hash="Create hash as per below procedure in parameter details";
+      String pay_mode="production";
+      String unique_id="11345";
+      Object parameters = {"txnid":txnid,"amount":amount, "productinfo":productinfo,
+        "firstname":firstname,"email":email,"phone":phone,
+        "surl":surl,"furl":furl,"key":key,
+        "udf1":udf1,"udf2":udf2,"udf3":udf3,"udf4":udf4,"udf5":udf5,
+        "address1":address1,"address2":address2,"city":city,
+        "state":state,"country":country,"zipcode":zipcode,"hash":hash,
+        "pay_mode":pay_mode,"unique_id":unique_id};
+
+      final Map payment_response = await channel.invokeMethod("payWithEasebuzz", parameters);
+
+      String result = payment_response['result'];
+      String detailed_response = payment_response['payment_response'];
+      print(result);
+      print(detailed_response);
+
+//      var res = await ApiService.postWithDynamic("https://pay.easebuzz.in/payment/initiateLink",parameters,tokenOptional: true);
+//      print(res);
+//      if(res['status']==0){
+//        print(res['error_desc']);
+//      }
+//      else{
+//        print('Success');
+//      }
   }
 }

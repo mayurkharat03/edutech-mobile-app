@@ -139,9 +139,7 @@ class RegistrationController extends GetxController {
       "referredBy":refferedBy
       };
     isMobileVerify.value = true;
-    print(params);
     var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:false);
-    print(res);
     if (res["message"] == Strings.register_success) {
       if(profileImage==null){
         uploadAadharFrontImage(context);
@@ -150,7 +148,6 @@ class RegistrationController extends GetxController {
         uploadProfileImage(context);
       }
       Strings.userId = res['userId'];
-      print("User Id: "+res['userId'].toString());
     }
     else if(res['message']=='Emailid already exists'){
       ToastComponent.showDialog(res["message"], context);
@@ -160,6 +157,7 @@ class RegistrationController extends GetxController {
       ToastComponent.showDialog(res["message"], context);
     }
   }
+
   /// Upload profile image
   Future<void> uploadProfileImage(BuildContext context) async {
     var res = await ApiService.upload(File(profileImage.path), uploadProfileImageUrl,'image');
@@ -175,9 +173,9 @@ class RegistrationController extends GetxController {
       }
     });
   }
+
   /// Upload aadhar card front image
   Future<void> uploadAadharFrontImage(BuildContext context) async {
-
     var res = await ApiService.upload(File(frontImagePath.path), uploadAadharFrontImageUrl,'image');
     String response;
     res.listen((value) {

@@ -1380,7 +1380,6 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                   SizedBox(
                     width: 30.0,
                   ),
-
                   /// To upload from gallery
                   GestureDetector(
                     onTap: () {
