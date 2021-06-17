@@ -1,13 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/api/urlManage.dart';
-import 'package:mlm/model/get_package_list_model.dart';
-import 'package:mlm/model/get_standard_list_model.dart';
-import 'package:mlm/utils/strings.dart';
-import 'package:mlm/utils/toast_component.dart';
+import 'package:edutech/api/api_service.dart';
+import 'package:edutech/api/urlManage.dart';
+import 'package:edutech/model/get_package_list_model.dart';
+import 'package:edutech/model/get_standard_list_model.dart';
+import 'package:edutech/utils/strings.dart';
+import 'package:edutech/utils/toast_component.dart';
+import 'package:get_storage/get_storage.dart';
 
 class AddPackageController extends GetxController{
   List<GetStandardListModel> standardDetails = [];
@@ -36,6 +35,8 @@ class AddPackageController extends GetxController{
   RxList<String> showAddPackagesBoardName;
   int totalPrice;
 
+  static final dataStorage = GetStorage();
+
   @override
   void onInit() {
     super.onInit();
@@ -48,7 +49,7 @@ class AddPackageController extends GetxController{
 
   /// Get all board list
   void getBoardList() async {
-    var res = await ApiService.get(getBoardsUrl,tokenOptional: true);
+    var res = await ApiService.get(getBoardsUrl,tokenOptional: false);
     Strings.allBoards.clear();
     Strings.allBoardsId.clear();
     if(res['message']==Strings.get_board_list_success){
@@ -65,7 +66,7 @@ class AddPackageController extends GetxController{
 
   /// Get all standards by selected board
   void getStandardList(String boardId) async {
-    var res = await ApiService.get(getStandardsUrl,params:boardId,tokenOptional: true);
+    var res = await ApiService.get(getStandardsUrl,params:boardId,tokenOptional: false);
     if(res['message']==Strings.get_standard_list_success){
       List jsonresponse=res['result'] as List;
       standardDetails.clear();
@@ -120,7 +121,8 @@ class AddPackageController extends GetxController{
 
   /// Get package list
   void getPackagesList() async {
-    var res = await ApiService.get(getPackageUrl,params:Strings.userId.toString(),tokenOptional: true);
+    int user_id = dataStorage.read("user_id");
+    var res = await ApiService.get(getPackageUrl,params:user_id.toString(),tokenOptional: false);
     showAddPackagesPrice.clear();
     showAddPackagesBoardName.clear();
     showAddPackagesStdName.clear();
@@ -129,12 +131,12 @@ class AddPackageController extends GetxController{
     if(res['message']==Strings.get_package_suceess){
       List jsonResponse=res['result'] as List;
       jsonResponse.forEach((id) async {
+        Strings.packagePurchaseList.add(id['id_package_purchase']);
         showAddPackagesPrice.add(id['total_price']);
         priceInInt.add(int.parse(id['total_price']));
-        print(priceInInt);
         getSelectedPackageDetails(id['board_id'].toString(),id['standard_id'].toString());
       });
-      increment();
+      calculateTotalPrice();
     }
     else{
       return null;
@@ -144,7 +146,7 @@ class AddPackageController extends GetxController{
 
   /// Get board name, standard name and subject list from id
   void getSelectedPackageDetails(String board,String stdId) async {
-    var boardResponse = await ApiService.get(getBoardsUrl,tokenOptional: true);
+    var boardResponse = await ApiService.get(getBoardsUrl,tokenOptional: false);
     if(boardResponse['message']==Strings.get_board_list_success){
       List boardJsonResponse=boardResponse['result'] as List;
       boardJsonResponse.forEach((id) {
@@ -154,7 +156,7 @@ class AddPackageController extends GetxController{
         }
       });
     }
-      var res = await ApiService.get(getStandardsUrl,params:board,tokenOptional: true);
+      var res = await ApiService.get(getStandardsUrl,params:board,tokenOptional: false);
       if(res['message']== Strings.get_standard_list_success){
         List jsonResponse = res['result'] as List;
         jsonResponse.forEach((id) {
@@ -170,9 +172,14 @@ class AddPackageController extends GetxController{
       update();
     }
 
-  void increment() {
-    totalPrice = priceInInt.reduce((a, b) => a + b);
-    print(totalPrice);
-    update(); // use update() to update counter variable on UI when increment be called
+  void calculateTotalPrice() {
+    if(priceInInt.isEmpty){
+      totalPrice=0;
+    }
+    else{
+      totalPrice = priceInInt.reduce((a, b) => a + b);
+      Strings.price = totalPrice;
+    }
+    update();
   }
 }

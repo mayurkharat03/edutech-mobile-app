@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/login/login_screen.dart';
-import 'package:mlm/screen/package/add_package.dart';
-import 'package:mlm/screen/package/add_package_controller.dart';
-import 'package:mlm/utils/Functions.dart';
+import 'package:edutech/api/api_service.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/login/login_screen.dart';
+import 'package:edutech/screen/package/add_package.dart';
+import 'package:edutech/screen/package/add_package_controller.dart';
+import 'package:edutech/utils/Functions.dart';
 
 class DashBoard extends StatefulWidget {
   @override

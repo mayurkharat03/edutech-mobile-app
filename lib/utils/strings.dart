@@ -1,6 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
 class Strings {
   Strings._();
 
@@ -64,7 +61,8 @@ class Strings {
   static const String failed_message = "Failed to upload";
   static const String get_package_suceess = "Purchase Package by User";
   static const String added_package_suceess = "Package added successfully";
-  static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
+  static const String added_bank_details_success = "Bank deatils added successfully";
+  //static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
   static List<String> allBoards=[];
   static List<int> allBoardsId=[];
   static List<String> allStandardsName=[];
@@ -73,4 +71,20 @@ class Strings {
   static List<String> priceList=[];
   static int userId;
   static int showTotalPrice=0;
+
+  static const String terms_conditions_seller="\u2022  Clearly state the rules for user behaviour and access to your product/software.";
+  static const String verified_profile_text1= " Your profile has been verified as a seller. ";
+  static const String verified_profile_text2=" Share referral code and earn money. ";
+
+  /// create payment order
+  static int price=0;
+  static List<int> packagePurchaseList=[];
+  static const String create_payment_success = "Payment order created successfully";
+
+  /// Payment details
+  // static var key = "55ZPS8QEU4";
+  // static var salt = "05KMW6NAT5";
+  static var key = "VUQXAWELXZ";
+  static var salt = "7ESY3PUI2B";
+  static var email = "enquiry@edu-teck.com";
 }

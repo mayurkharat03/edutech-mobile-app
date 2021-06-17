@@ -1,19 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:giffy_dialog/giffy_dialog.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/login/login_getx_controller.dart';
-import 'package:mlm/screen/registration/mobile_number_verification.dart';
-import 'package:mlm/utils/CustomAlertDialog.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/colors.dart';
-import 'package:mlm/utils/strings.dart';
-import 'package:mlm/utils/toast_component.dart';
+import 'package:edutech/screen/login/login_getx_controller.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/colors.dart';
+import 'package:edutech/utils/strings.dart';
+import 'package:edutech/utils/toast_component.dart';
 import 'package:toast/toast.dart';
 
 class RegisterScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:mlm/utils/colors.dart';
+import 'package:edutech/utils/colors.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
 class ToastComponent {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:menu_button/menu_button.dart';
-import 'package:mlm/screen/student/bottom_navigation_screen.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/colors.dart';
-import 'package:mlm/utils/strings.dart';
+import 'package:edutech/screen/common/bottom_navigation_screen.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/colors.dart';
+import 'package:edutech/utils/strings.dart';
 import 'package:intl/intl.dart';
 
 class StudentDetailsScreen extends StatefulWidget {

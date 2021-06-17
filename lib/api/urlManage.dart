@@ -14,3 +14,7 @@ String getBoardsUrl = baseUrl + "package/getBoards";
 String getStandardsUrl = baseUrl + "package/getStandardsByBoardId";
 String addPackageUrl = baseUrl + "package/addPackage";
 String getPackageUrl = baseUrl + "package/getPackageByUserId";
+
+String createPaymentUrl = baseUrl + "payment/createPaymentOrder";
+
+String addBackDetailsUrl = baseUrl + "bank/addBankDetails";

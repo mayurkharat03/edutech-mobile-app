@@ -1,16 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:get/get.dart';
+import 'package:edutech/api/api_exceptions.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:mlm/api/api_exceptions.dart';
-import 'package:mlm/api/urlManage.dart';
-import 'package:mlm/utils/strings.dart';
 import 'package:path/path.dart';
-import 'package:async/async.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ApiService {
   static Map<String, String> headers = {"Content-Type": "application/json",};
@@ -20,14 +13,15 @@ class ApiService {
   static Future<dynamic> get(String url,{var params, bool tokenOptional}) async
   {
     if (tokenOptional == false) {
-//      String token = dataStorage.read("token");
-//      headers["Authorization"] = Strings.token;
-      headers={"Content-Type": "application/json",};
+     String token = dataStorage.read("token");
+      headers= {
+        "Authorization" : "Bearer " +token,
+        "Content-Type": "application/json",
+      };
     }
     else{
       headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + Strings.token
       };
     }
     var responseJson;
@@ -43,10 +37,12 @@ class ApiService {
 
   /// Post method
   static Future<dynamic> post(String url, Map<String, String> body, {bool tokenOptional}) async {
-    if (tokenOptional == false) {
+
+    if (tokenOptional == true) {
       String token = dataStorage.read("token");
-      headers["Authorization"] = token;
+      headers["Authorization"] = "Bearer " +token;
     }
+
     var responseJson;
     try {
       final response = await http.post(url, body: json.encode(body), headers: headers);
@@ -61,7 +57,10 @@ class ApiService {
   static Future<dynamic> postWithDynamic(String url, Map<String, dynamic> body, {bool tokenOptional}) async {
     if (tokenOptional == false) {
       String token = dataStorage.read("token");
-      headers["Authorization"] = token;
+      headers= {
+        "Authorization" : "Bearer " +token,
+        "Content-Type": "application/json",
+      };
     }
     var responseJson;
     try {
@@ -77,7 +76,7 @@ class ApiService {
   {
     if (tokenOptional == false) {
       String token = dataStorage.read("token");
-      headers["Authorization"] = token;
+      headers["Authorization"] = "Bearer " +token;
     }
     else{
       headers = {
@@ -97,8 +96,8 @@ class ApiService {
   static Future<dynamic> upload(File imageFile, String apiEndPoint, String paramName,) async
   {
     Map<String, String> headers = {
-      //"Authorization": "Bearer " + ApiService.dataStorage.read("token")
-      "Authorization": "Bearer " + Strings.token
+      "Authorization": "Bearer " + ApiService.dataStorage.read("token")
+      //"Authorization": "Bearer " + Strings.token
     };
     var stream = new http.ByteStream(Stream.castFrom(imageFile.openRead()));
     var length = await imageFile.length();

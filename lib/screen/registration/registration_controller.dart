@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/api/urlManage.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/dashboard_screen.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/strings.dart';
-import 'package:mlm/utils/toast_component.dart';
+import 'package:edutech/api/api_service.dart';
+import 'package:edutech/api/urlManage.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/strings.dart';
+import 'package:edutech/utils/toast_component.dart';
 
 class RegistrationController extends GetxController {
   /*personal detail textField Controller*/

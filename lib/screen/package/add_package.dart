@@ -1,14 +1,16 @@
+import 'package:crypto/crypto.dart';
+import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/screen/package/payment_controller.dart';
+import 'dart:convert'; // for the utf8.encode method
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:menu_button/menu_button.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/screen/login/login_screen.dart';
-import 'package:mlm/screen/package/add_package_controller.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/colors.dart';
-import 'package:mlm/utils/strings.dart';
+import 'package:edutech/screen/package/add_package_controller.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/colors.dart';
+import 'package:edutech/utils/strings.dart';
 
 class AddPackage extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class AddPackage extends StatefulWidget {
 
 class _AddPackageState extends State<AddPackage> {
   var controller=Get.put(AddPackageController());
+  final PaymentController _paymentController = Get.put(PaymentController());
   String category="";
   String selectedKey = "Standard";
   int selectedStandardIndex;
@@ -38,31 +41,35 @@ class _AddPackageState extends State<AddPackage> {
   static MethodChannel channel = MethodChannel('easebuzz');
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-      context: context,
-      builder: (context) =>
-      new AlertDialog(
-        title: new Text('Are you sure?'),
-        content: new Text('Do you want to exit an App'),
-        actions: <Widget>[
-          new GestureDetector(
-            onTap: () => Navigator.of(context).pop(false),
-            child: roundedButton(
-                "No", const Color(0xFF167F67), const Color(0xFFFFFFFF)),
-          ),
-          new GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (Route<dynamic> route) => false);
-            },
-            child: roundedButton(
-                " Yes ", AppColors.primaryColor, Colors.white),
-          ),
-        ],
-      ),
-    ) ??
-        false;
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => DashBoard()),
+            (Route<dynamic> route) => false);
+
+    // return showDialog(
+    //   context: context,
+    //   builder: (context) =>
+    //   new AlertDialog(
+    //     title: new Text('Are you sure?'),
+    //     content: new Text('Do you want to exit an App'),
+    //     actions: <Widget>[
+    //       new GestureDetector(
+    //         onTap: () => Navigator.of(context).pop(false),
+    //         child: roundedButton(
+    //             "No", const Color(0xFF167F67), const Color(0xFFFFFFFF)),
+    //       ),
+    //       new GestureDetector(
+    //         onTap: () {
+    //           Navigator.of(context).pushAndRemoveUntil(
+    //               MaterialPageRoute(builder: (context) => LoginScreen()),
+    //                   (Route<dynamic> route) => false);
+    //         },
+    //         child: roundedButton(
+    //             " Yes ", AppColors.primaryColor, Colors.white),
+    //       ),
+    //     ],
+    //   ),
+    // ) ??
+    //     false;
   }
 
   Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
@@ -175,33 +182,12 @@ class _AddPackageState extends State<AddPackage> {
                 SizedBox(
                   height: Get.height * 0.30,
                 ),
-//                Container(
-//                    height: Get.height * 0.4,
-//                    child: Padding(
-//                      padding: const EdgeInsets.all(8.0),
-//                      child: Card(elevation: 4, child: Column(
-//                        children: [
-//                          Padding(
-//                            padding: const EdgeInsets.all(8.0),
-//                            child: Row(
-//                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                              children: [
-//                                textWidget(board + " + " + selectedKey, Colors.black, 15, weight: FontWeight.bold),
-//                                textWidget("Price: "  + Strings.currency + price??'', Colors.black, 15),
-//                              ],
-//                            ),
-//                          ),
-//                          Divider(height: 1, thickness: 1, color: Colors.grey,),
-//                          Expanded(child: _myListView(context)),
-//                        ],
-//                      )),
-//                    )),
                 Expanded(
                   child:Obx((){
                     return
-                      controller.showAddPackagesStdName.isEmpty
-                   ? Center(child: CupertinoActivityIndicator())
-                   :
+//                      controller.showAddPackagesStdName.isEmpty
+//                   ? Center(child: CupertinoActivityIndicator())
+//                   :
                       controller.showAddPackagesStdName.isEmpty
                       ? Align(alignment: Alignment.topCenter,child:textWidget("Package Not Added", Colors.black, 15))
                       : ListView.builder(
@@ -252,8 +238,8 @@ class _AddPackageState extends State<AddPackage> {
 
   Widget buttonForBottom() {
     return new Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
@@ -261,39 +247,27 @@ class _AddPackageState extends State<AddPackage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textWidget("Total amount:", Colors.grey, 14),
-             // textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14)
-              Obx((){
-                return
-                  controller.totalPrice==null || controller.totalPrice==0
-                  ? textWidget("Price: " + Strings.currency + "0", Colors.black, 14)
-                  : textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14);
-              })
-
-//              GetBuilder<AddPackageController>(
-//                init: AddPackageController(), // INIT IT ONLY THE FIRST TIME
-//                builder: (_) => Text(
-//                  '${_.totalPrice}',
-//                ),
-//              ),
-
-
-//              GetBuilder<AddPackageController>(
-//                  builder: (_) => textWidget("Price: " + Strings.currency +
-//                      "${controller.total}", Colors.black, 14)),
+              Flexible(child:textWidget("Total amount:", Colors.grey, 14),),
+              // textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14)
+                GetBuilder<AddPackageController>(
+                init: AddPackageController(),
+                builder: (pressController) {
+                return pressController.totalPrice==0 || pressController.totalPrice==null
+                ? textWidget("Price: " + Strings.currency + "0", Colors.black, 14)
+                : textWidget("Price: " + Strings.currency + "${controller.totalPrice}", Colors.black, 14);
+                  }
+                ),
             ],
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: InkWell(onTap: () {
-            if(controller.totalPrice==null || controller.totalPrice==0){
-
-            }
-            else{
-              startPayment();
-            }
-          }, child: button("Proceed For Payment")),
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+                onTap: (){
+                  _paymentController.userPayment(context);
+                },
+                child:button("Proceed For Payment")
+            )
         ),
       ],
     );
@@ -347,7 +321,6 @@ class _AddPackageState extends State<AddPackage> {
                             weight: FontWeight.bold),
                         textWidget("Price: "  + Strings.currency + price??'',
                             Colors.black, 15),
-
                       ],
                     ),
                   ),
@@ -364,7 +337,7 @@ class _AddPackageState extends State<AddPackage> {
               onTap: (){
                   controller.addPackage(context);
                   controller.getPackagesList();
-                  controller.increment();
+                  controller.calculateTotalPrice();
               },
               child:button("Add Package")
             ),
@@ -588,52 +561,24 @@ class _AddPackageState extends State<AddPackage> {
     );
   }
 
-  startPayment() async{
-      String txnid = "TRX123"; //This txnid should be unique every time.
-      String amount = "2.0";
-      String productinfo= "Edutech Payment";
-      String firstname= "test user";
-      String email = "testing@gamil.com";
-      String phone = "1234567890";
-      String surl = "enquiry@edu-teck.com";
-      String furl = "enquiry@edu-teck.com";
-      String key = "55ZPS8QEU4";
-      String udf1 = "";
-      String udf2 = "";
-      String udf3 = "";
-      String udf4 = "";
-      String udf5 = "";
-      String address1="test address one";
-      String address2="test address two";
-      String city="";
-      String state="";
-      String country="";
-      String zipcode="";
-      String hash="Create hash as per below procedure in parameter details";
-      String pay_mode="production";
-      String unique_id="11345";
-      Object parameters = {"txnid":txnid,"amount":amount, "productinfo":productinfo,
-        "firstname":firstname,"email":email,"phone":phone,
-        "surl":surl,"furl":furl,"key":key,
-        "udf1":udf1,"udf2":udf2,"udf3":udf3,"udf4":udf4,"udf5":udf5,
-        "address1":address1,"address2":address2,"city":city,
-        "state":state,"country":country,"zipcode":zipcode,"hash":hash,
-        "pay_mode":pay_mode,"unique_id":unique_id};
-
-      final Map payment_response = await channel.invokeMethod("payWithEasebuzz", parameters);
-
-      String result = payment_response['result'];
-      String detailed_response = payment_response['payment_response'];
-      print(result);
-      print(detailed_response);
-
-//      var res = await ApiService.postWithDynamic("https://pay.easebuzz.in/payment/initiateLink",parameters,tokenOptional: true);
-//      print(res);
-//      if(res['status']==0){
-//        print(res['error_desc']);
-//      }
-//      else{
-//        print('Success');
-//      }
+  void _showResponseDialog(Map response)
+  {
+    String title = "";
+    if(response['result']=="payment_successfull")
+    {
+      title="Success";
+    }else
+    {
+      title="Failed";
+    }
+    showDialog(context: context,
+        builder:(BuildContext context)
+        {
+          return AlertDialog(
+            title: new Text(title),
+            content:new Text(response['result']),
+          );
+        }
+    );
   }
 }

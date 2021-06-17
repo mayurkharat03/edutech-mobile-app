@@ -1,9 +1,10 @@
+import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/dashboard_screen.dart';
-import 'package:mlm/screen/login/login_screen.dart';
-import 'package:mlm/utils/strings.dart';
+import 'package:edutech/api/api_service.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/screen/login/login_screen.dart';
+import 'package:edutech/utils/strings.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class SplashScreenState extends State<SplashScreen> {
       if(userId==null){
         Navigator.pushReplacement(context, FadeNavigation(widget: LoginScreen()));
       }else{
-        Navigator.pushReplacement(context, FadeNavigation(widget: DashBoard()));
+        Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
       }
     });
   }

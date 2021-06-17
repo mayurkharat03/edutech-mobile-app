@@ -1,4 +1,4 @@
-# mlm
+# edutech
 
 A new Flutter application.
 

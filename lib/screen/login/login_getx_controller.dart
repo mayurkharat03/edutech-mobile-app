@@ -1,14 +1,13 @@
+import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/request/request.dart';
-import 'package:mlm/api/api_service.dart';
-import 'package:mlm/api/urlManage.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/dashboard_screen.dart';
-import 'package:mlm/screen/student/student_details_screen.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/strings.dart';
-import 'package:mlm/utils/toast_component.dart';
+import 'package:edutech/api/api_service.dart';
+import 'package:edutech/api/urlManage.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/strings.dart';
+import 'package:edutech/utils/toast_component.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailTextController;
@@ -43,16 +42,17 @@ class LoginController extends GetxController {
       isLoading.value = false;
       Strings.userId=res["result"][0]["id_user"];
       ApiService.dataStorage.write("user_id", res["result"][0]["id_user"]);
-      ApiService.dataStorage
-          .write("first_name", res["result"][0]["first_name"]);
+      ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
-      ApiService.dataStorage
-          .write("referred_by", res["result"][0]["referred_by"]);
+      ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
+      ApiService.dataStorage.write("phone", res["result"][0]["phone_number"]);
+      ApiService.dataStorage.write("billing_address", res["result"][0]["billing_address"]);
+      ApiService.dataStorage.write("shipping_address", res["result"][0]["shipping_address"]);
 
       ApiService.dataStorage.write("token", res["token"]);
       ToastComponent.showDialog("Login SuccessFull", context);
-      Navigator.pushReplacement(context, FadeNavigation(widget: DashBoard()));
+      Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
       //Navigator.pushReplacement(context, FadeNavigation(widget: StudentDetailsScreen()));
     } else {
       isLoading.value = false;

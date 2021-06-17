@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mlm/navigation-Animator/navigation.dart';
-import 'package:mlm/screen/package/add_package.dart';
-import 'package:mlm/screen/registration/mobile_number_verification.dart';
-import 'package:mlm/screen/registration/otp_screen.dart';
-import 'package:mlm/screen/registration/user_info_screen.dart';
-import 'package:mlm/utils/CustomAlertDialog.dart';
-import 'package:mlm/utils/colors.dart';
-import 'package:mlm/utils/strings.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/package/add_package.dart';
+import 'package:edutech/screen/registration/mobile_number_verification.dart';
+import 'package:edutech/screen/registration/otp_screen.dart';
+import 'package:edutech/utils/CustomAlertDialog.dart';
+import 'package:edutech/utils/colors.dart';
+import 'package:edutech/utils/strings.dart';
 
 Widget commonAppBar(String title,
     {bool isTitle, double titleFont, Color colors, Color textTitleColor}) {
@@ -29,7 +28,7 @@ Widget commonAppBar(String title,
 }
 
 Widget textWidget(String value, Color color, double fontSize,
-    {FontWeight weight, TextAlign align}) {
+    {FontWeight weight, TextAlign align, double letterSpacing}) {
   return Text(
     value,
     textAlign: align,
@@ -68,6 +67,23 @@ Widget buttonRow(String nameButton, Color textColor, Color backColor) {
         nameButton,
         style: TextStyle(
             fontSize: 14, fontFamily: Strings.montserrat, color: textColor),
+      ),
+    ),
+  );
+}
+
+Widget buttonSell(String nameButton, Color textColor, Color backColor) {
+  return Material(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+    color: backColor,
+    child: FlatButton(
+      splashColor: Colors.white,
+      height: 35,
+      minWidth: Get.width,
+      child: Text(
+        nameButton,
+        style: TextStyle(
+            fontSize: 16, fontFamily: Strings.montserrat, color: textColor),
       ),
     ),
   );

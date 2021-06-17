@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:edutech/screen/dashboard_screen.dart';
+import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/utils/colors.dart';
 import 'package:edutech/utils/strings.dart';
 
@@ -66,40 +66,31 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
            // showUnselectedLabels: true,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-
                 icon: new Icon(Icons.home_filled,color: _selectedTabIndex == 0 ? AppColors.primaryColor : Colors.grey,),
                 title: Text('Home',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 0 ?  AppColors.primaryColor : Colors.grey,)),
-
               ),
 
               BottomNavigationBarItem(
-
                 icon: ImageIcon(AssetImage('assets/images/rupees_nav.png'), color: _selectedTabIndex == 1 ? AppColors.primaryColor : Colors.grey,),
                 title: Text('Wallet',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 1 ? AppColors.primaryColor : Colors.grey,)),
-
               ),
 
               BottomNavigationBarItem(
-
                 icon: ImageIcon(AssetImage('assets/images/referral_nav.png'), color: _selectedTabIndex == 2 ? AppColors.primaryColor : Colors.grey,),
                 title: Text('Referrals',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 2 ? AppColors.primaryColor : Colors.grey,)),
-
               ),
-              BottomNavigationBarItem(
 
+              BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/images/share_nav.png'), color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,),
                 title: Text('Share',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,)),
-
                 ),
-              BottomNavigationBarItem(
 
+              BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/images/person_nav.png'), color: _selectedTabIndex == 4 ? AppColors.primaryColor : Colors.grey,),
                 title: Text('Profile',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 4 ? AppColors.primaryColor : Colors.grey,)),
-
               ),
             ],
           ),
         ));
   }
-
 }

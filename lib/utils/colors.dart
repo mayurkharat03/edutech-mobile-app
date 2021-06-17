@@ -11,7 +11,7 @@ class AppColors {
   static Color primaryColor = Color(0xff7658F9);
   static Color textColor = Color(0xff37376C);
   static Color backgroundColor = Color(0xFFF9F9FD);
-
+  static Color buttonTextColor = Color(0xFF7A7A98);
 }
 
 class Palette {

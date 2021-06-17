@@ -1,10 +1,11 @@
+import 'package:edutech/screen/login/login_getx_controller.dart';
+import 'package:edutech/utils/Functions.dart';
+import 'package:edutech/utils/colors.dart';
+import 'package:edutech/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mlm/screen/login/login_getx_controller.dart';
-import 'package:mlm/utils/Functions.dart';
-import 'package:mlm/utils/colors.dart';
-import 'package:mlm/utils/strings.dart';
+
 
 class ForgotPassword extends StatefulWidget {
   @override
