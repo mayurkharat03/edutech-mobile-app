@@ -49,7 +49,7 @@ class Strings {
   static const String login_success_message = "Login successfull";
   static const String referral_success = "Referral Code Verified";
   static const String register_success = "User added successfully";
-  static const String otp_generated_success = "OTP generated successfully";
+  static const String otp_generated_success = "OTP Sent Successfully";
   static const String verified_dialog_message = "Your referral code is successfully verified!";
   static const String otp_dialog_message = "Your OTP is successfully verified!";
   static const String mobile_dialog_message = "OTP is successfully sent!";

@@ -77,7 +77,7 @@ class LoginController extends GetxController {
 
   void apiVerifyMobile(BuildContext context) async {
     isMobileVerify.value = true;
-    var res = await ApiService.get(getOtp,params: mobileNoController.text,tokenOptional: false);
+    var res = await ApiService.get(getOtp,params: mobileNoController.text,tokenOptional: true);
     isReferLoading.value=false;
     if (res["message"] == Strings.otp_generated_success) {
       isMobileVerify.value = false;
