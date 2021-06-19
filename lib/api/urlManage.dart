@@ -16,5 +16,7 @@ String addPackageUrl = baseUrl + "package/addPackage";
 String getPackageUrl = baseUrl + "package/getPackageByUserId";
 
 String createPaymentUrl = baseUrl + "payment/createPaymentOrder";
+String confirmPaymentStatusUrl = baseUrl + "payment/confirmPaymentStatus";
 
 String addBackDetailsUrl = baseUrl + "bank/addBankDetails";
+

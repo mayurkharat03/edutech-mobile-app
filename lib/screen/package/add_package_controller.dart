@@ -84,7 +84,6 @@ class AddPackageController extends GetxController{
           allSubjects = id['subject_list'];
         }
         Strings.subjectList = allSubjects.split(",");
-        print(Strings.subjectList);
         standardDetails.add(GetStandardListModel(
             id_standards: id['id_standards'],
             standard_name: id['standard_name'],
@@ -152,7 +151,6 @@ class AddPackageController extends GetxController{
       boardJsonResponse.forEach((id) {
         if(board == id['id_boards'].toString()){
           showAddPackagesBoardName.add(id['board_name']);
-          print(showAddPackagesBoardName);
         }
       });
     }

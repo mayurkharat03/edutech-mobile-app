@@ -31,7 +31,6 @@ class ApiService {
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
-    print('api get recieved!');
     return responseJson;
   }
 
@@ -107,10 +106,6 @@ class ApiService {
     var multipartFile = new http.MultipartFile(paramName, stream, length, filename: basename(imageFile.path));
     request.files.add(multipartFile);
     var response = await request.send();
-    print(response.statusCode);
-//    response.stream.transform(utf8.decoder).listen((value) {
-//      print(value);
-//    });
     return response.stream.transform(utf8.decoder);
   }
 

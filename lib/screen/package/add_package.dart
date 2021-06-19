@@ -228,7 +228,7 @@ class _AddPackageState extends State<AddPackage> {
                 ),
               ],
             ),
-            Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
+            Align(alignment: Alignment.bottomCenter, child: buttonForBottom(context)),
           ]),
         ),
         //bottomSheet: mainBottomSheet1(context),
@@ -236,7 +236,7 @@ class _AddPackageState extends State<AddPackage> {
     );
   }
 
-  Widget buttonForBottom() {
+  Widget buttonForBottom(BuildContext context) {
     return new Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,

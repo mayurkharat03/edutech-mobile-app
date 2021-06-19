@@ -1,5 +1,7 @@
 import 'package:edutech/api/api_service.dart';
 import 'package:edutech/api/urlManage.dart';
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +25,13 @@ class PaymentController extends GetxController{
   String surl="";
   int user_id;
 
+
   @override
   void onInit() {
     super.onInit();
   }
 
-  /*User payment*/
+  /* User payment */
   Future<void> userPayment(BuildContext context) async {
     isLoading.value = true;
      packageRemoveSymbolFromRight = Strings.packagePurchaseList.toString().replaceAll("[", "");
@@ -42,7 +45,7 @@ class PaymentController extends GetxController{
     double totalPayment = Strings.price.toDouble();
     Map<String, dynamic> params = {
       "userId":user_id.toString(),
-      "amount": totalPayment,
+      "amount": totalPayment.toString(),
       "email": email,
       "phone": phone,
       "firstname": firstName,
@@ -65,64 +68,31 @@ class PaymentController extends GetxController{
       "zipcode":""
     };
 
-    print(params);
     var res = await ApiService.postWithDynamic(createPaymentUrl, params, tokenOptional: false);
     if (res["message"] == Strings.create_payment_success) {
       isLoading.value = false;
-      print(res["result"]);
       ToastComponent.showDialog(res["message"], context);
       openPayment(res["result"]['transactionID'],firstName,email,phone,res["result"]["furl"],res["result"]["surl"],
-          res["result"]["paymentHashKey"],res["result"]['merchantKey'],res['result']['salt']);
+          res["result"]["paymentHashKey"],res["result"]['merchantKey'],res['result']['salt'],context);
     } else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
     }
   }
 
+  /* Open Payment Gateway */
   openPayment(String transId,String firstName,String emailId,String phoneNo,String failUrl,String successUrl,
-      String paymentHashKey, String payKey, String saltFromApi) async {
+      String paymentHashKey, String payKey, String saltFromApi,BuildContext context) async {
 
     double totalPayment = Strings.price.toDouble();
     packageRemoveSymbolFromRight = Strings.packagePurchaseList.toString().replaceAll("[", "");
     finalPurchaseId = packageRemoveSymbolFromRight.replaceAll("]", "");
 
-   //  String txnid = transId; //This txnid should be unique every time.
-   //  double amount = totalPayment;
-   //  //String productinfo= finalPurchaseId;
-   //  String productinfo= finalPurchaseId;
-   //  String firstname= firstName;
-   //  String email = emailId;
-   //  String phone = phoneNo;
-   //  String surl = successUrl;
-   //  String furl = failUrl;
-   //  String key = payKey;
-   //  String udf1 = "";
-   //  String udf2 = "";
-   //  String udf3 = "";
-   //  String udf4 = "";
-   //  String udf5 = "";
-   //  String address1=billingAddress;
-   //  String address2=shippingAddress;
-   //  String city="";
-   //  String state="";
-   //  String country="";
-   //  String zipcode="";
-   //  //String hash=paymentHashKey;
-   //  String hash="4414db724da68d256f0d9e558d10f2ccf579e10ae874543bda8eb39094e7badee51e61fa7e055d50b47b4c4fa4e7d06d078ca626737e874012220efff3bf9dee";
-   // // String salt=Strings.salt;
-   //   hash=Strings.key+txnid+amount+productinfo+firstname+email+udf1+udf2+udf3+udf4+
-   //  // udf5+udf6+udf7+udf8+udf9+udf10+Strings.salt+Strings.key;
-   //  String pay_mode="test";
-   //  String unique_id=transId;
-   //
-
-
-    String txnid = "dd11284a988a968f15b6293bc7eeb9e3";
-    double amount = 29730.0;
-    //String productinfo= finalPurchaseId;
-    String productinfo= "10, 11, 12, 13, 14, 15, 16";
-    String firstname= "Lisa";
-    String email = "lisasupriya@gmail.com";
+    String txnid = transId;
+    double amount = totalPayment;
+    String productinfo= finalPurchaseId;
+    String firstname= firstName;
+    String email = emailId;
     String phone = phoneNo;
     String surl = successUrl;
     String furl = failUrl;
@@ -138,14 +108,13 @@ class PaymentController extends GetxController{
     String state="";
     String country="";
     String zipcode="";
-    //String hash=paymentHashKey;
-    String hash="b40650de1a0004292a0c3b2a1cfe8749c0d7e4a514d76756777958c047123d392b3c594e95fa3d10e8ff2e8dd37a965c7e9d081c5bd8afa2d83d789983be9a94";
-    // String salt=Strings.salt;
+    String hash=paymentHashKey;
+    //String hash="4414db724da68d256f0d9e558d10f2ccf579e10ae874543bda8eb39094e7badee51e61fa7e055d50b47b4c4fa4e7d06d078ca626737e874012220efff3bf9dee";
+     String salt=saltFromApi;
     // hash=Strings.key+txnid+amount+productinfo+firstname+email+udf1+udf2+udf3+udf4+
     // udf5+udf6+udf7+udf8+udf9+udf10+Strings.salt+Strings.key;
     String pay_mode="test";
-    String unique_id=transId;
-    String salt = "7ESY3PUI2B";
+
     Object parameters = {"txnid":txnid,"amount":amount, "productinfo":productinfo,
       "firstname":firstname,"email":email,"phone":phone,"surl":surl,
       "furl":furl,"key":key,"udf1":udf1,"udf2":udf2,"udf3":udf3,
@@ -153,18 +122,78 @@ class PaymentController extends GetxController{
       "country":country,"zipcode":zipcode,"hash":hash,"pay_mode":pay_mode,
       "salt":salt};
 
-    print(parameters);
     final Map response = await channel.invokeMethod("payWithEasebuzz", parameters);
-    BuildContext context;
-    print(response["result"]);
-    // if(response['result']=="payment_successfull")
-    // {
-    //   ToastComponent.showDialog("Success", context);
-    // }
-    // else
-    // {
-    //   ToastComponent.showDialog("Failed", context);
-    // }
+
+    if(response['result']=="payment_successfull")
+    {
+      confirmPayment(context,response);
+    }
+    else
+    {
+      ToastComponent.showDialog(response['result'], context);
+    }
+  }
+
+  /* Confirm Payment status */
+  Future<void> confirmPayment(BuildContext context,Map response) async {
+    Map<String,dynamic> params={
+       "userId": user_id,
+      "firstname": response["payment_response"]["firstname"],
+      "flag": response["payment_response"]["flag"],
+      "merchant_logo": response["payment_response"]["merchant_logo"],
+      "cardCategory": response["payment_response"]["cardCategory"],
+      "udf10": response["payment_response"]["udf10"],
+      "error": response["payment_response"]["error"],
+      "addedon": response["payment_response"]["addedon"],
+      "mode": response["payment_response"]["mode"],
+      "udf9": response["payment_response"]["udf9"],
+      "udf7": response["payment_response"]["udf7"],
+      "issuing_bank": response["payment_response"]["issuing_bank"],
+      "cash_back_percentage": response["payment_response"]["cash_back_percentage"],
+      "udf8": response["payment_response"]["udf8"],
+      "deduction_percentage": response["payment_response"]["deduction_percentage"],
+      "error_Message": response["payment_response"]["error_Message"],
+      "payment_source": response["payment_response"]["payment_source"],
+      "bank_ref_num": response["payment_response"]["bank_ref_num"],
+      "email": response["payment_response"]["email"],
+      "key": response["payment_response"]["key"],
+      "bankcode": response["payment_response"]["bankcode"],
+      "txnid": response["payment_response"]["txnid"],
+      "amount": response["payment_response"]["amount"],
+      "unmappedstatus": response["payment_response"]["unmappedstatus"],
+      "easepayid": response["payment_response"]["easepayid"],
+      "udf5": response["payment_response"]["udf5"],
+      "udf6": response["payment_response"]["udf6"],
+      "surl": response["payment_response"]["surl"],
+      "udf3": response["payment_response"]["udf3"],
+      "net_amount_debit": response["payment_response"]["net_amount_debit"],
+      "udf4": response["payment_response"]["udf4"],
+      "card_type": response["payment_response"]["card_type"],
+      "udf1": response["payment_response"]["udf1"],
+      "udf2": response["payment_response"]["udf2"],
+      "cardnum": response["payment_response"]["cardnum"],
+      "phone": response["payment_response"]["phone"],
+      "furl": response["payment_response"]["furl"],
+      "productinfo": response["payment_response"]["productinfo"],
+      "PG_TYPE": response["payment_response"]["PG_TYPE"],
+      "hash": response["payment_response"]["hash"],
+      "name_on_card": response["payment_response"]["name_on_card"],
+      "status": response["payment_response"]["status"]
+    };
+
+    var res = await ApiService.postWithDynamic(confirmPaymentStatusUrl, params, tokenOptional: false);
+    if (res["message"] == Strings.payment_successfull_message) {
+    isLoading.value = false;
+
+    ToastComponent.showDialog(res["message"], context);
+
+    Future.delayed(Duration(seconds: 2), () {
+        Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
+      });
+    } else {
+    isLoading.value = false;
+    ToastComponent.showDialog(res["message"], context);
+    }
   }
 }
 

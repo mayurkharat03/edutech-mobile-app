@@ -62,6 +62,7 @@ class Strings {
   static const String get_package_suceess = "Purchase Package by User";
   static const String added_package_suceess = "Package added successfully";
   static const String added_bank_details_success = "Bank deatils added successfully";
+  static const String payment_successfull_message = "Payment successfully";
   //static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
   static List<String> allBoards=[];
   static List<int> allBoardsId=[];
