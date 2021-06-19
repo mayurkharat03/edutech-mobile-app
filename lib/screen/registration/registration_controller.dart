@@ -139,6 +139,7 @@ class RegistrationController extends GetxController {
       };
     isMobileVerify.value = true;
     var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:false);
+    ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
       if(profileImage==null){
         uploadAadharFrontImage(context);
