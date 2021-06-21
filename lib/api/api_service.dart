@@ -34,6 +34,29 @@ class ApiService {
     return responseJson;
   }
 
+  static Future<dynamic> verifyOTPService(String url,var mobileNo,var otp ,{ bool tokenOptional}) async
+  {
+    if (tokenOptional == false) {
+      String token = dataStorage.read("token");
+      headers= {
+        "Authorization" : "Bearer " +token,
+        "Content-Type": "application/json",
+      };
+    }
+    else{
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
+    var responseJson;
+    try {
+      final response = await http.get(url + "/" + mobileNo +"/"+otp, headers: headers);
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    return responseJson;
+  }
   /// Post method
   static Future<dynamic> post(String url, Map<String, String> body, {bool tokenOptional}) async {
 

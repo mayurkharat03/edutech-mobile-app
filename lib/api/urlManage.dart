@@ -4,7 +4,7 @@ String baseUrl = "http://15.206.125.174:8091/";
 String getLogin = baseUrl + "user/getLogin";
 String verifyReferral = baseUrl + "user/verifyReferralCode";
 String getOtp = baseUrl + "user/getOTPForRegistration";
-String verifyOtp = baseUrl + "user/";
+String verifyOtp = baseUrl + "user/verifyOTP";
 
 String addUser = baseUrl + "user/addUser";
 String uploadProfileImageUrl = baseUrl +"photo/28/uploadProfilePhoto";

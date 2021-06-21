@@ -83,13 +83,8 @@ class LoginController extends GetxController {
 
   void apiVerifyOtp(BuildContext context) async {
 
-    var param={
-      mobileNoController.text,
-      otpController.text
-    };
-    print(param);
     isReferLoading.value = true;
-    var res = await ApiService.get(verifyOtp, params: param, tokenOptional: true);
+    var res = await ApiService.verifyOTPService(verifyOtp, mobileNoController.text, otpController.text, tokenOptional: true);
     if (res["message"] == Strings.referral_success) {
       isReferLoading.value = false;
       showOtpAlertDialog(context);
