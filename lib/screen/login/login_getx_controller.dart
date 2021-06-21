@@ -13,6 +13,7 @@ class LoginController extends GetxController {
   TextEditingController emailTextController;
   TextEditingController passwordTextController;
   TextEditingController forgotPasswordController;
+  TextEditingController otpController;
   RxBool isLoading = false.obs;
   RxBool isReferLoading = false.obs;
   RxBool isMobileVerify = false.obs;
@@ -28,6 +29,7 @@ class LoginController extends GetxController {
     forgotPasswordController = TextEditingController();
     verifyReferralController = TextEditingController();
     mobileNoController = TextEditingController();
+    otpController = TextEditingController();
     super.onInit();
   }
 
@@ -73,6 +75,24 @@ class LoginController extends GetxController {
       ApiService.dataStorage.write("code", res["result"][0]["code"]);
       ApiService.dataStorage.write("refer_user_id", res["result"][0]["user_id"]);
       showAlertDialog(context, Strings.verify_refer, "refer",Strings.verified_dialog_message);
+    } else {
+      isReferLoading.value = false;
+      ToastComponent.showDialog(res["message"], context);
+    }
+  }
+
+  void apiVerifyOtp(BuildContext context) async {
+
+    var param={
+      mobileNoController.text,
+      otpController.text
+    };
+    print(param);
+    isReferLoading.value = true;
+    var res = await ApiService.get(verifyOtp, params: param, tokenOptional: true);
+    if (res["message"] == Strings.referral_success) {
+      isReferLoading.value = false;
+      showOtpAlertDialog(context);
     } else {
       isReferLoading.value = false;
       ToastComponent.showDialog(res["message"], context);

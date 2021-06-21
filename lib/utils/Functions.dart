@@ -1,5 +1,6 @@
 import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/screen/login/login_screen.dart';
+import 'package:edutech/screen/registration/user_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -167,6 +168,48 @@ void showAlertDialog(
               ),
               Text(
                 message,
+                style: TextStyle(
+                  fontFamily: Strings.montserrat,
+                  color: AppColors.labelColor,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showOtpAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.push(context, FadeNavigation(widget: UserStepperScreen()));
+      });
+      return CustomAlertDialog(
+        content: Container(
+          width: MediaQuery.of(context).size.width / 1.3,
+          height: MediaQuery.of(context).size.height / 2.5,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            children: <Widget>[
+              Image.asset(
+                Strings.mobile_verify,
+                height: Get.height * 0.3,
+                width: Get.height * 0.2,
+                fit: BoxFit.contain,
+              ),
+              Text(
+                "Your mobile number is successfully verified!",
                 style: TextStyle(
                   fontFamily: Strings.montserrat,
                   color: AppColors.labelColor,

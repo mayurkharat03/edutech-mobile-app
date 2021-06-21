@@ -1,3 +1,4 @@
+import 'package:edutech/screen/login/login_getx_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
@@ -22,6 +23,7 @@ class VerifyOtp extends StatefulWidget {
 }
 
 class _VerifyOtpState extends State<VerifyOtp> {
+  final LoginController _loginController = Get.put(LoginController());
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   FocusNode pincodeFocus;
   bool autoFocus = true;
@@ -149,6 +151,9 @@ class _VerifyOtpState extends State<VerifyOtp> {
                               //autoValidateOTP();
                             }
                           },
+                          onCompleted: (val){
+                            _loginController.otpController = pincodeController;
+                          },
                         ),
                       ),
                     ],
@@ -190,6 +195,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     return;
                   } else {
                     showAlertDialog(context);
+                    //_loginController.apiVerifyOtp(context);
                   }
                 },
                 child: Padding(
