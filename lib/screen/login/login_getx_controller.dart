@@ -49,8 +49,12 @@ class LoginController extends GetxController {
       ApiService.dataStorage.write("phone", res["result"][0]["phone_number"]);
       ApiService.dataStorage.write("billing_address", res["result"][0]["billing_address"]);
       ApiService.dataStorage.write("shipping_address", res["result"][0]["shipping_address"]);
-
+      ApiService.dataStorage.write("isAadhaarFrontUploaded", res["result"][0]["isAadhaarFrontUploaded"]);
+      ApiService.dataStorage.write("isAadhaarBackUploaded", res["result"][0]["isAadhaarBackUploaded"]);
+      ApiService.dataStorage.write("isPanUploaded", res["result"][0]["isPanUploaded"]);
+      ApiService.dataStorage.write("isProfileUploaded", res["result"][0]["isProfileUploaded"]);
       ApiService.dataStorage.write("token", res["token"]);
+
       ToastComponent.showDialog("Login SuccessFull", context);
       Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
       //Navigator.pushReplacement(context, FadeNavigation(widget: StudentDetailsScreen()));
@@ -62,7 +66,7 @@ class LoginController extends GetxController {
 
   void apiVerifyReferral(BuildContext context) async {
     isReferLoading.value = true;
-    var res = await ApiService.get(verifyReferral, params: verifyReferralController.text, tokenOptional: false);
+    var res = await ApiService.get(verifyReferral, params: verifyReferralController.text, tokenOptional: true);
     if (res["message"] == Strings.referral_success) {
       isReferLoading.value = false;
       ApiService.dataStorage.write("id_referral_code", res["result"][0]["id_referral_code"]);

@@ -1,4 +1,5 @@
 import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/screen/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -140,7 +141,7 @@ void showAlertDialog(
           Navigator.push(context, FadeNavigation(widget: MobileScreen()));
         } else if (dialogType == "Reg") {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => DashBoard()),
+              MaterialPageRoute(builder: (context) => LoginScreen()),
               (Route<dynamic> route) => false);
         } else {
           Navigator.push(

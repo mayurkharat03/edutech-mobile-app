@@ -1,5 +1,7 @@
+import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:edutech/screen/seller/add_bank_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
@@ -7,6 +9,7 @@ import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/screen/seller/add_bank_account_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/colors.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UploadPhotoScreen extends StatefulWidget {
   @override
@@ -14,6 +17,11 @@ class UploadPhotoScreen extends StatefulWidget {
 }
 
 class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
+  final AddBankDetailsController _addBankDetailsController = Get.put(AddBankDetailsController());
+  PickedFile _imageFile;
+  var picture;
+  final ImagePicker picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,14 +138,17 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
               onTap: () {
-                Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
+               // Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
+
               },
               child: buttonSell("Take a Photo", Colors.white, AppColors.textColor)),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              openGallery(context);
+            },
             child: DottedBorder(
               dashPattern: [7, 3,],
               borderType: BorderType.RRect,
@@ -235,7 +246,10 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                 // shape: BoxShape.circle,
                 image: new DecorationImage(
                   fit: BoxFit.fill,
-                  image: AssetImage('assets/images/camera_main.png'),
+                  image:
+                  _imageFile == null
+                  ? AssetImage('assets/images/camera_main.png')
+                  : FileImage(File(_imageFile.path))
                 ),
               ),
             ),
@@ -362,7 +376,7 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
                   // shape: BoxShape.rectangle,
                   image: new DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage('assets/images/camera_lens3.png'),
+                    image: AssetImage('assets/images/camera_lens3.png')
                   ),
                 ),
               ),
@@ -418,4 +432,14 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
     );
   }
 
+  openGallery(BuildContext buildContext) async {
+    var selectedImage;
+    selectedImage = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _imageFile = selectedImage;
+      picture = selectedImage;
+      _addBankDetailsController.profileImage=_imageFile;
+    });
+  }
 }

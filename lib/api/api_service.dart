@@ -79,6 +79,7 @@ class ApiService {
     }
     else{
       headers = {
+        "Content-Type": "application/json",
       };
     }
     var responseJson;

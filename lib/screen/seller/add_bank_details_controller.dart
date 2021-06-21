@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:edutech/api/api_service.dart';
 import 'package:edutech/api/urlManage.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
@@ -6,6 +8,7 @@ import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddBankDetailsController extends GetxController{
 
@@ -14,6 +17,7 @@ class AddBankDetailsController extends GetxController{
   TextEditingController accountNameController;
   TextEditingController ifscCodeController;
   TextEditingController upiIdController;
+  PickedFile profileImage;
 
   @override
   void onInit() {
@@ -26,7 +30,6 @@ class AddBankDetailsController extends GetxController{
   }
   /// Add seller's bank details
   void addSellerBankDetails(BuildContext context) async {
-
     Map<String, dynamic> params={
       "userId":Strings.userId,
       "bankName":bankNameController.text,
@@ -42,5 +45,20 @@ class AddBankDetailsController extends GetxController{
     else {
       ToastComponent.showDialog(res["message"], context);
     }
+  }
+
+  /// Upload profile image
+  Future<void> uploadSellerPhoto(BuildContext context) async {
+    var res = await ApiService.upload(File(profileImage.path), uploadProfileImageUrl,'image');
+    String response;
+    res.listen((value) {
+      response=value.toString();
+      if (response.contains(Strings.profile_success)) {
+        ToastComponent.showDialog("Uploaded Successfully", context);
+      }
+      else {
+        ToastComponent.showDialog(Strings.failed_message, context);
+      }
+    });
   }
 }

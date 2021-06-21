@@ -1,4 +1,6 @@
+import 'package:edutech/api/api_service.dart';
 import 'package:edutech/screen/common/bottom_navigation_screen.dart';
+import 'package:edutech/screen/seller/add_bank_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
@@ -18,6 +20,13 @@ class _DashBoardState extends State<DashBoard> {
   static final dataStorage = GetStorage();
   String user_first_name = dataStorage.read("first_name");
   String user_last_name = dataStorage.read("last_name");
+  int isPhotoUploaded;
+
+  @override
+  void initState() {
+    super.initState();
+    isPhotoUploaded=ApiService.dataStorage.read("isProfileUploaded");
+  }
 
   Future<bool> _onBackPressed() {
     return showDialog(
@@ -111,7 +120,7 @@ class _DashBoardState extends State<DashBoard> {
                                 SizedBox(
                                   height: 6,
                                 ),
-                                textWidget(user_first_name+ " "+ user_last_name??"NA", Colors.white, 14,weight: FontWeight.w500),
+                                textWidget(user_first_name+ " "+ user_last_name??"", Colors.white, 14,weight: FontWeight.w500),
                               ],
                             ),
                             // Padding(
@@ -232,8 +241,16 @@ class _DashBoardState extends State<DashBoard> {
         label: textWidget("Become A Seller", AppColors.primaryColor, 14,
             weight: FontWeight.bold),
         onPressed: () {
-          Navigator.pushReplacement(
-              context, FadeNavigation(widget: UploadPhotoScreen()));
+
+          if(isPhotoUploaded==0){
+            Navigator.pushReplacement(
+                context, FadeNavigation(widget: UploadPhotoScreen()));
+          }
+          else{
+            Navigator.pushReplacement(
+                context, FadeNavigation(widget: AddBankAccountScreen()));
+          }
+
         },
       ),
     );

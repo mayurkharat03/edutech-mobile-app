@@ -138,7 +138,7 @@ class RegistrationController extends GetxController {
       "referredBy":refferedBy
       };
     isMobileVerify.value = true;
-    var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:false);
+    var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:true);
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
       if(profileImage==null){
@@ -197,7 +197,7 @@ class RegistrationController extends GetxController {
     res.listen((value) {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_back_success)){
-        showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfylly");
+        showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
       }
       else{
         isLoading.value = false;
