@@ -143,6 +143,7 @@ class RegistrationController extends GetxController {
     var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:true);
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
+      ApiService.dataStorage.write("user_id", res["userId"]);
       if(profileImage==null){
         uploadAadharFrontImage(context);
       }

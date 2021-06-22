@@ -794,6 +794,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                keyboardType: TextInputType.text,
               ),
             ),
           ),
