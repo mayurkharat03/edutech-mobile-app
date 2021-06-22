@@ -98,12 +98,12 @@ class _ForgotPasswordState extends State<ForgotPassword>
           fit: BoxFit.cover,
           height: 60,
         ),
-        textWidget("Forgot Password", Colors.black, 22),
+        textWidget("Forgot Password!", Colors.black, 22),
         textWidget(
-            "Don’t worry ! You can reset your password", Colors.black, 12),
+            "Don’t worry! You can reset your password.", Colors.black, 12),
         SizedBox(height: Get.height * 0.05),
         textWidget(
-            "Please, enter your email address. You will receive a link to create a new password via email.",
+            "Please, enter your registered email address. You will receive a link to create a new password.",
             Colors.black,
             12),
         SizedBox(height: Get.height * 0.05),

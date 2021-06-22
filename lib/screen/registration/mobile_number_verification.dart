@@ -105,11 +105,14 @@ class _MobileScreenState extends State<MobileScreen> {
                 ),
               ),
               Container(
-                  width: double.infinity,
+                  width: Get.width * 5,
+                  height: Get.height * 5,
                   margin: EdgeInsets.only(top: Get.height * 0.30),
-                  child: Image.asset(
-                    Strings.reg_back,
-                    fit: BoxFit.fitWidth,
+                  child: Center(
+                    child:Image.asset(
+                      Strings.verify_mobile,
+                      fit: BoxFit.fill,
+                    )
                   )),
             ],
           ),

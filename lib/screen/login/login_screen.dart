@@ -45,70 +45,82 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 60,
                 ),
                 textWidget("Welcome", Colors.black, 22),
-                textWidget("Login to continue", Colors.black, 12),
+                textWidget("Login to Continue.", Colors.black, 12),
                 SizedBox(height: Get.height * 0.05),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Card(
-                        elevation: 5,
-                        child: TextFormField(
-                          controller: _loginController.emailTextController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            labelText: 'Email',
-                            labelStyle: TextStyle(
-                                fontFamily: Strings.montserrat, fontSize: 12),
-                            filled: true,
-                            hintText: 'Email',
-                            hintStyle: TextStyle(
-                                fontFamily: Strings.montserrat, fontSize: 12),
-                            contentPadding: EdgeInsets.all(15.0),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
+                      child: Container(
+                        height: Get.height * 0.08 ,
+                        child:Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 5.0),
+                            child:TextFormField(
+                              controller: _loginController.emailTextController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                labelText: 'Email',
+                                labelStyle: TextStyle(
+                                    fontFamily: Strings.montserrat, fontSize: 12),
+                                filled: true,
+                                hintText: 'Email',
+                                hintStyle: TextStyle(
+                                    fontFamily: Strings.montserrat, fontSize: 12),
+                                contentPadding: EdgeInsets.all(15.0),
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              style: TextStyle(
+                                  fontFamily: Strings.montserrat, fontSize: 15),
                             ),
-                          ),
-                          style: TextStyle(
-                              fontFamily: Strings.montserrat, fontSize: 15),
+                          )
                         ),
-                      ),
+                      )
                     ),
                     SizedBox(height: 5),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Card(
-                        elevation: 5,
-                        child: TextFormField(
-                          controller: _loginController.passwordTextController,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            labelStyle: TextStyle(
-                                fontFamily: Strings.montserrat, fontSize: 12),
-                            fillColor: Colors.white,
-                            filled: true,
-                            contentPadding: EdgeInsets.all(15.0),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: 'Password',
-                            hintStyle: TextStyle(
-                                fontFamily: Strings.montserrat, fontSize: 12),
-                          ),
-                          validator: (value) =>
+                      child: Container(
+                          height: Get.height * 0.08 ,
+                        child:Card(
+                          elevation: 5,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 5.0),
+                            child:TextFormField(
+                              controller: _loginController.passwordTextController,
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                labelStyle: TextStyle(
+                                    fontFamily: Strings.montserrat, fontSize: 12),
+                                fillColor: Colors.white,
+                                filled: true,
+                                contentPadding: EdgeInsets.all(15.0),
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: 'Password',
+                                hintStyle: TextStyle(
+                                    fontFamily: Strings.montserrat, fontSize: 12),
+                              ),
+                              validator: (value) =>
                               value.trim().isEmpty ? 'Password required' : null,
-                          style: GoogleFonts.exo2(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
+                              style: GoogleFonts.exo2(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          )
+                        )
                       ),
                     ),
                     SizedBox(height: 16),
@@ -224,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text: 'Don\'t have an Account? ',
                 style: styleForLabel(12, AppColors.textColor)),
             TextSpan(
-                text: 'Register Now',
+                text: 'Register Now.',
                 style: styleForLabel(12, AppColors.primaryColor)),
           ],
         ),

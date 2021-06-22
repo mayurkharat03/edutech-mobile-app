@@ -84,11 +84,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: Get.height * 0.30),
-                  child: Image.asset(
-                    Strings.reg_back,
-                    fit: BoxFit.fitWidth,
+                  width: Get.width * 0.9,
+                  margin: EdgeInsets.only(top: Get.height * 0.30,),
+                  child: Center(
+                    child:Image.asset(
+                      Strings.reg_back,
+                      fit: BoxFit.fill,
+                    )
                   )),
             ],
           ),
