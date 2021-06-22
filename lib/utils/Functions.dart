@@ -142,7 +142,7 @@ void showAlertDialog(
           Navigator.push(context, FadeNavigation(widget: MobileScreen()));
         } else if (dialogType == "Reg") {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginScreen()),
+              MaterialPageRoute(builder: (context) => AddPackage()),
               (Route<dynamic> route) => false);
         } else {
           Navigator.push(

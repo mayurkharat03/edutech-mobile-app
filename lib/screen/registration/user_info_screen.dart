@@ -207,12 +207,13 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
             } else if (selectedKey == "Gender") {
               ToastComponent.showDialog("Please Select Gender", context,
                   gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-            } else {
-              setState(() {
-                stepperCount++;
-                percentage = percentage + 20;
-              });
             }
+            else {
+               setState(() {
+                 stepperCount++;
+                 percentage = percentage + 20;
+               });
+             }
           },
           child: button("Next")),
     );
@@ -502,13 +503,17 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
             Expanded(
                 child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: ElevatedButton(
+                    child: Obx(()=>_registrationController.isRegistrationVerify == true
+                        ? Center(child: CupertinoActivityIndicator())
+                    : ElevatedButton(
                       child: Text(
                         "Next",
                         style: styleForLabel(12, Colors.white),
                       ),
                       onPressed: () {
-                            _registrationController.addUserDetails(context, selectedSalutation,mobileNumber,billingAddress,shippingAddress,_selectedDate);
+                        _registrationController.addUserDetails(
+                            context, selectedSalutation, mobileNumber,
+                            billingAddress, shippingAddress, _selectedDate);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,
@@ -520,7 +525,9 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                           borderRadius: BorderRadius.circular(32.0),
                         ),
                       ),
-                    ))),
+                      )
+                    )
+                )),
           ],
         ),
       ),
@@ -568,6 +575,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                             borderSide: BorderSide.none,
                           ),
                         ),
+                        keyboardType: TextInputType.text,
                       ),
                     ),
                   ),
@@ -590,6 +598,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                keyboardType: TextInputType.text,
               ),
             ),
           ),
@@ -608,6 +617,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                keyboardType: TextInputType.text,
               ),
             ),
           ),
@@ -1096,6 +1106,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     borderSide: BorderSide.none,
                   ),
                 ),
+                keyboardType: TextInputType.emailAddress,
               ),
             ),
           ),
@@ -1444,6 +1455,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
       });
     }
     Navigator.pop(context);
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -1462,6 +1474,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
         String formatted = serverFormatter.format(displayDate);
         _selectedDate = formatted;
         _registrationController.dateOfBirthController=_selectedDate;
+        FocusScope.of(context).requestFocus(FocusNode());
       });
   }
 
@@ -1497,7 +1510,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      _imageFileAdharBack == null;
+                      _imageFileAdharFront = null;
                     });
                   },
                   child: Container(
@@ -1550,7 +1563,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     print('delete image from List');
                     setState(() {
                       // ignore: unnecessary_statements
-                      _imageFileAdharFront == null;
+                      _imageFileAdharBack = null;
                     });
                   },
                   child: Container(

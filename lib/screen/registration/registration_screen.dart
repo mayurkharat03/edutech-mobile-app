@@ -75,6 +75,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderSide: BorderSide.none,
                           ),
                         ),
+                        onEditingComplete: (){
+                          _loginController.apiVerifyReferral(context);
+                        },
                       ),
                     ),
                   ),

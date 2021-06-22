@@ -51,6 +51,7 @@ class RegistrationController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isReferLoading = false.obs;
   RxBool isMobileVerify = false.obs;
+  RxBool isRegistrationVerify = false.obs;
 
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
@@ -120,7 +121,7 @@ class RegistrationController extends GetxController {
   /// Add user details..registration process
   void addUserDetails(BuildContext context,String salutation,String mobileNo,String billingAdd,
       String shippingAdd,String dob) async {
-    gender=='Male'?gender="1":gender="2";
+    gender=='Male' ? gender="1" : gender="2";
     int refferedBy= ApiService.dataStorage.read('refer_user_id');
 
     Map<String, dynamic> params={
@@ -138,6 +139,7 @@ class RegistrationController extends GetxController {
       "referredBy":refferedBy
       };
     isMobileVerify.value = true;
+    isRegistrationVerify.value = true;
     var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:true);
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
@@ -150,6 +152,7 @@ class RegistrationController extends GetxController {
       Strings.userId = res['userId'];
     }
     else if(res['message']=='Emailid already exists'){
+      isRegistrationVerify.value = false;
       ToastComponent.showDialog(res["message"], context);
     }
     else {
@@ -184,7 +187,7 @@ class RegistrationController extends GetxController {
         uploadAadharBackImage(context);
       }
       else{
-        isLoading.value = false;
+        isRegistrationVerify.value = false;
         ToastComponent.showDialog(res["message"], context);
       }
     });
@@ -192,15 +195,17 @@ class RegistrationController extends GetxController {
 
   /// Upload aadhar card back image
   Future<void> uploadAadharBackImage(BuildContext context) async {
+    isRegistrationVerify.value=true;
     var res = await ApiService.upload(File(backImagePath.path), uploadAadharBackImageUrl,'image');
     String response;
     res.listen((value) {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_back_success)){
+        isRegistrationVerify.value=false;
         showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
       }
       else{
-        isLoading.value = false;
+        isRegistrationVerify.value=false;
         ToastComponent.showDialog(res["message"], context);
       }
     });

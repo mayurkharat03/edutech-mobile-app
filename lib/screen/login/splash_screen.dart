@@ -18,8 +18,8 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      int userId=ApiService.dataStorage.read("user_id");
-      if(userId==null){
+      int userId = ApiService.dataStorage.read("user_id");
+      if(userId == null){
         Navigator.pushReplacement(context, FadeNavigation(widget: LoginScreen()));
       }else{
         Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
