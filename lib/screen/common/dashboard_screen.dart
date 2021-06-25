@@ -18,14 +18,23 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   static final dataStorage = GetStorage();
-  String user_first_name = dataStorage.read("first_name");
-  String user_last_name = dataStorage.read("last_name");
+
+  String user_first_name = "";
+  String user_last_name = "";
   int isPhotoUploaded;
 
   @override
   void initState() {
     super.initState();
     isPhotoUploaded=ApiService.dataStorage.read("isProfileUploaded");
+    user_first_name = dataStorage.read("first_name");
+    user_last_name = dataStorage.read("last_name");
+    if(user_first_name==null){
+      user_first_name="";
+    }
+    if(user_last_name==null){
+      user_last_name="";
+    }
   }
 
   Future<bool> _onBackPressed() {
@@ -121,7 +130,7 @@ class _DashBoardState extends State<DashBoard> {
                                 SizedBox(
                                   height: 6,
                                 ),
-                                textWidget(user_first_name+ " "+ user_last_name??"", Colors.white, 14,weight: FontWeight.w500),
+                                textWidget(user_first_name+ " "+ user_last_name, Colors.white, 14,weight: FontWeight.w500),
                               ],
                             ),
                             // Padding(

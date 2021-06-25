@@ -142,9 +142,9 @@ class _MobileScreenState extends State<MobileScreen> {
                           gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
                       return;
                     } else {
-                      _loginController.apiVerifyMobile(context);
-                     //  Navigator.push(
-                     //      context, FadeNavigation(widget: VerifyOtp(mobileNo)));
+                     _loginController.apiVerifyMobile(context);
+                    //   Navigator.push(
+                    //       context, FadeNavigation(widget: VerifyOtp(mobileNo)));
                     }
                   },
                   child: button("Send OTP")),

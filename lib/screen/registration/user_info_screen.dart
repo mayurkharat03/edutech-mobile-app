@@ -148,7 +148,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                 height: Get.height * 0.21,
               ),
               getIndexWidget(),
-              fixedBottomSection()
+              fixedBottomSection(context)
             ],
           )
         ]),
@@ -172,24 +172,24 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
     return expanded;
   }
 
-  Widget fixedBottomSection() {
+  Widget fixedBottomSection(BuildContext context) {
     Padding padding;
     if (stepperCount == 1) {
-      padding = buttonForBottom();
+      padding = buttonForBottom(context);
     } else if (stepperCount == 2) {
-      padding = bottomButton();
+      padding = bottomButton(context);
     } else if (stepperCount == 3) {
-      padding = bottomButton();
+      padding = bottomButton(context);
     } else if (stepperCount == 4) {
-      padding = bottomButton();
+      padding = bottomButton(context);
     } else if (stepperCount == 5) {
-      padding = bottomButtonLast();
+      padding = bottomButtonLast(context);
     }
     return padding;
   }
 
   /*Widget for button*/
-  Widget buttonForBottom() {
+  Widget buttonForBottom(BuildContext context) {
     return
       Padding(
       padding: const EdgeInsets.all(10.0),
@@ -216,8 +216,13 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
             }
             else {
                setState(() {
-                 stepperCount++;
-                 percentage = percentage + 20;
+                 // stepperCount++;
+                 // percentage = percentage + 20;
+                 _registrationController.uploadProfileImage(context);
+                 if(_registrationController.stepper.value==2){
+                   stepperCount++;
+                   percentage = percentage + 20;
+                 }
                });
              }
           },
@@ -225,7 +230,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
     );
   }
 
-  Widget bottomButton() {
+  Widget bottomButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: ListTile(
@@ -476,7 +481,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
     );
   }
 
-  Widget bottomButtonLast() {
+  Widget bottomButtonLast(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: ListTile(
@@ -487,7 +492,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     padding: const EdgeInsets.all(2.0),
                     child: ElevatedButton(
                       child: Text(
-                        "Finish",
+                        "Back",
                         style: styleForLabel(12, Colors.black),
                       ),
                       onPressed: () {
@@ -514,7 +519,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                         ? Center(child: CupertinoActivityIndicator())
                     : ElevatedButton(
                       child: Text(
-                        "Next",
+                        "Finish",
                         style: styleForLabel(12, Colors.white),
                       ),
                       onPressed: () {
@@ -1522,8 +1527,8 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
       }
       else {
         setState(() {
-          _imageFile = _imageFile;
-          // picture = selectedImage;
+         // _imageFile = _imageFile;
+          picture = _imageFile;
           _registrationController.profileImage=_imageFile;
         });
       }

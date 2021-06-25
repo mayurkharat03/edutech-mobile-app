@@ -116,10 +116,11 @@ class ApiService {
   }
 
   /// To upload images..using multipart
-  static Future<dynamic> upload(File imageFile, String apiEndPoint, String paramName,) async
+  static Future<dynamic> upload(File imageFile, String apiEndPoint, String paramName) async
   {
+    String token = dataStorage.read("token");
     Map<String, String> headers = {
-      "Authorization": "Bearer " + ApiService.dataStorage.read("token")
+      "Authorization": "Bearer " + token
       //"Authorization": "Bearer " + Strings.token
     };
     var stream = new http.ByteStream(Stream.castFrom(imageFile.openRead()));

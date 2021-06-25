@@ -145,13 +145,12 @@ class RegistrationController extends GetxController {
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
       ApiService.dataStorage.write("user_id", res["userId"]);
-      if(profileImage==null){
-        //uploadAadharFrontImage(context);
-      }
-      else{
-        uploadProfileImage(context);
-      }
-      Strings.userId = res['userId'];
+      // if(profileImage==null){
+      //   //uploadAadharFrontImage(context);
+      // }
+      // else{
+      //   uploadProfileImage(context);
+      // }
     }
     else if(res['message']=='Emailid already exists'){
       isRegistrationVerify.value = false;
@@ -167,19 +166,22 @@ class RegistrationController extends GetxController {
 
   /// Upload profile image
   Future<void> uploadProfileImage(BuildContext context) async {
-    var res = await ApiService.upload(File(profileImage.path), uploadProfileImageUrl,'image');
-    String response;
-    res.listen((value) {
-      response=value.toString();
-      if (response.contains(Strings.profile_success)) {
-        ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
-        //uploadAadharFrontImage(context);
-      }
-      else {
-        isLoading.value = false;
-        ToastComponent.showDialog(Strings.failed_message, context);
-      }
-    });
+    if(profileImage==null){}
+    else{
+      var res = await ApiService.upload(File(profileImage.path), uploadProfileImageUrl,'image');
+      String response;
+      res.listen((value) {
+        response=value.toString();
+        if (response.contains(Strings.profile_success)) {
+          ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
+          stepper.value = 2;
+        }
+        else {
+          isLoading.value = false;
+          ToastComponent.showDialog(Strings.failed_message, context);
+        }
+      });
+    }
   }
 
   /// Upload aadhar card front image
