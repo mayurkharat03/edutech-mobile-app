@@ -8,8 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:menu_button/menu_button.dart';
 import 'package:edutech/api/api_service.dart';
-import 'package:edutech/navigation-Animator/navigation.dart';
-import 'package:edutech/screen/package/add_package.dart';
 import 'package:edutech/screen/registration/registration_controller.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/colors.dart';
@@ -17,13 +15,19 @@ import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:progress_indicator/progress_indicator.dart';
 import 'package:toast/toast.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class UserStepperScreen extends StatefulWidget {
   @override
   _UserStepperScreenState createState() => _UserStepperScreenState();
 }
-
+enum AppState {
+  free,
+  picked,
+  cropped,
+}
 class _UserStepperScreenState extends State<UserStepperScreen> {
+  AppState state;
   int stepperCount = 1;
   double percentage = 20;
   bool billingAddressCheck = false;
@@ -37,6 +41,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
 
 /*Image Picker*/
   final ImagePicker picker = ImagePicker();
+  var selectedImage;
   var picture, adharFront, adharBack;
   PickedFile _imageFile;
   PickedFile _imageFileAdharFront;
@@ -63,6 +68,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
   void initState() {
     // TODO: implement initState
     mobileNumber = ApiService.dataStorage.read("mobile");
+    state = AppState.free;
     super.initState();
   }
 
@@ -391,7 +397,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 duration: Toast.LENGTH_LONG);
                           } else if (validateEmail(emailId) == false) {
                             ToastComponent.showDialog(
-                                "Enter valid email", context,
+                                "Please Enter Valid Email Id", context,
                                 gravity: Toast.CENTER,
                                 duration: Toast.LENGTH_LONG);
                           } else if (password.isEmpty) {
@@ -411,8 +417,15 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 duration: Toast.LENGTH_LONG);
                           } else {
                             setState(() {
-                              stepperCount++;
-                              percentage = percentage + 20;
+                              // stepperCount++;
+                              // percentage = percentage + 20;
+                              _registrationController.addUserDetails(
+                                  context, selectedSalutation, mobileNumber,
+                                  billingAddress, shippingAddress, _selectedDate);
+                              if(_registrationController.stepper.value==4){
+                                stepperCount++;
+                                percentage = percentage + 20;
+                              }
                             });
                           }
                         } else if (stepperCount == 4) {
@@ -436,18 +449,12 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 context,
                                 gravity: Toast.CENTER,
                                 duration: Toast.LENGTH_LONG);
-
-                          }else if(_imageFileAdharBack==null){
-                            ToastComponent.showDialog(
-                                "Please Upload adhar image",
-                                context,
-                                gravity: Toast.CENTER,
-                                duration: Toast.LENGTH_LONG);
-
-                          }else{
+                          }
+                          else{
                             setState(() {
                               stepperCount++;
                               percentage = percentage + 20;
+                              _registrationController.uploadAadharFrontImage(context);
                             });
                           }
                         }
@@ -480,7 +487,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                     padding: const EdgeInsets.all(2.0),
                     child: ElevatedButton(
                       child: Text(
-                        "Back",
+                        "Finish",
                         style: styleForLabel(12, Colors.black),
                       ),
                       onPressed: () {
@@ -511,9 +518,9 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                         style: styleForLabel(12, Colors.white),
                       ),
                       onPressed: () {
-                        _registrationController.addUserDetails(
-                            context, selectedSalutation, mobileNumber,
-                            billingAddress, shippingAddress, _selectedDate);
+                        // _registrationController.addUserDetails(
+                        //     context, selectedSalutation, mobileNumber,
+                        //     billingAddress, shippingAddress, _selectedDate);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,
@@ -1395,7 +1402,12 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                   /// To upload from gallery
                   GestureDetector(
                     onTap: () {
-                      openCamera(popupContext, false, clickAction: clickAction);
+                     // openCamera(popupContext, false, clickAction: clickAction);
+                      if (state == AppState.free)
+                        openCamera(popupContext, false, clickAction: clickAction);
+                      else if (state == AppState.picked)
+                        _cropImage();
+                      else if (state == AppState.cropped) _clearImage();
                     },
                     child: Column(
                       children: [
@@ -1428,37 +1440,104 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
   }
 
   /*Open Camera*/
-  openCamera(BuildContext buildContext, bool isCamera,
-      {String clickAction}) async {
-    var selectedImage;
+  openCamera(BuildContext buildContext, bool isCamera, {String clickAction}) async {
     if (isCamera) {
       selectedImage = await picker.getImage(source: ImageSource.camera);
     } else {
       selectedImage = await picker.getImage(source: ImageSource.gallery);
     }
-    if (clickAction == Strings.clickActionAdharFront) {
-      setState(() {
-        _imageFileAdharFront = selectedImage;
-        adharFront = selectedImage;
-        _registrationController.frontImagePath=_imageFileAdharFront;
-      });
-    } else if (clickAction == Strings.clickActionAdharBack) {
-      setState(() {
-        _imageFileAdharBack = selectedImage;
-        adharBack = selectedImage;
-        _registrationController.backImagePath=_imageFileAdharBack;
-      });
-    } else {
-      setState(() {
-        _imageFile = selectedImage;
-        picture = selectedImage;
-        _registrationController.profileImage=_imageFile;
-      });
-    }
-    Navigator.pop(context);
-    FocusScope.of(context).requestFocus(FocusNode());
+    _cropImage(clickAction: clickAction);
+    // if (clickAction == Strings.clickActionAdharFront) {
+    //   setState(() {
+    //     _imageFileAdharFront = selectedImage;
+    //     adharFront = selectedImage;
+    //     _registrationController.frontImagePath=_imageFileAdharFront;
+    //   });
+    // }
+    // else if (clickAction == Strings.clickActionAdharBack) {
+    //   setState(() {
+    //     _imageFileAdharBack = selectedImage;
+    //     adharBack = selectedImage;
+    //     _registrationController.backImagePath=_imageFileAdharBack;
+    //   });
+    // }
+    // else {
+    //   setState(() {
+    //     _imageFile = selectedImage;
+    //      picture = selectedImage;
+    //     if (_imageFile != null) {
+    //       setState(() {
+    //         state = AppState.picked;
+    //       });
+    //     //  var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ImageCropView(file: _imageFile)));
+    //     }
+    //     _registrationController.profileImage=_imageFile;
+    //   });
+    // }
+    //Navigator.pop(context);
   }
 
+  /*Crop Image*/
+  Future<Null> _cropImage({String clickAction}) async {
+
+    File fl=File(selectedImage.path);
+
+    File croppedFile = await ImageCropper.cropImage(
+        sourcePath: fl.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        )
+    );
+    if (croppedFile != null) {
+      _imageFile = PickedFile(croppedFile.path);
+      setState(() {
+        state = AppState.cropped;
+      });
+      if (clickAction == Strings.clickActionAdharFront) {
+        setState(() {
+          _imageFileAdharFront = _imageFile;
+          adharFront = _imageFile;
+          _registrationController.frontImagePath=_imageFileAdharFront;
+        });
+      }
+      else if (clickAction == Strings.clickActionAdharBack) {
+        setState(() {
+          _imageFileAdharBack = _imageFile;
+          adharBack = _imageFile;
+          _registrationController.backImagePath=_imageFileAdharBack;
+        });
+      }
+      else {
+        setState(() {
+          _imageFile = _imageFile;
+          // picture = selectedImage;
+          _registrationController.profileImage=_imageFile;
+        });
+      }
+      Navigator.pop(context);
+      FocusScope.of(context).requestFocus(FocusNode());
+    }
+  }
+
+  void _clearImage() {
+    _imageFile = null;
+    setState(() {
+      state = AppState.free;
+    });
+  }
   Future<void> _selectDate(BuildContext context) async {
     final DateTime d = await showDatePicker(
       //we wait for the dialog to return
@@ -1544,7 +1623,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
               width: 70,
               child: Center(
                   child: textWidget(
-                      "Upload Adhar Back(Optional)", Colors.white, 12,
+                      "Upload Adhar BackSide(Optional)", Colors.white, 12,
                       align: TextAlign.center)),
             ),
           )

@@ -12,6 +12,7 @@ class AppColors {
   static Color textColor = Color(0xff37376C);
   static Color backgroundColor = Color(0xFFF9F9FD);
   static Color buttonTextColor = Color(0xFF7A7A98);
+  static Color yellow = Color(0xFFFEC42D);
 }
 
 class Palette {

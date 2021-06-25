@@ -21,6 +21,7 @@ class RegistrationController extends GetxController {
   PickedFile frontImagePath;
   PickedFile backImagePath;
   PickedFile profileImage;
+  int stepperCount=0;
 
   /*shipping address details*/
   TextEditingController addressLineFirstController;
@@ -52,7 +53,7 @@ class RegistrationController extends GetxController {
   RxBool isReferLoading = false.obs;
   RxBool isMobileVerify = false.obs;
   RxBool isRegistrationVerify = false.obs;
-
+  RxInt stepper = 0.obs;
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
@@ -145,7 +146,7 @@ class RegistrationController extends GetxController {
     if (res["message"] == Strings.register_success) {
       ApiService.dataStorage.write("user_id", res["userId"]);
       if(profileImage==null){
-        uploadAadharFrontImage(context);
+        //uploadAadharFrontImage(context);
       }
       else{
         uploadProfileImage(context);
@@ -154,11 +155,13 @@ class RegistrationController extends GetxController {
     }
     else if(res['message']=='Emailid already exists'){
       isRegistrationVerify.value = false;
-      ToastComponent.showDialog(res["message"], context);
+      ToastComponent.showDialog("Email ID already Exists", context);
+      stepper.value = 4;
     }
     else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
+      stepper.value = 4;
     }
   }
 
@@ -169,7 +172,8 @@ class RegistrationController extends GetxController {
     res.listen((value) {
       response=value.toString();
       if (response.contains(Strings.profile_success)) {
-        uploadAadharFrontImage(context);
+        ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
+        //uploadAadharFrontImage(context);
       }
       else {
         isLoading.value = false;
@@ -185,7 +189,13 @@ class RegistrationController extends GetxController {
     res.listen((value) {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_front_success)){
-        uploadAadharBackImage(context);
+        if(backImagePath == null){
+          isRegistrationVerify.value=false;
+          showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+        }
+        else{
+          uploadAadharBackImage(context);
+        }
       }
       else{
         isRegistrationVerify.value = false;

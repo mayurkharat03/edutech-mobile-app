@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:edutech/screen/login/splash_screen.dart';
+import 'package:edutech/screen/splashscreen/splash_screen.dart';
 
 void main() async {
   await GetStorage.init();

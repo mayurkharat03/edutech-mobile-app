@@ -13,7 +13,8 @@ class Strings {
   static const String reg_back = "assets/images/refer.png";
   static const String verify_mobile = "assets/images/phone.png";
   static const String verify_refer = "assets/images/verify_refer.gif";
-  static const String mobile_verify = "assets/images/mobile_verify.gif";
+  //static const String mobile_verify = "assets/images/mobile_verify.gif";
+  static const String mobile_verify = "assets/images/mobile_verify.png";
   static const String upload = "assets/images/upload.png";
   static const String app_icon = "assets/images/edutecklauncher.png";
   static const String confirm = "assets/images/confirm.gif";

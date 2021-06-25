@@ -161,8 +161,8 @@ class _ForgotPasswordState extends State<ForgotPassword>
                   ? Center(child: CupertinoActivityIndicator())
                   : InkWell(
                       onTap: () {
-                        // if (_formKey.currentState.validate()) {
-                        // }
+                        if (_formKey.currentState.validate()) {
+                        }
                       },
                       child: button("Send")),
               SizedBox(

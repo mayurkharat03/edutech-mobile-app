@@ -19,10 +19,10 @@ class VerifyOtp extends StatefulWidget {
   VerifyOtp(this.mobileNo);
 
   @override
-  _VerifyOtpState createState() => _VerifyOtpState();
+  VerifyOtpState createState() => VerifyOtpState();
 }
 
-class _VerifyOtpState extends State<VerifyOtp> {
+class VerifyOtpState extends State<VerifyOtp>  with WidgetsBindingObserver{
   final LoginController _loginController = Get.put(LoginController());
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   FocusNode pincodeFocus;
@@ -30,7 +30,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
   TextEditingController pincodeController = TextEditingController();
   StreamController<ErrorAnimationType> errorController;
   bool loading = false;
-
   Timer _timer;
   int _start = 9;
 
@@ -53,13 +52,29 @@ class _VerifyOtpState extends State<VerifyOtp> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed || state == AppLifecycleState.paused ||  state == AppLifecycleState.inactive) {
+      if (!mounted) return;
+      setState(() {
+        FocusScope.of(context).requestFocus(FocusNode());
+        FocusScope.of(context).requestFocus(pincodeFocus);
+        autoFocus = true;
+      });
+    }
+  }
+
+  @override
   void dispose() {
     _timer.cancel();
+    errorController.close();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void initState() {
+    errorController = StreamController<ErrorAnimationType>();
+    WidgetsBinding.instance.addObserver(this);
     // TODO: implement initState
     super.initState();
     startTimer();
@@ -93,13 +108,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
                       ],
                     ),
                     textWidget("Enter OTP", Colors.white, 18),
-                    Divider(
-                      height: 2,
-                      thickness: 3,
-                      indent: 190,
-                      endIndent: 140,
-                      color: AppColors.colors,
-                    ),
+
+                   Padding(
+                     padding: EdgeInsets.only(top:5.0),
+                     child: Divider(
+                       height: 2,
+                       thickness: 3,
+                       indent: 215,
+                       endIndent: 155,
+                       color: AppColors.colors,
+                     ),
+                   ),
                     SizedBox(
                       height: Get.height * 0.01,
                     ),
@@ -111,16 +130,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
               SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(pincodeFocus);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: 15),
-                        width: Get.width * 0.7,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                      padding: EdgeInsets.only(left: 15),
+                      width: Get.width * 0.7,
+                      child: InkWell(
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(pincodeFocus);
+                          print("Clicked");
+                        },
                         child: PinCodeTextField(
                           controller: pincodeController,
                           autoDisposeControllers: false,
@@ -155,9 +175,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                             _loginController.otpController = pincodeController;
                           },
                         ),
-                      ),
-                    ],
-                  )),
+                      )
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -180,7 +201,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                             startTimer();
                           },
                           child: textWidget(
-                              "Resend Otp", AppColors.primaryColor, 14))
+                              "Resend OTP", AppColors.primaryColor, 14))
                       : Container(),
                 ],
               ),
@@ -190,7 +211,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
               InkWell(
                 onTap: () {
                   if (pincodeController.text.length < 4) {
-                    ToastComponent.showDialog("Enter Valid Otp", context,
+                    ToastComponent.showDialog("Enter Valid OTP", context,
                          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
                     return;
                   } else {
@@ -200,7 +221,7 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),
-                  child: button("Verify Otp"),
+                  child: button("Verify OTP"),
                 ),
               )
             ],

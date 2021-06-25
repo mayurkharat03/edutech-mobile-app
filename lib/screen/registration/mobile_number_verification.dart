@@ -1,3 +1,5 @@
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/registration/otp_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -141,9 +143,11 @@ class _MobileScreenState extends State<MobileScreen> {
                       return;
                     } else {
                       _loginController.apiVerifyMobile(context);
+                     //  Navigator.push(
+                     //      context, FadeNavigation(widget: VerifyOtp(mobileNo)));
                     }
                   },
-                  child: button("Send Otp")),
+                  child: button("Send OTP")),
         ));
   }
 
