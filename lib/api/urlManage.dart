@@ -21,3 +21,5 @@ String confirmPaymentStatusUrl = baseUrl + "payment/confirmPaymentStatus";
 
 String addBackDetailsUrl = baseUrl + "bank/addBankDetails";
 
+String getDashboardDetailsUrl = baseUrl + "user/getDashBoardDetailsByUserId";
+

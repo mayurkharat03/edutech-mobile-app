@@ -8,6 +8,7 @@ import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddBankDetailsController extends GetxController{
@@ -18,6 +19,8 @@ class AddBankDetailsController extends GetxController{
   TextEditingController ifscCodeController;
   TextEditingController upiIdController;
   PickedFile profileImage;
+  static final dataStorage = GetStorage();
+  String user_id;
 
   @override
   void onInit() {
@@ -30,8 +33,11 @@ class AddBankDetailsController extends GetxController{
   }
   /// Add seller's bank details
   void addSellerBankDetails(BuildContext context) async {
+
+    user_id = dataStorage.read("user_id");
+
     Map<String, dynamic> params={
-      "userId":Strings.userId,
+      "userId":user_id,
       "bankName":bankNameController.text,
       "accountNumber":accountNumberController.text,
       "accountName":accountNameController.text,

@@ -42,7 +42,7 @@ class LoginController extends GetxController {
     var res = await ApiService.post(getLogin, params, tokenOptional: false);
     if (res["message"] == Strings.login_success_message) {
       isLoading.value = false;
-      Strings.userId=res["result"][0]["id_user"];
+      Strings.userId = res["result"][0]["id_user"];
       ApiService.dataStorage.write("user_id", res["result"][0]["id_user"]);
       ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
@@ -113,6 +113,16 @@ class LoginController extends GetxController {
     }
   }
 
+  void forgotPassword(BuildContext context) async{
+    var res = await ApiService.get(getOtp,params: mobileNoController.text,tokenOptional: true);
+
+    if (res["message"] == Strings.otp_generated_success) {
+
+    }
+    else {
+
+    }
+  }
   @override
   void onClose() {
     emailTextController?.dispose();

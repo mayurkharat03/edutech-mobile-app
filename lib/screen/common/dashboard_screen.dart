@@ -1,5 +1,6 @@
 import 'package:edutech/api/api_service.dart';
 import 'package:edutech/screen/common/bottom_navigation_screen.dart';
+import 'package:edutech/screen/common/dashboard_controller.dart';
 import 'package:edutech/screen/seller/add_bank_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +19,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   static final dataStorage = GetStorage();
+  final DashboardController _dashboardController = Get.put(DashboardController());
 
   String user_first_name = "";
   String user_last_name = "";
@@ -26,6 +28,8 @@ class _DashBoardState extends State<DashBoard> {
   @override
   void initState() {
     super.initState();
+    _dashboardController.getDashboardData();
+
     isPhotoUploaded=ApiService.dataStorage.read("isProfileUploaded");
     user_first_name = dataStorage.read("first_name");
     user_last_name = dataStorage.read("last_name");

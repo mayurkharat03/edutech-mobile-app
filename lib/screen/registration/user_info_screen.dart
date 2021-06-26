@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:edutech/screen/package/add_package.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -216,13 +217,8 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
             }
             else {
                setState(() {
-                 // stepperCount++;
-                 // percentage = percentage + 20;
-                 _registrationController.uploadProfileImage(context);
-                 if(_registrationController.stepper.value==2){
-                   stepperCount++;
-                   percentage = percentage + 20;
-                 }
+                 stepperCount++;
+                 percentage = percentage + 20;
                });
              }
           },
@@ -457,9 +453,11 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                           }
                           else{
                             setState(() {
-                              stepperCount++;
-                              percentage = percentage + 20;
                               _registrationController.uploadAadharFrontImage(context);
+                              if(_registrationController.stepper.value == 5){
+                                stepperCount++;
+                                percentage = percentage + 20;
+                              }
                             });
                           }
                         }
@@ -526,6 +524,9 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                         // _registrationController.addUserDetails(
                         //     context, selectedSalutation, mobileNumber,
                         //     billingAddress, shippingAddress, _selectedDate);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => AddPackage()),
+                                (Route<dynamic> route) => false);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,
@@ -1497,8 +1498,8 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
           CropAspectRatioPreset.ratio16x9
         ],
         androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
-            toolbarColor: Colors.deepOrange,
+            toolbarTitle: 'Crop Image',
+            toolbarColor: AppColors.primaryColor,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:edutech/api/api_service.dart';
 import 'package:edutech/api/urlManage.dart';
@@ -57,6 +58,8 @@ class RegistrationController extends GetxController {
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
+
+  static final dataStorage = GetStorage();
 
   @override
   void onInit() {
@@ -145,22 +148,20 @@ class RegistrationController extends GetxController {
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
       ApiService.dataStorage.write("user_id", res["userId"]);
-      // if(profileImage==null){
-      //   //uploadAadharFrontImage(context);
-      // }
-      // else{
-      //   uploadProfileImage(context);
-      // }
+      if(profileImage==null){
+        //uploadAadharFrontImage(context);
+      }
+      else{
+        uploadProfileImage(context);
+      }
     }
     else if(res['message']=='Emailid already exists'){
       isRegistrationVerify.value = false;
       ToastComponent.showDialog("Email ID already Exists", context);
-      stepper.value = 4;
     }
     else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
-      stepper.value = 4;
     }
   }
 
@@ -173,8 +174,9 @@ class RegistrationController extends GetxController {
       res.listen((value) {
         response=value.toString();
         if (response.contains(Strings.profile_success)) {
-          ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
-          stepper.value = 2;
+          //ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
+          ToastComponent.showDialog("User added Successfully.", context);
+          stepper.value = 4;
         }
         else {
           isLoading.value = false;
@@ -193,7 +195,9 @@ class RegistrationController extends GetxController {
       if(response.contains(Strings.aadhar_card_front_success)){
         if(backImagePath == null){
           isRegistrationVerify.value=false;
-          showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+          //showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+          ToastComponent.showDialog(res["message"], context);
+          stepper.value = 5;
         }
         else{
           uploadAadharBackImage(context);
@@ -215,7 +219,9 @@ class RegistrationController extends GetxController {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_back_success)){
         isRegistrationVerify.value=false;
-        showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+        //showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+        ToastComponent.showDialog(res["message"], context);
+        stepper.value = 5;
       }
       else{
         isRegistrationVerify.value=false;
