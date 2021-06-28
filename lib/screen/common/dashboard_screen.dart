@@ -2,7 +2,9 @@ import 'package:edutech/api/api_service.dart';
 import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/screen/common/dashboard_controller.dart';
 import 'package:edutech/screen/seller/add_bank_account_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
 import 'package:edutech/screen/login/login_screen.dart';
@@ -24,6 +26,7 @@ class _DashBoardState extends State<DashBoard> {
   String user_first_name = "";
   String user_last_name = "";
   int isPhotoUploaded;
+  bool isLoading=false;
 
   @override
   void initState() {
@@ -217,6 +220,13 @@ class _DashBoardState extends State<DashBoard> {
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: walletDetails(),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.02,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: shareReference(),
                     ),
                   ],
                 )
@@ -453,6 +463,36 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
+  Widget shareReference() {
+    return InkWell(
+      onTap: (){
+        share();
+      },
+      child:Container(
+        width: Get.width,
+        height: 50.0,
+        child: Card(
+            color: AppColors.primaryColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            elevation: 4,
+            child: Center(
+              child: textWidget("Share reference",Colors.white, 13,weight: FontWeight.bold),
+            )
+        ),
+      )
+    );
+  }
+
+  /// Share reference code
+  Future<void> share() async {
+    isLoading = false;
+    await FlutterShare.share(
+        title: 'Reference Code',
+        text: 'You can use this referral code TE0000002624',
+    );
+  }
   /*Profile Image*/
   Positioned profileImage(String images) {
     return Positioned(

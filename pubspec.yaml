@@ -45,6 +45,7 @@ dependencies:
   dotted_border: ^2.0.0
   intro_slider: ^2.4.3
   image_cropper: ^1.4.1
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:
