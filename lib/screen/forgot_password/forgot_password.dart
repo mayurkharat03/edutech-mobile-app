@@ -1,3 +1,6 @@
+import 'package:edutech/navigation-Animator/navigation.dart';
+import 'package:edutech/screen/forgot_password/forgot_password_controller.dart';
+import 'package:edutech/screen/forgot_password/forgot_password_otp_screen.dart';
 import 'package:edutech/screen/login/login_getx_controller.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/colors.dart';
@@ -15,8 +18,8 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  final LoginController _loginController = Get.put(LoginController());
-
+  final ForgotPasswordController _forgotPasswordController = Get.put(ForgotPasswordController());
+  TextEditingController mobileController = TextEditingController();
   Animation animation;
   Animation lateAnimation;
   AnimationController animationController;
@@ -103,7 +106,10 @@ class _ForgotPasswordState extends State<ForgotPassword>
             "Don’t worry! You can reset your password.", Colors.black, 12),
         SizedBox(height: Get.height * 0.05),
         textWidget(
-            "Please, enter your registered email address. You will receive a link to create a new password.",
+            // "Please, enter your registered email address. "
+            //     "You will receive a link to create a new password.",
+            "Please, enter your registered mobile no. "
+                "You will receive a OTP to create a new password.",
             Colors.black,
             12),
         SizedBox(height: Get.height * 0.05),
@@ -113,15 +119,17 @@ class _ForgotPasswordState extends State<ForgotPassword>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
-                  controller: _loginController.forgotPasswordController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: mobileController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 10,
                   decoration: InputDecoration(
+                    counterText: "",
                     fillColor: Colors.white,
-                    labelText: 'Email',
+                    labelText: 'Mobile No',
                     labelStyle:
                         TextStyle(fontFamily: Strings.montserrat, fontSize: 12),
                     filled: true,
-                    hintText: 'Email',
+                    hintText: 'Mobile No',
                     hintStyle:
                         TextStyle(fontFamily: Strings.montserrat, fontSize: 12),
                     border: OutlineInputBorder(
@@ -142,29 +150,39 @@ class _ForgotPasswordState extends State<ForgotPassword>
                   style:
                       TextStyle(fontFamily: Strings.montserrat, fontSize: 15),
                   validator: (value) {
-                    bool emailValid = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value);
+                    // bool emailValid = RegExp(
+                    //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    //     .hasMatch(value);
 
                     String values = "";
                     if (value.trim().isEmpty) {
-                      values = "Email Id Required";
-                    } else if (!emailValid) {
-                      values = "Enter Valid Email Id";
+                      values = "Mobile Required";
                     }
+                    else{
+                      _forgotPasswordController.mobileNoController = mobileController;
+                      _forgotPasswordController.getOtpForgotPassword(context);
+                    }
+                    // else if (!emailValid) {
+                    //   values = "Enter Valid Email Id";
+                    // }
 
                     return values;
                   }),
               SizedBox(height: 16),
               SizedBox(height: Get.height * 0.06),
-              _loginController.isLoading == true
+              Obx(() =>_forgotPasswordController.isLoading == true
                   ? Center(child: CupertinoActivityIndicator())
-                  : InkWell(
+                  :
+              InkWell(
                       onTap: () {
                         if (_formKey.currentState.validate()) {
+                         // _forgotPasswordController.getOtpForgotPassword(context);
                         }
-                      },
-                      child: button("Send")),
+
+                      //   Navigator.pushReplacement(context, FadeNavigation(
+                      //       widget: ForgotPasswordOtpScreen(_forgotPasswordController.forgotPasswordController.text)));
+                       },
+                      child: button("Send")),),
               SizedBox(
                 height: Get.height * 0.02,
               ),

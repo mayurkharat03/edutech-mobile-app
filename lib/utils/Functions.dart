@@ -1,4 +1,5 @@
 import 'package:edutech/screen/common/dashboard_screen.dart';
+import 'package:edutech/screen/forgot_password/enter_new_password_screen.dart';
 import 'package:edutech/screen/login/login_screen.dart';
 import 'package:edutech/screen/registration/user_info_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -210,6 +211,90 @@ void showOtpAlertDialog(BuildContext context) {
               ),
               Text(
                 "Your mobile number is successfully verified!",
+                style: TextStyle(
+                  fontFamily: Strings.montserrat,
+                  color: AppColors.labelColor,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showForgotOtpAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.push(context, FadeNavigation(widget: EnterNewPasswordScreen()));
+      });
+      return CustomAlertDialog(
+        content: Container(
+          width: MediaQuery.of(context).size.width / 1.3,
+          height: MediaQuery.of(context).size.height / 2.5,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            children: <Widget>[
+              Image.asset(
+                Strings.mobile_verify,
+                height: Get.height * 0.3,
+                width: Get.height * 0.2,
+                fit: BoxFit.contain,
+              ),
+              Text(
+                "OTP is successfully verified!",
+                style: TextStyle(
+                  fontFamily: Strings.montserrat,
+                  color: AppColors.labelColor,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+void showChangePassAlertDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.push(context, FadeNavigation(widget: LoginScreen()));
+      });
+      return CustomAlertDialog(
+        content: Container(
+          width: MediaQuery.of(context).size.width / 1.3,
+          height: MediaQuery.of(context).size.height / 2.5,
+          decoration: new BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: const Color(0xFFFFFF),
+            borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+          ),
+          child: new Column(
+            children: <Widget>[
+              Image.asset(
+                Strings.mobile_verify,
+                height: Get.height * 0.3,
+                width: Get.height * 0.2,
+                fit: BoxFit.contain,
+              ),
+              Text(
+                "Password updated successfully!",
                 style: TextStyle(
                   fontFamily: Strings.montserrat,
                   color: AppColors.labelColor,

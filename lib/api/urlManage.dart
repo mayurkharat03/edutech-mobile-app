@@ -23,3 +23,7 @@ String addBackDetailsUrl = baseUrl + "bank/addBankDetails";
 
 String getDashboardDetailsUrl = baseUrl + "user/getDashBoardDetailsByUserId";
 
+String getOTPForForgotPasswordUrl = baseUrl + "user/getOTPForForgotPassword";
+String verifyForgotPasswordOTPUrl = baseUrl + "user/verifyForgotPasswordOTP";
+String changePasswordUrl = baseUrl + "user/changePassword";
+

@@ -113,16 +113,6 @@ class LoginController extends GetxController {
     }
   }
 
-  void forgotPassword(BuildContext context) async{
-    var res = await ApiService.get(getOtp,params: mobileNoController.text,tokenOptional: true);
-
-    if (res["message"] == Strings.otp_generated_success) {
-
-    }
-    else {
-
-    }
-  }
   @override
   void onClose() {
     emailTextController?.dispose();
