@@ -79,7 +79,7 @@ class ForgotPasswordController extends GetxController{
     if (res["message"] == Strings.update_forgot_password) {
       isChangePassLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
-      showForgotOtpAlertDialog(context);
+      showChangePassAlertDialog(context);
       //Navigator.pushReplacement(context, FadeNavigation(widget: LoginScreen()));
     }
     else {

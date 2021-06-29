@@ -1,7 +1,9 @@
+import 'package:edutech/utils/Functions.dart';
 import 'package:flutter/material.dart';
 import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/utils/colors.dart';
 import 'package:edutech/utils/strings.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   @override
@@ -22,7 +24,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     DashBoard(),
     DashBoard(),
     DashBoard(),
-    DashBoard(),
   ];
 
   _changeIndex(int index) {
@@ -30,9 +31,21 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       _selectedTabIndex = index;
        var currentpage = _pages[index];
       print("index..." + index.toString());
+      if(_selectedTabIndex == 3){
+        share();
+      }
     });
   }
 
+  /// Share reference code
+  Future<void> share() async {
+    var code;
+    code = dataStorage.read("code");
+    await FlutterShare.share(
+      title: 'Reference Code',
+      text: 'You can use this referral code '+ code,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

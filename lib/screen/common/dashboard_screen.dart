@@ -26,16 +26,21 @@ class _DashBoardState extends State<DashBoard> {
   String user_first_name = "";
   String user_last_name = "";
   int isPhotoUploaded;
+  var walletAmount;
+  var code;
   bool isLoading=false;
 
   @override
   void initState() {
     super.initState();
     _dashboardController.getDashboardData();
-
     isPhotoUploaded=ApiService.dataStorage.read("isProfileUploaded");
+    walletAmount = dataStorage.read("walletAmount");
+    code = dataStorage.read("code");
     user_first_name = dataStorage.read("first_name");
     user_last_name = dataStorage.read("last_name");
+    user_last_name = dataStorage.read("last_name");
+
     if(user_first_name==null){
       user_first_name="";
     }
@@ -90,7 +95,7 @@ class _DashBoardState extends State<DashBoard> {
       child: Text(
         buttonLabel,
         style: new TextStyle(
-            color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
+         color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
       ),
     );
     return loginBtn;
@@ -114,7 +119,7 @@ class _DashBoardState extends State<DashBoard> {
                     color: AppColors.primaryColor,
                     child: Container(
                       width: double.infinity,
-                      height: Get.height * 0.28,
+                      height: Get.height * 0.33,
                     ),
                   ),
                 ),
@@ -133,10 +138,8 @@ class _DashBoardState extends State<DashBoard> {
                             Column(
                               children: [
                                 textWidget("Welcome, ", Colors.white, 20,
-                                    weight: FontWeight.bold, letterSpacing: 1.0),
-                                SizedBox(
-                                  height: 6,
-                                ),
+                                weight: FontWeight.bold, letterSpacing: 1.0),
+                                SizedBox(height: 6,),
                                 textWidget(user_first_name+ " "+ user_last_name, Colors.white, 14,weight: FontWeight.w500),
                               ],
                             ),
@@ -166,6 +169,10 @@ class _DashBoardState extends State<DashBoard> {
                       SizedBox(
                         height: 7,
                       ),
+                      referralCodeDetails(),
+                      SizedBox(
+                        height: 7,
+                      ),
                     ],
                   ),
                 ),
@@ -173,20 +180,55 @@ class _DashBoardState extends State<DashBoard> {
                   top: Get.height * 0.05,
                   left: 250.0,
                   right: 35.0,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: new DecorationImage(
-                        fit: BoxFit.fill,
-                        image: AssetImage('assets/images/profile.png'),
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 60.0,
+                        child: CircleAvatar(
+                          radius: 57.0,
+                          backgroundColor: AppColors.primaryColor,
+                          child:
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: new DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/images/profile.png'),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                      Transform(
+                        transform: Matrix4.translationValues(45.0, 105.0, 0.0),
+                        child:Container(
+                            height: 25.0,width: 25.0,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25.0)
+                            ),
+                            child: Image(image: AssetImage("assets/images/correctSign.png"),
+                              color: Colors.green,fit: BoxFit.fill,)
+                        )
+                      )
+                      // CircleAvatar(
+                      //     radius: 19.0,
+                      //     backgroundColor: Colors.white,
+                      //     child:
+                      //     Container(
+                      //         height: 30.0,width: 30.0,
+                      //         child: Image(image: AssetImage("assets/images/correctSign.png"),
+                      //           color: Colors.green,fit: BoxFit.fill,)
+                      //     )
+                      // ),
+                    ],
+                  )
                 ),
                 Positioned(
-                  top: Get.height * 0.26,
+                  top: Get.height * 0.30,
                   left: 0.0,
                   right: 0.0,
                   child: Card(
@@ -207,7 +249,7 @@ class _DashBoardState extends State<DashBoard> {
                 Column(
                   children: [
                     SizedBox(
-                      height: Get.height * 0.22,
+                      height: Get.height * 0.25,
                     ),
                     packageDetails(),
                   ],
@@ -215,18 +257,11 @@ class _DashBoardState extends State<DashBoard> {
                 Column(
                   children: [
                     SizedBox(
-                      height: Get.height * 0.40,
+                      height: Get.height * 0.43,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: walletDetails(),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.02,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: shareReference(),
                     ),
                   ],
                 )
@@ -287,17 +322,14 @@ class _DashBoardState extends State<DashBoard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 20.0),
+          padding: const EdgeInsets.only(left: 20.0,top: 15.0),
           child: textWidget("Referral Code", Colors.white, 14),
-        ),
-        SizedBox(
-          height: 4,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20.0),
           child: Row(
             children: [
-              textWidget("AA123FXXXX", Colors.white, 15,
+              textWidget("${code}", Colors.white, 15,
                   weight: FontWeight.w600, letterSpacing: 0.15),
               Container(
                 padding: EdgeInsets.only(left: 15),
@@ -313,7 +345,9 @@ class _DashBoardState extends State<DashBoard> {
                     size: 15,
                     color: const Color(0xff7658F9),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                      share();
+                  },
                 ),
               ),
             ],
@@ -445,7 +479,7 @@ class _DashBoardState extends State<DashBoard> {
                     Column(children: [
                       textWidget("MY WALLET",Colors.white, 13,),
                       SizedBox(height: 3,),
-                      textWidget("Rs. 13,201.20", Colors.white, 14, weight: FontWeight.w600),
+                      textWidget("Rs."+ "${walletAmount}", Colors.white, 14, weight: FontWeight.w600),
                     ],),
                     Column(children: [
                       textWidget("TOTAL EARNINGS",Colors.white, 13,),
@@ -463,36 +497,6 @@ class _DashBoardState extends State<DashBoard> {
     );
   }
 
-  Widget shareReference() {
-    return InkWell(
-      onTap: (){
-        share();
-      },
-      child:Container(
-        width: Get.width,
-        height: 50.0,
-        child: Card(
-            color: AppColors.primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            elevation: 4,
-            child: Center(
-              child: textWidget("Share reference",Colors.white, 13,weight: FontWeight.bold),
-            )
-        ),
-      )
-    );
-  }
-
-  /// Share reference code
-  Future<void> share() async {
-    isLoading = false;
-    await FlutterShare.share(
-        title: 'Reference Code',
-        text: 'You can use this referral code TE0000002624',
-    );
-  }
   /*Profile Image*/
   Positioned profileImage(String images) {
     return Positioned(
@@ -508,6 +512,14 @@ class _DashBoardState extends State<DashBoard> {
           ),
         ),
       ),
+    );
+  }
+
+  /// Share reference code
+  Future<void> share() async {
+    await FlutterShare.share(
+      title: 'Reference Code',
+      text: 'You can use this referral code '+ code,
     );
   }
 }

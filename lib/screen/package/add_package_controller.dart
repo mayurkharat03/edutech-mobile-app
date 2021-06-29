@@ -101,13 +101,14 @@ class AddPackageController extends GetxController{
 
   /// Add selected package
   void addPackage(BuildContext context) async {
+    int user_id = dataStorage.read("user_id");
   Map <String,dynamic> addPackageParams={
     "boardId" : boardId,
     "standardId" : standardId,
-    "userId" : Strings.userId,
+    "userId" : user_id,
     "totalPrice" : packagePrice,
   };
-    var res = await ApiService.postWithDynamic(addPackageUrl,addPackageParams,tokenOptional: true);
+    var res = await ApiService.postWithDynamic(addPackageUrl,addPackageParams,tokenOptional: false);
     if(res['message']==Strings.added_package_suceess){
       Navigator.pop(context);
       ToastComponent.showDialog(res['message'], context);

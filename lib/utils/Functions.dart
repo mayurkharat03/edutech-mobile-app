@@ -4,6 +4,7 @@ import 'package:edutech/screen/login/login_screen.dart';
 import 'package:edutech/screen/registration/user_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
 import 'package:edutech/screen/package/add_package.dart';
@@ -12,6 +13,9 @@ import 'package:edutech/screen/registration/otp_screen.dart';
 import 'package:edutech/utils/CustomAlertDialog.dart';
 import 'package:edutech/utils/colors.dart';
 import 'package:edutech/utils/strings.dart';
+import 'package:get_storage/get_storage.dart';
+
+final dataStorage = GetStorage();
 
 Widget commonAppBar(String title,
     {bool isTitle, double titleFont, Color colors, Color textTitleColor}) {
@@ -309,3 +313,12 @@ void showChangePassAlertDialog(BuildContext context) {
     },
   );
 }
+
+// /// Share reference code
+// Future<void> share() async {
+//   var code = dataStorage.read("code");
+//   await FlutterShare.share(
+//     title: 'Reference Code',
+//     text: 'You can use this referral code '+ code,
+//   );
+// }

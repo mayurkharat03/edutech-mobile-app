@@ -26,6 +26,8 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("isPanUploaded", res["isPanUploaded"]);
       ApiService.dataStorage.write("isProfileUploaded", res["isProfileUploaded"]);
       ApiService.dataStorage.write("referralStatus", res["referralStatus"]);
+      ApiService.dataStorage.write("walletAmount", res["result"][0]["resultReferral"][0]['walletAmount']);
+      ApiService.dataStorage.write("code", res["result"][0]["resultReferral"][0]['code']);
     }
   }
 }
