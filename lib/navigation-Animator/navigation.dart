@@ -108,7 +108,6 @@ class FadeNavigation extends PageRouteBuilder {
               return FadeTransition(
                 opacity: animation,
                 alwaysIncludeSemantics: true,
-
                 // position: Tween<Offset>(
                 //         begin: const Offset(10.0, 10.0), end: Offset.zero)
                 //     .animate(animation),

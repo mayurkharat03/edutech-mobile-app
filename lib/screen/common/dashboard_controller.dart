@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 class DashboardController extends GetxController{
   static final dataStorage = GetStorage();
   int user_id = dataStorage.read("user_id");
+
   void getDashboardData() async
   {
     var res = await ApiService.get(getDashboardDetailsUrl,params: user_id.toString(),tokenOptional: false);
@@ -29,5 +30,6 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("walletAmount", res["result"][0]["resultReferral"][0]['walletAmount']);
       ApiService.dataStorage.write("code", res["result"][0]["resultReferral"][0]['code']);
     }
+    update();
   }
 }

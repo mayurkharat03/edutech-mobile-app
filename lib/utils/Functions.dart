@@ -313,12 +313,3 @@ void showChangePassAlertDialog(BuildContext context) {
     },
   );
 }
-
-// /// Share reference code
-// Future<void> share() async {
-//   var code = dataStorage.read("code");
-//   await FlutterShare.share(
-//     title: 'Reference Code',
-//     text: 'You can use this referral code '+ code,
-//   );
-// }

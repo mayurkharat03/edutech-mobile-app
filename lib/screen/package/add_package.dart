@@ -139,7 +139,6 @@ class _AddPackageState extends State<AddPackage> {
                     child: textWidget("My Packages", Colors.white, 22,
                         weight: FontWeight.bold),
                   ),
-
                   SizedBox(
                     height: 4,
                   ),

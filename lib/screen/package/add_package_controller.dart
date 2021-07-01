@@ -147,7 +147,7 @@ class AddPackageController extends GetxController{
   /// Get board name, standard name and subject list from id
   void getSelectedPackageDetails(String board,String stdId) async {
     var boardResponse = await ApiService.get(getBoardsUrl,tokenOptional: false);
-    if(boardResponse['message']==Strings.get_board_list_success){
+    if(boardResponse['message'] == Strings.get_board_list_success){
       List boardJsonResponse=boardResponse['result'] as List;
       boardJsonResponse.forEach((id) {
         if(board == id['id_boards'].toString()){
@@ -159,7 +159,7 @@ class AddPackageController extends GetxController{
       if(res['message']== Strings.get_standard_list_success){
         List jsonResponse = res['result'] as List;
         jsonResponse.forEach((id) {
-          if(stdId==id['id_standards'].toString() && board== id['board_id'].toString()){
+          if(stdId==id['id_standards'].toString() && board == id['board_id'].toString()){
             showAddPackagesStdName.add(id['standard_name']);
             showAddPackagesSubName.add(id['subject_list']);
           }

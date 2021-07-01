@@ -222,7 +222,9 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                });
              }
           },
-          child: button("Next")),
+          child:
+          button("Next")
+      ),
     );
   }
 
@@ -418,15 +420,18 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 duration: Toast.LENGTH_LONG);
                           } else {
                             setState(() {
-                              // stepperCount++;
-                              // percentage = percentage + 20;
                               _registrationController.addUserDetails(
                                   context, selectedSalutation, mobileNumber,
                                   billingAddress, shippingAddress, _selectedDate);
-                              if(_registrationController.stepper.value==4){
-                                stepperCount++;
-                                percentage = percentage + 20;
-                              }
+                              // Obx((){
+                              //   return _registrationController.stepper.value == 4
+                              //       ?  button("Next")
+                              //       :  null;
+                              // })
+                              // if(_registrationController.stepper.value == 4){
+                              //   stepperCount ++ ;
+                              //   percentage = percentage + 20;
+                              // }
                             });
                           }
                         } else if (stepperCount == 4) {
@@ -477,6 +482,11 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
         ),
       ),
     );
+  }
+
+  goToNext(){
+    stepperCount ++ ;
+    percentage = percentage + 20;
   }
 
   Widget bottomButtonLast(BuildContext context) {

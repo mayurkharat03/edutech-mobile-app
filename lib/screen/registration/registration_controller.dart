@@ -49,16 +49,18 @@ class RegistrationController extends GetxController {
   TextEditingController aadharCardController;
   TextEditingController panCardController;
 
-
   RxBool isLoading = false.obs;
   RxBool isReferLoading = false.obs;
   RxBool isMobileVerify = false.obs;
+  RxBool isEmailVerify = false.obs;
   RxBool isRegistrationVerify = false.obs;
+  //RxBool isStepThreeSuccess = false.obs;
   RxInt stepper = 0.obs;
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
 
+  bool isAddUser = false;
   static final dataStorage = GetStorage();
 
   @override
@@ -109,9 +111,7 @@ class RegistrationController extends GetxController {
           .write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
-      ApiService.dataStorage
-          .write("referred_by", res["result"][0]["referred_by"]);
-
+      ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
       ApiService.dataStorage.write("token", res["token"]);
       ToastComponent.showDialog("Login SuccessFull", context);
 
@@ -147,15 +147,19 @@ class RegistrationController extends GetxController {
     var res = await ApiService.postWithoutToken(addUser, params,tokenOptional:true);
     ApiService.dataStorage.write("token", res["token"]);
     if (res["message"] == Strings.register_success) {
+      isAddUser = true;
       ApiService.dataStorage.write("user_id", res["userId"]);
       if(profileImage==null){
         //uploadAadharFrontImage(context);
+        isAddUser = true;
       }
       else{
         uploadProfileImage(context);
       }
     }
     else if(res['message']=='Emailid already exists'){
+      isAddUser = false;
+      stepper.value = 3;
       isRegistrationVerify.value = false;
       ToastComponent.showDialog("Email ID already Exists", context);
     }
@@ -163,6 +167,7 @@ class RegistrationController extends GetxController {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
     }
+    update();
   }
 
   /// Upload profile image
@@ -176,14 +181,18 @@ class RegistrationController extends GetxController {
         if (response.contains(Strings.profile_success)) {
           //ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
           ToastComponent.showDialog("User added Successfully.", context);
-          stepper.value = 4;
+          if(isAddUser == true){
+            stepper = 4.obs;
+          }
         }
         else {
+          isAddUser = false;
           isLoading.value = false;
           ToastComponent.showDialog(Strings.failed_message, context);
         }
       });
     }
+    update();
   }
 
   /// Upload aadhar card front image
@@ -208,6 +217,7 @@ class RegistrationController extends GetxController {
         ToastComponent.showDialog(res["message"], context);
       }
     });
+    update();
   }
 
   /// Upload aadhar card back image
