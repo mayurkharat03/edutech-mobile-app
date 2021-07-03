@@ -26,16 +26,7 @@ class _AddPackageState extends State<AddPackage> {
   String board = "Board";
   int selectedBoardIndex;
   String price="";
-  List<String> keys = <String>[
-    '9 th',
-    '8 th',
-  ];
 
-  List<String> boardList = <String>[
-    'Supplementary',
-    'State Board',
-    'CBSE',
-  ];
   String subjects="";
   int totalPrice=0;
   static MethodChannel channel = MethodChannel('easebuzz');
@@ -165,6 +156,12 @@ class _AddPackageState extends State<AddPackage> {
                       ),
                       label: textWidget("Add Package", Colors.black, 12),
                       onPressed: () {
+                        board = "Board";
+                        selectedKey = 'Standard';
+                        price = "";
+                        Strings.subjectList.clear();
+                        Strings.allStandardsName.clear();
+                        //Strings.allBoards.clear();
                         mainBottomSheet1(context);
                       },
                     ),
@@ -184,9 +181,6 @@ class _AddPackageState extends State<AddPackage> {
                 Expanded(
                   child:Obx((){
                     return
-//                      controller.showAddPackagesStdName.isEmpty
-//                   ? Center(child: CupertinoActivityIndicator())
-//                   :
                       controller.showAddPackagesStdName.isEmpty
                       ? Align(alignment: Alignment.topCenter,child:textWidget("Package Not Added", Colors.black, 15))
                       : ListView.builder(
@@ -195,6 +189,7 @@ class _AddPackageState extends State<AddPackage> {
                           itemBuilder: (context,index){
                             return
                               SingleChildScrollView(
+                                physics: ScrollPhysics(),
                                 child: Container(
                                     height: Get.height * 0.4,
                                     child: Padding(
@@ -418,8 +413,9 @@ class _AddPackageState extends State<AddPackage> {
             Strings.subjectList.clear();
             selectedKey='Standard';
             price="";
-            selectedBoardIndex=Strings.allBoards.indexOf(board);
-            controller.boardId=Strings.allBoardsId[selectedBoardIndex];
+
+            selectedBoardIndex = Strings.allBoards.indexOf(board);
+            controller.boardId = Strings.allBoardsId[selectedBoardIndex];
             controller.getStandardList(Strings.allBoardsId[selectedBoardIndex].toString());
           });
         },
@@ -463,7 +459,6 @@ class _AddPackageState extends State<AddPackage> {
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(9)),
         child: normalChildButton,
-        //items: boardList,
         items: Strings.allStandardsName,
         topDivider: true,
         itemBuilder: (String value) =>
@@ -539,6 +534,8 @@ class _AddPackageState extends State<AddPackage> {
      }
      showSepearateList=showSubjectList.split(',');
     return ListView.builder(
+      shrinkWrap: true,
+      physics: ScrollPhysics(),
       padding: EdgeInsets.all(6),
       itemCount: showSepearateList.length,
       itemBuilder: (context, index) {

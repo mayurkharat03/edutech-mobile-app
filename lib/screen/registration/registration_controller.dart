@@ -195,6 +195,10 @@ class RegistrationController extends GetxController {
     update();
   }
 
+  // clear value for add package
+  // disable become a seller
+  // singlechildscrollview for add package
+
   /// Upload aadhar card front image
   Future<void> uploadAadharFrontImage(BuildContext context) async {
     var res = await ApiService.upload(File(frontImagePath.path), uploadAadharFrontImageUrl,'image');

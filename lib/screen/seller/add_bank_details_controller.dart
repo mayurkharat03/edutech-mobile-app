@@ -20,7 +20,7 @@ class AddBankDetailsController extends GetxController{
   TextEditingController upiIdController;
   PickedFile profileImage;
   static final dataStorage = GetStorage();
-  String user_id;
+  int user_id;
 
   @override
   void onInit() {
@@ -37,7 +37,7 @@ class AddBankDetailsController extends GetxController{
     user_id = dataStorage.read("user_id");
 
     Map<String, dynamic> params={
-      "userId":user_id,
+      "userId":user_id.toString(),
       "bankName":bankNameController.text,
       "accountNumber":accountNumberController.text,
       "accountName":accountNameController.text,

@@ -34,7 +34,7 @@ class _DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     _dashboardController.getDashboardData();
-    isPhotoUploaded=ApiService.dataStorage.read("isProfileUploaded");
+    isPhotoUploaded = ApiService.dataStorage.read("isProfileUploaded");
     walletAmount = dataStorage.read("walletAmount");
     code = dataStorage.read("code");
     user_first_name = dataStorage.read("first_name");
@@ -144,21 +144,6 @@ class _DashBoardState extends State<DashBoard> {
                                 textWidget(user_first_name+ " "+ user_last_name, Colors.white, 14,weight: FontWeight.w500),
                               ],
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(right: 35.0),
-                            //   child: CircleAvatar(
-                            //     radius: 44,
-                            //     backgroundColor: Colors.white,
-                            //     child: CircleAvatar(
-                            //       radius: 42,
-                            //       // backgroundImage: AssetImage('assets/images/profile.png'),
-                            //       backgroundColor: AppColors.green,
-                            //       child: Center(
-                            //         child: textWidget("MLM", Colors.white, 12),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
@@ -215,16 +200,6 @@ class _DashBoardState extends State<DashBoard> {
                               color: Colors.green,fit: BoxFit.fill,)
                         )
                       )
-                      // CircleAvatar(
-                      //     radius: 19.0,
-                      //     backgroundColor: Colors.white,
-                      //     child:
-                      //     Container(
-                      //         height: 30.0,width: 30.0,
-                      //         child: Image(image: AssetImage("assets/images/correctSign.png"),
-                      //           color: Colors.green,fit: BoxFit.fill,)
-                      //     )
-                      // ),
                     ],
                   )
                 ),
@@ -296,6 +271,7 @@ class _DashBoardState extends State<DashBoard> {
       height: Get.height * 0.04,
       width: Get.width * 0.4,
       child: FloatingActionButton.extended(
+        heroTag: 'unique_key',
         elevation: 4.0,
         backgroundColor: Colors.white,
         label: textWidget("Become A Seller", AppColors.primaryColor, 14,

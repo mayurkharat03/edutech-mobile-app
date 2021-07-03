@@ -8,6 +8,11 @@ class DashboardController extends GetxController{
   static final dataStorage = GetStorage();
   int user_id = dataStorage.read("user_id");
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
   void getDashboardData() async
   {
     var res = await ApiService.get(getDashboardDetailsUrl,params: user_id.toString(),tokenOptional: false);
@@ -17,16 +22,16 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
-      ApiService.dataStorage.write("photo", res["photo"]);
-      ApiService.dataStorage.write("aadhaar_front", res["aadhaar_front"]);
-      ApiService.dataStorage.write("aadhaar_back", res["aadhaar_back"]);
-      ApiService.dataStorage.write("pancard_photo", res["pancard_photo"]);
-      ApiService.dataStorage.write("isPackagePurchase", res["isPackagePurchase"]);
-      ApiService.dataStorage.write("isAadhaarFrontUploaded", res["isAadhaarFrontUploaded"]);
-      ApiService.dataStorage.write("isAadhaarBackUploaded", res["isAadhaarBackUploaded"]);
-      ApiService.dataStorage.write("isPanUploaded", res["isPanUploaded"]);
-      ApiService.dataStorage.write("isProfileUploaded", res["isProfileUploaded"]);
-      ApiService.dataStorage.write("referralStatus", res["referralStatus"]);
+      ApiService.dataStorage.write("photo", res["result"][0]["photo"]);
+      ApiService.dataStorage.write("aadhaar_front", res["result"][0]["aadhaar_front"]);
+      ApiService.dataStorage.write("aadhaar_back", res["result"][0]["aadhaar_back"]);
+      ApiService.dataStorage.write("pancard_photo", res["result"][0]["pancard_photo"]);
+      ApiService.dataStorage.write("isPackagePurchase", res["result"][0]["isPackagePurchase"]);
+      ApiService.dataStorage.write("isAadhaarFrontUploaded", res["result"][0]["isAadhaarFrontUploaded"]);
+      ApiService.dataStorage.write("isAadhaarBackUploaded", res["result"][0]["isAadhaarBackUploaded"]);
+      ApiService.dataStorage.write("isPanUploaded", res["result"][0]["isPanUploaded"]);
+      ApiService.dataStorage.write("isProfileUploaded", res["result"][0]["isProfileUploaded"]);
+      ApiService.dataStorage.write("referralStatus", res["result"][0]["referralStatus"]);
       ApiService.dataStorage.write("walletAmount", res["result"][0]["resultReferral"][0]['walletAmount']);
       ApiService.dataStorage.write("code", res["result"][0]["resultReferral"][0]['code']);
     }
