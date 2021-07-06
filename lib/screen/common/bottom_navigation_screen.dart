@@ -1,3 +1,5 @@
+import 'package:edutech/screen/login/edit_user_details.dart';
+import 'package:edutech/screen/wallet/wallet_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:flutter/material.dart';
 import 'package:edutech/screen/common/dashboard_screen.dart';
@@ -21,9 +23,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
 
   List _pages = [
     DashBoard(),
+    WalletScreen(),
     DashBoard(),
     DashBoard(),
-    DashBoard(),
+    EditUserDetails()
   ];
 
   _changeIndex(int index) {

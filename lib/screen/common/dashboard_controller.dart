@@ -13,6 +13,7 @@ class DashboardController extends GetxController{
     super.onInit();
   }
 
+  /// Get dashboard details
   void getDashboardData() async
   {
     var res = await ApiService.get(getDashboardDetailsUrl,params: user_id.toString(),tokenOptional: false);
@@ -21,6 +22,8 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
+      ApiService.dataStorage.write("phone_number", res["result"][0]["phone_number"]);
+      ApiService.dataStorage.write("kyc_completed", res["result"][0]["kyc_completed"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
       ApiService.dataStorage.write("photo", res["result"][0]["photo"]);
       ApiService.dataStorage.write("aadhaar_front", res["result"][0]["aadhaar_front"]);
@@ -34,6 +37,26 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("referralStatus", res["result"][0]["referralStatus"]);
       ApiService.dataStorage.write("walletAmount", res["result"][0]["resultReferral"][0]['walletAmount']);
       ApiService.dataStorage.write("code", res["result"][0]["resultReferral"][0]['code']);
+    }
+    update();
+  }
+
+  /// Get wallet details
+  void getWalletData() async{
+    var res = await ApiService.get(getWalletDetailsUrl,params: user_id.toString(),tokenOptional: false);
+    if (res["message"] == Strings.get_wallet_data_success) {
+      ApiService.dataStorage.write("id_referral_code", res["result"]["id_referral_code"]);
+      ApiService.dataStorage.write("codeInWallet", res["result"]["code"]);
+      ApiService.dataStorage.write("statusInWallet", res["result"]["status"]);
+      ApiService.dataStorage.write("wallet_amount", res["result"]["wallet_amount"]);
+      ApiService.dataStorage.write("total_earning", res["result"]["total_earning"]);
+      ApiService.dataStorage.write("immediateReferralCount", res["result"]["immediateReferralCount"]);
+      ApiService.dataStorage.write("id_users_bank_details", res["result"]["bankDetails"]["id_users_bank_details"]);
+      ApiService.dataStorage.write("bank_name", res["result"]["bankDetails"]["bank_name"]);
+      ApiService.dataStorage.write("account_number", res["result"]["bankDetails"]["account_number"]);
+      ApiService.dataStorage.write("account_name", res["result"]["bankDetails"]["account_name"]);
+      ApiService.dataStorage.write("ifsc_code", res["result"]["bankDetails"]["ifsc_code"]);
+      ApiService.dataStorage.write("upi_id", res["result"]["bankDetails"]["upi_id"]);
     }
     update();
   }

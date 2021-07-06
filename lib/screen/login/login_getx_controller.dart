@@ -8,6 +8,7 @@ import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailTextController;
@@ -21,6 +22,9 @@ class LoginController extends GetxController {
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
+
+  static final dataStorage = GetStorage();
+  int user_id;
 
   @override
   void onInit() {
@@ -111,6 +115,27 @@ class LoginController extends GetxController {
       isReferLoading.value=false;
       ToastComponent.showDialog(res["message"], context);
     }
+  }
+
+  /// Update user details
+  void updateUserDetails(String shippingAddress, String billingAddress,BuildContext context) async
+  {
+    user_id = dataStorage.read("user_id");
+
+    Map<String,dynamic> params={
+      "userId":user_id,
+      "newBillingAddress": billingAddress,
+      "newShippingAddress": shippingAddress,
+    };
+
+    var res = await ApiService.postWithDynamic(updateUserUrl,params,tokenOptional: false);
+    if (res["message"] == Strings.update_address_success) {
+      ToastComponent.showDialog("Address updated successfully", context);
+    }
+    else{
+      ToastComponent.showDialog("Failed to update", context);
+    }
+    update();
   }
 
   @override

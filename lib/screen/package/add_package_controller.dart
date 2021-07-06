@@ -127,8 +127,9 @@ class AddPackageController extends GetxController{
     showAddPackagesBoardName.clear();
     showAddPackagesStdName.clear();
     showAddPackagesSubName.clear();
+    Strings.packagePurchaseList.clear();
     priceInInt.clear();
-    if(res['message']==Strings.get_package_suceess){
+    if(res['message'] == Strings.get_package_suceess){
       List jsonResponse=res['result'] as List;
       jsonResponse.forEach((id) async {
         Strings.packagePurchaseList.add(id['id_package_purchase']);
@@ -171,6 +172,7 @@ class AddPackageController extends GetxController{
       update();
     }
 
+  /// Calculate total packages price
   void calculateTotalPrice() {
     if(priceInInt.isEmpty){
       totalPrice=0;
@@ -179,6 +181,19 @@ class AddPackageController extends GetxController{
       totalPrice = priceInInt.reduce((a, b) => a + b);
       Strings.price = totalPrice;
     }
+    update();
+  }
+
+  /// Delete package
+  void deletePackage(BuildContext context, String packageId) async{
+    var res = await ApiService.delete(deletePackageUrl,params: packageId,tokenOptional: false);
+    if(res['message']==Strings.delete_success){
+      ToastComponent.showDialog(res['message'], context);
+    }
+    else{
+      ToastComponent.showDialog("Something went wrong", context);
+    }
+    getPackagesList();
     update();
   }
 }

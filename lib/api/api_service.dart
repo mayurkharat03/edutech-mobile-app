@@ -57,14 +57,13 @@ class ApiService {
     }
     return responseJson;
   }
+
   /// Post method
   static Future<dynamic> post(String url, Map<String, String> body, {bool tokenOptional}) async {
-
     if (tokenOptional == true) {
       String token = dataStorage.read("token");
       headers["Authorization"] = "Bearer " +token;
     }
-
     var responseJson;
     try {
       final response = await http.post(url, body: json.encode(body), headers: headers);
@@ -93,6 +92,7 @@ class ApiService {
     }
     return responseJson;
   }
+
   /// Post method without using token
   static Future<dynamic> postWithoutToken(String url, Map<String, dynamic> body, {bool tokenOptional}) async
   {
@@ -132,6 +132,31 @@ class ApiService {
     request.files.add(multipartFile);
     var response = await request.send();
     return response.stream.transform(utf8.decoder);
+  }
+
+  /// Delete method with String,dynamic
+  static Future<dynamic> delete(String url,{var params, bool tokenOptional}) async
+  {
+    if (tokenOptional == false) {
+      String token = dataStorage.read("token");
+      headers= {
+        "Authorization" : "Bearer " +token,
+        "Content-Type": "application/json",
+      };
+    }
+    else{
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
+    var responseJson;
+    try {
+      final response = await http.delete(params==null ? url : url + "/" + params, headers: headers);
+      responseJson = _returnResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    return responseJson;
   }
 
   /// Status code in response

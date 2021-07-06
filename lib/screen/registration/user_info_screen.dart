@@ -262,7 +262,8 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
             Expanded(
                 child: Padding(
                     padding: const EdgeInsets.all(2.0),
-                    child: ElevatedButton(
+                    child:
+                    ElevatedButton(
                       child: Text(
                         "Next",
                         style: styleForLabel(12, Colors.white),
@@ -420,18 +421,12 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 duration: Toast.LENGTH_LONG);
                           } else {
                             setState(() {
-                              _registrationController.addUserDetails(
-                                  context, selectedSalutation, mobileNumber,
-                                  billingAddress, shippingAddress, _selectedDate);
-                              // Obx((){
-                              //   return _registrationController.stepper.value == 4
-                              //       ?  button("Next")
-                              //       :  null;
-                              // })
-                              // if(_registrationController.stepper.value == 4){
-                              //   stepperCount ++ ;
-                              //   percentage = percentage + 20;
-                              // }
+                              // _registrationController.addUserDetails(
+                              //     context, selectedSalutation, mobileNumber,
+                              //     billingAddress, shippingAddress, _selectedDate);
+
+                              _registrationController.checkUserEmail(context);
+                              //_registrationController.goToNextScreen(stepperCount,percentage);
                             });
                           }
                         } else if (stepperCount == 4) {
@@ -458,11 +453,13 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                           }
                           else{
                             setState(() {
-                              _registrationController.uploadAadharFrontImage(context);
-                              if(_registrationController.stepper.value == 5){
-                                stepperCount++;
-                                percentage = percentage + 20;
-                              }
+                              stepperCount++;
+                              percentage = percentage + 20;
+                              // _registrationController.uploadAadharFrontImage(context);
+                              // if(_registrationController.stepper.value == 5){
+                              //   stepperCount++;
+                              //   percentage = percentage + 20;
+                              // }
                             });
                           }
                         }
@@ -482,11 +479,6 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
         ),
       ),
     );
-  }
-
-  goToNext(){
-    stepperCount ++ ;
-    percentage = percentage + 20;
   }
 
   Widget bottomButtonLast(BuildContext context) {

@@ -39,7 +39,7 @@ class SplashScreenState extends State<SplashScreen> {
    checkFirstSeen() {
        appCheckValue = ApiService.dataStorage.read("appAlreadyExists");
        if (appCheckValue == "yes") {
-         int userId = ApiService.dataStorage.read("user_id");
+         int userId = dataStorage.read("user_id");
          if(userId == null){
            Navigator.pushReplacement(context, FadeNavigation(widget: LoginScreen()));
          }else{

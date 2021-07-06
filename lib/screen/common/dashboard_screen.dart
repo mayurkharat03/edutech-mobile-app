@@ -1,5 +1,4 @@
 import 'package:edutech/api/api_service.dart';
-import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/screen/common/dashboard_controller.dart';
 import 'package:edutech/screen/seller/add_bank_account_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,18 +27,25 @@ class _DashBoardState extends State<DashBoard> {
   int isPhotoUploaded;
   var walletAmount;
   var code;
+  String total_earning="";
+  int referral_count;
   bool isLoading=false;
+  int kyc_completed;
 
   @override
   void initState() {
     super.initState();
     _dashboardController.getDashboardData();
-    isPhotoUploaded = ApiService.dataStorage.read("isProfileUploaded");
-    walletAmount = dataStorage.read("walletAmount");
-    code = dataStorage.read("code");
+    _dashboardController.getWalletData();
+    isPhotoUploaded = dataStorage.read("isProfileUploaded");
+    code = dataStorage.read("codeInWallet");
     user_first_name = dataStorage.read("first_name");
     user_last_name = dataStorage.read("last_name");
     user_last_name = dataStorage.read("last_name");
+    total_earning = dataStorage.read("total_earning");
+    walletAmount = dataStorage.read("wallet_amount");
+    referral_count = dataStorage.read("immediateReferralCount");
+    kyc_completed = dataStorage.read("kyc_completed");
 
     if(user_first_name==null){
       user_first_name="";
@@ -64,7 +70,6 @@ class _DashBoardState extends State<DashBoard> {
               new GestureDetector(
                 onTap: () {
                   dataStorage.remove("user_id");
-
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) => LoginScreen()),
                       (Route<dynamic> route) => false);
@@ -150,8 +155,9 @@ class _DashBoardState extends State<DashBoard> {
                       SizedBox(
                         height: 11,
                       ),
-                      becomeSellerButton(),
-                      //  referralCodeDetails(),
+                      kyc_completed == 0
+                      ? Opacity(opacity: 0.0)
+                      : becomeSellerButton(),
                       SizedBox(
                         height: 7,
                       ),
@@ -440,7 +446,7 @@ class _DashBoardState extends State<DashBoard> {
                     Row(
                       children: [
                         textWidget("Total Referrals : ", Colors.white, 13),
-                        textWidget("1000", Colors.white, 14, weight: FontWeight.w600),
+                        textWidget("${referral_count}", Colors.white, 14, weight: FontWeight.w600),
                       ],
                     ),
                     textWidget("30 April 2020", Colors.white, 13),
@@ -461,7 +467,7 @@ class _DashBoardState extends State<DashBoard> {
                     Column(children: [
                       textWidget("TOTAL EARNINGS",Colors.white, 13,),
                       SizedBox(height: 3,),
-                      textWidget("Rs. 1023.74", Colors.white, 14, weight: FontWeight.w600),
+                      textWidget(total_earning, Colors.white, 14, weight: FontWeight.w600),
                     ],),
                   ],
                 ),

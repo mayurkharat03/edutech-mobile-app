@@ -18,6 +18,7 @@ class Strings {
   static const String upload = "assets/images/upload.png";
   static const String app_icon = "assets/images/edutecklauncher.png";
   static const String confirm = "assets/images/confirm.gif";
+  static bool isEmailVerify = false;
 
 
   static String mobileNo = "";
@@ -60,6 +61,8 @@ class Strings {
   static const String get_standard_list_success = "Standard List by Boards";
   static const String profile_success = "Profile uploaded successfully";
   static const String aadhar_card_front_success = "Aadhaar Front uploaded successfully";
+  static const String email_check_success = "Email ID Verified!";
+  static const String email_check_failed = "Email ID Already Exist!";
   static const String aadhar_card_back_success = "Aadhaar Back uploaded successfully";
   static const String failed_message = "Failed to upload";
   static const String get_package_suceess = "Purchase Package by User";
@@ -67,9 +70,14 @@ class Strings {
   static const String added_bank_details_success = "Bank deatils added successfully";
   static const String payment_successfull_message = "Payment successfully";
   static const String get_dashboard_data_success = "Dashboard Details";
+  static const String get_wallet_data_success = "Wallet Details!";
   static const String otp_for_forgot_password_success = "OTP Sent!";
+  static const String delete_success = "Package deleted successfully";
   static const String otp_verify_for_forgot_password = "OTP Verified Successfull!";
   static const String update_forgot_password = "Password updated successfully!";
+  static const String wallet_history_success = "Wallet transaction history!";
+  static const String wallet_transfer_success = "";
+  static const String update_address_success = "Billing and Shipping Address updated successfully!";
   //static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
   static List<String> allBoards=[];
   static List<int> allBoardsId=[];

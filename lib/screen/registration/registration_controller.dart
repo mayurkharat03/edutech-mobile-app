@@ -22,7 +22,7 @@ class RegistrationController extends GetxController {
   PickedFile frontImagePath;
   PickedFile backImagePath;
   PickedFile profileImage;
-  int stepperCount=0;
+  //int stepperCount=0;
 
   /*shipping address details*/
   TextEditingController addressLineFirstController;
@@ -55,7 +55,7 @@ class RegistrationController extends GetxController {
   RxBool isEmailVerify = false.obs;
   RxBool isRegistrationVerify = false.obs;
   //RxBool isStepThreeSuccess = false.obs;
-  RxInt stepper = 0.obs;
+  //RxInt stepper = 0.obs;
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
@@ -107,8 +107,7 @@ class RegistrationController extends GetxController {
     if (res["message"] == Strings.login_success_message) {
       isLoading.value = false;
       ApiService.dataStorage.write("user_id", res["result"][0]["id_user"]);
-      ApiService.dataStorage
-          .write("first_name", res["result"][0]["first_name"]);
+      ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
@@ -119,6 +118,32 @@ class RegistrationController extends GetxController {
     } else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
+    }
+  }
+
+  /// Check Email Id already exists or not
+  Future<void> checkUserEmail(BuildContext context) async {
+    Map<String, String> params = {
+      "emailId": emailIdController.text,
+    };
+    var res = await ApiService.post(checkEmailUrl, params, tokenOptional: false);
+
+    if (res["message"] == Strings.email_check_success) {
+     // ToastComponent.showDialog(res["message"],context);
+     // addUserDetails(context,salutation,mobileNo,billingAdd,shippingAdd,dob);
+      isEmailVerify.value = true;
+    }
+    else{
+      ToastComponent.showDialog(res["message"],context);
+    }
+    update();
+  }
+
+  void goToNextScreen(int stepper, double percentage) {
+    if(isEmailVerify.value){
+      stepper++;
+      percentage = percentage + 20;
+      update(); // use update() to  update counter variable on UI when increment be called
     }
   }
 
@@ -150,16 +175,13 @@ class RegistrationController extends GetxController {
       isAddUser = true;
       ApiService.dataStorage.write("user_id", res["userId"]);
       if(profileImage==null){
-        //uploadAadharFrontImage(context);
-        isAddUser = true;
+        uploadAadharFrontImage(context);
       }
       else{
         uploadProfileImage(context);
       }
     }
     else if(res['message']=='Emailid already exists'){
-      isAddUser = false;
-      stepper.value = 3;
       isRegistrationVerify.value = false;
       ToastComponent.showDialog("Email ID already Exists", context);
     }
@@ -180,13 +202,10 @@ class RegistrationController extends GetxController {
         response=value.toString();
         if (response.contains(Strings.profile_success)) {
           //ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
-          ToastComponent.showDialog("User added Successfully.", context);
-          if(isAddUser == true){
-            stepper = 4.obs;
-          }
+          //ToastComponent.showDialog("User added Successfully.", context);
+          uploadAadharFrontImage(context);
         }
         else {
-          isAddUser = false;
           isLoading.value = false;
           ToastComponent.showDialog(Strings.failed_message, context);
         }
@@ -194,10 +213,6 @@ class RegistrationController extends GetxController {
     }
     update();
   }
-
-  // clear value for add package
-  // disable become a seller
-  // singlechildscrollview for add package
 
   /// Upload aadhar card front image
   Future<void> uploadAadharFrontImage(BuildContext context) async {
@@ -208,9 +223,8 @@ class RegistrationController extends GetxController {
       if(response.contains(Strings.aadhar_card_front_success)){
         if(backImagePath == null){
           isRegistrationVerify.value=false;
-          //showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
-          ToastComponent.showDialog(res["message"], context);
-          stepper.value = 5;
+          showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+          //ToastComponent.showDialog(res["message"], context);
         }
         else{
           uploadAadharBackImage(context);
@@ -233,9 +247,8 @@ class RegistrationController extends GetxController {
       response=value.toString();
       if(response.contains(Strings.aadhar_card_back_success)){
         isRegistrationVerify.value=false;
-        //showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
-        ToastComponent.showDialog(res["message"], context);
-        stepper.value = 5;
+        showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
+        //ToastComponent.showDialog(res["message"], context);
       }
       else{
         isRegistrationVerify.value=false;

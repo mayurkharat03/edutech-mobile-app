@@ -1,6 +1,8 @@
 import 'package:crypto/crypto.dart';
+import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/screen/package/payment_controller.dart';
+import 'package:edutech/utils/toast_component.dart';
 import 'dart:convert'; // for the utf8.encode method
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +35,7 @@ class _AddPackageState extends State<AddPackage> {
 
   Future<bool> _onBackPressed() {
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => DashBoard()),
+        MaterialPageRoute(builder: (context) => BottomNavigationScreen()),
             (Route<dynamic> route) => false);
 
     // return showDialog(
@@ -209,7 +211,12 @@ class _AddPackageState extends State<AddPackage> {
                                             ),
                                           ),
                                           Divider(height: 1, thickness: 1, color: Colors.grey,),
-                                          Expanded(child: _myAddedListView(context,controller.showAddPackagesSubName[index])),
+                                          Expanded(child: InkWell(
+                                            onTap: (){
+                                              controller.deletePackage(context, Strings.packagePurchaseList[index].toString());
+                                            },
+                                            child:_myAddedListView(context,controller.showAddPackagesSubName[index]
+                                          )),),
                                         ],
                                       )),
                                     )),
@@ -258,7 +265,9 @@ class _AddPackageState extends State<AddPackage> {
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
                 onTap: (){
-                  _paymentController.userPayment(context);
+                  controller.totalPrice==0
+                      ? ToastComponent.showDialog("Please add package", context)
+                      : _paymentController.userPayment(context);
                 },
                 child:button("Proceed For Payment")
             )
@@ -524,15 +533,15 @@ class _AddPackageState extends State<AddPackage> {
   }
 
   Widget _myAddedListView(BuildContext context,String addedSubjectsList) {
-    List<String> showSepearateList=[];
-     String showSubjectList="";
+    List<String> showSepearateList = [];
+     String showSubjectList = "";
      if(addedSubjectsList.contains('\n')){
-       showSubjectList=addedSubjectsList.replaceAll("\n", "");
+       showSubjectList = addedSubjectsList.replaceAll("\n", "");
      }
      else{
-       showSubjectList=addedSubjectsList;
+       showSubjectList = addedSubjectsList;
      }
-     showSepearateList=showSubjectList.split(',');
+     showSepearateList = showSubjectList.split(',');
     return ListView.builder(
       shrinkWrap: true,
       physics: ScrollPhysics(),

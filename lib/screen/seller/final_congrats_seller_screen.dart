@@ -37,7 +37,6 @@ class _FinalCongratsSellerScreenState extends State<FinalCongratsSellerScreen>{
                 width: 100,
                 height: 120,
                 decoration: BoxDecoration(
-                  // shape: BoxShape.circle,
                   image: new DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage('assets/images/seller_congo.png'),
