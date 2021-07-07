@@ -33,4 +33,5 @@ String checkEmailUrl = baseUrl + "user/checkEmailID";
 
 String walletTransferUrl = baseUrl + "wallet/requestTransfer";
 String walletHistoryUrl = baseUrl + "wallet/getWalletHistoryByUserId";
+String studentDetailsUrl = baseUrl + "package/addStudent";
 

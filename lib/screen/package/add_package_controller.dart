@@ -112,6 +112,7 @@ class AddPackageController extends GetxController{
     if(res['message']==Strings.added_package_suceess){
       Navigator.pop(context);
       ToastComponent.showDialog(res['message'], context);
+      getPackagesList();
     }
     else{
       ToastComponent.showDialog('Something went wrong!', context);

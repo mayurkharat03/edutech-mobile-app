@@ -7,7 +7,7 @@ class ToastComponent {
         msg,
         context,
         duration: duration != 0 ? duration : Toast.LENGTH_SHORT,
-        gravity: gravity != 0 ? gravity : Toast.BOTTOM,
+        gravity: gravity != 0 ? gravity : Toast.CENTER,
         backgroundColor:
         Color.fromRGBO(239, 239, 239, .9),
         textColor: AppColors.labelColor,

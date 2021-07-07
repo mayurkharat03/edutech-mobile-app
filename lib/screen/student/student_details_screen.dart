@@ -1,3 +1,5 @@
+import 'package:edutech/screen/student/student_controller.dart';
+import 'package:edutech/utils/toast_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
@@ -9,11 +11,17 @@ import 'package:edutech/utils/strings.dart';
 import 'package:intl/intl.dart';
 
 class StudentDetailsScreen extends StatefulWidget {
+  String boardName;
+  String stdName;
+  int id;
+
+  StudentDetailsScreen({this.boardName,this.stdName,this.id});
   @override
   _StudentDetailsScreenState createState() => _StudentDetailsScreenState();
 }
 
 class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
+  final StudentController _studentController = Get.put(StudentController());
   String _selectedDate = "";
   String selectedSalutation = "Mr.";
   List<String> salutation = <String>["Ms.", "Mrs.", "Miss"];
@@ -108,7 +116,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
-                    child: textWidget("Add Student Detail for CBSE + 9th Class",
+                    child: textWidget("Add Student Detail for "+widget.boardName + widget.stdName+ "Class",
                         Colors.white, 13),
                   ),
                 ],
@@ -141,14 +149,14 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                 studentDetails(),
               ],
             ),
-            Align(alignment: Alignment.bottomCenter, child: bottomButton()),
+            Align(alignment: Alignment.bottomCenter, child: bottomButton(context)),
           ],
         ),
       ),
     );
   }
 
-  Widget bottomButton() {
+  Widget bottomButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(1.0),
       child: ListTile(
@@ -182,7 +190,9 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                         "Save",
                         style: styleForLabel(12, Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        checkValidation(context);
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,
                         side: BorderSide(
@@ -198,6 +208,18 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
         ),
       ),
     );
+  }
+
+  checkValidation(BuildContext context){
+    if(_studentController.studentFirstNameController.text.isEmpty||_studentController.studentMiddleNameController.text.isEmpty||
+        _studentController.studentLastNameController.text.isEmpty||_studentController.studentSchoolNameController.text.isEmpty||
+        selectedSalutation.isEmpty || selectedKey.isEmpty ||_selectedDate.isEmpty
+    ){
+      ToastComponent.showDialog("Please fill all fields", context);
+    }
+    else{
+      _studentController.saveStudentDetails(context,selectedSalutation, _selectedDate, selectedKey,widget.id);
+    }
   }
 
 /*Student details*/
@@ -225,7 +247,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: TextFormField(
-                        // controller: _registrationController.firstNameController,
+                        controller: _studentController.studentFirstNameController,
                         decoration: InputDecoration(
                           labelStyle: style,
                           labelText: 'First Name',
@@ -249,7 +271,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: TextFormField(
-                  // controller: _registrationController.middleNameController,
+                  controller: _studentController.studentMiddleNameController,
                   decoration: InputDecoration(
                     labelStyle: style,
                     labelText: 'Middle Name',
@@ -270,7 +292,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: TextFormField(
-                  // controller: _registrationController.lastNameController,
+                  controller: _studentController.studentLastNameController,
                   decoration: InputDecoration(
                     labelStyle: style,
                     labelText: 'Last Name',
@@ -325,7 +347,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: TextFormField(
-                  // controller: _registrationController.middleNameController,
+                  controller: _studentController.studentSchoolNameController,
                   decoration: InputDecoration(
                     labelStyle: style,
                     labelText: 'School Name',
@@ -346,10 +368,10 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: TextFormField(
-                  // controller: _registrationController.middleNameController,
+                  //controller: widget.boardName,
                   decoration: InputDecoration(
                     labelStyle: style,
-                    labelText: 'Board',
+                    labelText: widget.boardName,
                     contentPadding: EdgeInsets.all(15.0),
                     isDense: true,
                     border: OutlineInputBorder(
@@ -513,6 +535,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
         DateTime displayDate = displayFormatter.parse(d.toString());
         String formatted = serverFormatter.format(displayDate);
         _selectedDate = formatted;
+        FocusScope.of(context).requestFocus(FocusNode());
       });
   }
 }

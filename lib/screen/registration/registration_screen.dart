@@ -1,3 +1,4 @@
+import 'package:edutech/utils/Functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,7 +135,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         bodySection(),
+        Center(
+          child:Text("Don't have referral",style: TextStyle(decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryColor)),
+        ),
+        SizedBox(height:10.0),
         fixedBottomSection(),
+        SizedBox(height:20.0)
         //Center(child: textWidget("Need help?", AppColors.labelColor, 14))
       ],
     );

@@ -220,6 +220,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                  stepperCount++;
                  percentage = percentage + 20;
                });
+
              }
           },
           child:
@@ -420,14 +421,17 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                                 gravity: Toast.CENTER,
                                 duration: Toast.LENGTH_LONG);
                           } else {
-                            setState(() {
-                              // _registrationController.addUserDetails(
-                              //     context, selectedSalutation, mobileNumber,
-                              //     billingAddress, shippingAddress, _selectedDate);
-
-                              _registrationController.checkUserEmail(context);
-                              //_registrationController.goToNextScreen(stepperCount,percentage);
-                            });
+                              _registrationController.checkUserEmail(context).then((value){
+                                if(value==true){
+                                  setState(() {
+                                    stepperCount++;
+                                    percentage = percentage + 20;
+                                  });
+                                }
+                                else{
+                                  ToastComponent.showDialog("Email Id Already Exist!",context,duration: Toast.LENGTH_LONG);
+                                }
+                              });
                           }
                         } else if (stepperCount == 4) {
                           if (_registrationController
@@ -463,6 +467,7 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                             });
                           }
                         }
+
                       },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,
@@ -523,12 +528,9 @@ class _UserStepperScreenState extends State<UserStepperScreen> {
                         style: styleForLabel(12, Colors.white),
                       ),
                       onPressed: () {
-                        // _registrationController.addUserDetails(
-                        //     context, selectedSalutation, mobileNumber,
-                        //     billingAddress, shippingAddress, _selectedDate);
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => AddPackage()),
-                                (Route<dynamic> route) => false);
+                        _registrationController.addUserDetails(
+                            context, selectedSalutation, mobileNumber,
+                            billingAddress, shippingAddress, _selectedDate);
                       },
                       style: ElevatedButton.styleFrom(
                         primary: AppColors.primaryColor,

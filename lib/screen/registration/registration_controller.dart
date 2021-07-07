@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:edutech/screen/package/add_package.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -10,6 +11,7 @@ import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
+import 'package:toast/toast.dart';
 
 class RegistrationController extends GetxController {
   /*personal detail textField Controller*/
@@ -55,7 +57,7 @@ class RegistrationController extends GetxController {
   RxBool isEmailVerify = false.obs;
   RxBool isRegistrationVerify = false.obs;
   //RxBool isStepThreeSuccess = false.obs;
-  //RxInt stepper = 0.obs;
+  RxInt stepper = 0.obs;
   /*Controller for verify referrals*/
   TextEditingController verifyReferralController;
   TextEditingController mobileNoController;
@@ -122,7 +124,8 @@ class RegistrationController extends GetxController {
   }
 
   /// Check Email Id already exists or not
-  Future<void> checkUserEmail(BuildContext context) async {
+  Future<bool> checkUserEmail(BuildContext context) async {
+    bool emailVerify=false;
     Map<String, String> params = {
       "emailId": emailIdController.text,
     };
@@ -132,11 +135,15 @@ class RegistrationController extends GetxController {
      // ToastComponent.showDialog(res["message"],context);
      // addUserDetails(context,salutation,mobileNo,billingAdd,shippingAdd,dob);
       isEmailVerify.value = true;
+      emailVerify = true;
+      stepper.value=4;
     }
     else{
-      ToastComponent.showDialog(res["message"],context);
+      ToastComponent.showDialog(res["message"],context,duration: Toast.LENGTH_LONG);
+      emailVerify=false;
     }
     update();
+    return emailVerify;
   }
 
   void goToNextScreen(int stepper, double percentage) {
@@ -225,6 +232,9 @@ class RegistrationController extends GetxController {
           isRegistrationVerify.value=false;
           showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
           //ToastComponent.showDialog(res["message"], context);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => AddPackage()),
+                  (Route<dynamic> route) => false);
         }
         else{
           uploadAadharBackImage(context);
@@ -248,7 +258,9 @@ class RegistrationController extends GetxController {
       if(response.contains(Strings.aadhar_card_back_success)){
         isRegistrationVerify.value=false;
         showAlertDialog(context, Strings.mobile_verify, "Reg", "Registration Successfully");
-        //ToastComponent.showDialog(res["message"], context);
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => AddPackage()),
+                (Route<dynamic> route) => false);
       }
       else{
         isRegistrationVerify.value=false;

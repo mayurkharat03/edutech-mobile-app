@@ -46,7 +46,8 @@ class _DashBoardState extends State<DashBoard> {
     walletAmount = dataStorage.read("wallet_amount");
     referral_count = dataStorage.read("immediateReferralCount");
     kyc_completed = dataStorage.read("kyc_completed");
-
+    var user_id = dataStorage.read("user_id");
+    print("Id");print(user_id);
     if(user_first_name==null){
       user_first_name="";
     }
@@ -156,8 +157,8 @@ class _DashBoardState extends State<DashBoard> {
                         height: 11,
                       ),
                       kyc_completed == 0
-                      ? Opacity(opacity: 0.0)
-                      : becomeSellerButton(),
+                      ? becomeSellerButton()
+                      : Opacity(opacity: 0.0),
                       SizedBox(
                         height: 7,
                       ),

@@ -76,6 +76,7 @@ class Strings {
   static const String otp_verify_for_forgot_password = "OTP Verified Successfull!";
   static const String update_forgot_password = "Password updated successfully!";
   static const String wallet_history_success = "Wallet transaction history!";
+  static const String add_student_success = "Student added successfully";
   static const String wallet_transfer_success = "";
   static const String update_address_success = "Billing and Shipping Address updated successfully!";
   //static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";

@@ -2,6 +2,7 @@ import 'package:crypto/crypto.dart';
 import 'package:edutech/screen/common/bottom_navigation_screen.dart';
 import 'package:edutech/screen/common/dashboard_screen.dart';
 import 'package:edutech/screen/package/payment_controller.dart';
+import 'package:edutech/screen/student/student_details_screen.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'dart:convert'; // for the utf8.encode method
 import 'package:flutter/cupertino.dart';
@@ -213,10 +214,25 @@ class _AddPackageState extends State<AddPackage> {
                                           Divider(height: 1, thickness: 1, color: Colors.grey,),
                                           Expanded(child: InkWell(
                                             onTap: (){
-                                              controller.deletePackage(context, Strings.packagePurchaseList[index].toString());
+                                              Navigator.of(context).pushAndRemoveUntil(
+                                                  MaterialPageRoute(builder: (context) => StudentDetailsScreen(
+                                                    boardName: controller.showAddPackagesBoardName[index],
+                                                    stdName: controller.showAddPackagesStdName[index],
+                                                    id: Strings.packagePurchaseList[index],
+                                                  )),
+                                                      (Route<dynamic> route) => false);
                                             },
                                             child:_myAddedListView(context,controller.showAddPackagesSubName[index]
                                           )),),
+                                          Padding(
+                                            padding: EdgeInsets.only(left:20.0,right:20.0,bottom: 5.0),
+                                            child:GestureDetector(
+                                              onTap: (){
+                                               controller.deletePackage(context, Strings.packagePurchaseList[index].toString());
+                                              },
+                                              child:button("Delete"),
+                                            )
+                                          )
                                         ],
                                       )),
                                     )),
@@ -339,7 +355,7 @@ class _AddPackageState extends State<AddPackage> {
             child: InkWell(
               onTap: (){
                   controller.addPackage(context);
-                  controller.getPackagesList();
+                  //controller.getPackagesList();
                   controller.calculateTotalPrice();
               },
               child:button("Add Package")
