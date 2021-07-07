@@ -21,6 +21,15 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   PickedFile _imageFile;
   var picture;
   final ImagePicker picker = ImagePicker();
+  int isPanUploaded;
+  int isProfileUploaded;
+
+  @override
+  void initState() {
+    super.initState();
+    isPanUploaded = dataStorage.read("isPanUploaded");
+    isProfileUploaded = dataStorage.read("isProfileUploaded");
+  }
 
   @override
   Widget build(BuildContext context) {

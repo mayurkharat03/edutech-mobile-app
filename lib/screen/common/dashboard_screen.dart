@@ -1,6 +1,7 @@
 import 'package:edutech/api/api_service.dart';
 import 'package:edutech/screen/common/dashboard_controller.dart';
 import 'package:edutech/screen/seller/add_bank_account_screen.dart';
+import 'package:edutech/utils/strings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -11,6 +12,7 @@ import 'package:edutech/screen/seller/upload_photo_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/colors.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import '../package/add_package.dart';
 
 class DashBoard extends StatefulWidget {
@@ -25,6 +27,7 @@ class _DashBoardState extends State<DashBoard> {
   String user_first_name = "";
   String user_last_name = "";
   int isPhotoUploaded;
+  int isPanUploaded;
   var walletAmount;
   var code;
   String total_earning="";
@@ -38,6 +41,7 @@ class _DashBoardState extends State<DashBoard> {
     _dashboardController.getDashboardData();
     _dashboardController.getWalletData();
     isPhotoUploaded = dataStorage.read("isProfileUploaded");
+    isPanUploaded = dataStorage.read("isPanUploaded");
     code = dataStorage.read("codeInWallet");
     user_first_name = dataStorage.read("first_name");
     user_last_name = dataStorage.read("last_name");
@@ -57,33 +61,75 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Future<bool> _onBackPressed() {
-    return showDialog(
-          context: context,
-          builder: (context) => new AlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('Do you want to exit an App'),
-            actions: <Widget>[
-              new GestureDetector(
-                onTap: () => Navigator.of(context).pop(false),
-                child: roundedButton(
-                    "No", const Color(0xFF167F67), const Color(0xFFFFFFFF)),
-              ),
-              new GestureDetector(
-                onTap: () {
-                  dataStorage.remove("user_id");
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (Route<dynamic> route) => false);
-                },
-                child: roundedButton(
-                    " Yes ", AppColors.primaryColor, Colors.white),
-              ),
-            ],
-          ),
-        ) ??
+    // return showDialog(
+    //       context: context,
+    //       builder: (context) => new AlertDialog(
+    //         title: new Text('Are you sure?'),
+    //         content: new Text('Do you want to exit an App'),
+    //         actions: <Widget>[
+    //           new GestureDetector(
+    //             onTap: () => Navigator.of(context).pop(false),
+    //             child: roundedButton(
+    //                 "No",  Color(0xFF167F67), const Color(0xFFFFFFFF)),
+    //           ),
+    //           new GestureDetector(
+    //             onTap: () {
+    //               dataStorage.remove("user_id");
+    //               Navigator.of(context).pushAndRemoveUntil(
+    //                   MaterialPageRoute(builder: (context) => LoginScreen()),
+    //                   (Route<dynamic> route) => false);
+    //             },
+    //             child: roundedButton(
+    //                 " Yes ", AppColors.primaryColor, Colors.white),
+    //           ),
+    //         ],
+    //       ),
+    //     )
+    //
+    return confirmationPopup(context)
+        ??
         false;
   }
 
+  confirmationPopup(BuildContext dialogContext) {
+    var alertStyle = AlertStyle(
+      animationType: AnimationType.grow,
+      overlayColor: Colors.black87,
+      isCloseButton: true,
+      isOverlayTapDismiss: true,
+      titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18,fontFamily: Strings.montserrat),
+      descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16,fontFamily: Strings.montserrat),
+      animationDuration: Duration(milliseconds: 400),
+    );
+
+    Alert(
+        context: dialogContext,
+        style: alertStyle,
+        title: "Are you sure?",
+        desc: "Do you want to exit an App",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "No",
+              style: TextStyle(color: Colors.white, fontSize: 18,fontFamily:Strings.montserrat ),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: AppColors.primaryColor,
+          ),
+          DialogButton(
+            child: Text(
+              "Yes",
+              style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: Strings.montserrat),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            color: AppColors.primaryColor,
+          )
+        ]).show();
+  }
   Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
     var loginBtn = new Container(
       padding: EdgeInsets.all(5.0),
@@ -91,18 +137,18 @@ class _DashBoardState extends State<DashBoard> {
       decoration: new BoxDecoration(
         color: bgColor,
         borderRadius: new BorderRadius.all(const Radius.circular(10.0)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: const Color(0xFF696969),
-            offset: Offset(1.0, 6.0),
-            blurRadius: 0.001,
-          ),
-        ],
+        // boxShadow: <BoxShadow>[
+        //   BoxShadow(
+        //     color: const Color(0xFF696969),
+        //     offset: Offset(1.0, 6.0),
+        //     blurRadius: 0.001,
+        //   ),
+        // ],
       ),
       child: Text(
         buttonLabel,
         style: new TextStyle(
-         color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
+         color: textColor, fontSize: 16.0, fontWeight: FontWeight.bold),
       ),
     );
     return loginBtn;
@@ -284,16 +330,12 @@ class _DashBoardState extends State<DashBoard> {
         label: textWidget("Become A Seller", AppColors.primaryColor, 14,
             weight: FontWeight.bold),
         onPressed: () {
-
-          if(isPhotoUploaded==0){
-            Navigator.pushReplacement(
-                context, FadeNavigation(widget: AddBankAccountScreen()));
+          if(isPhotoUploaded==1 || isPanUploaded==1){
+            Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
           }
           else{
-            Navigator.pushReplacement(
-                context, FadeNavigation(widget: UploadPhotoScreen()));
+            Navigator.pushReplacement(context, FadeNavigation(widget: UploadPhotoScreen()));
           }
-
         },
       ),
     );

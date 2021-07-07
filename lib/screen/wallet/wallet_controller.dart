@@ -33,18 +33,18 @@ class WalletController extends GetxController{
     if (res["message"] == Strings.wallet_history_success) {
 
       walletDetails.clear();
-      res["result"].forEach((id) {
-        walletDetails.add(WalletHistoryModel(
-          date: id["created_at"],
-          name: id["beneficiary_name"],
-          amount: id["amount"],
-        ));
-      });
+      // res["result"].forEach((id) {
+      //   walletDetails.add(WalletHistoryModel(
+      //     date: id["created_at"],
+      //     name: id["beneficiary_name"],
+      //     amount: id["amount"],
+      //   ));
+      // });
 
       // walletDetails.add(WalletHistoryModel(
       //   date:"27-01-2021",
       //   name: "Mona Jadhav",
-      //   amount: "200.0",
+      //   amount: "2100.0",
       // ));
     }
 
