@@ -287,11 +287,11 @@ class _DashBoardState extends State<DashBoard> {
 
           if(isPhotoUploaded==0){
             Navigator.pushReplacement(
-                context, FadeNavigation(widget: UploadPhotoScreen()));
+                context, FadeNavigation(widget: AddBankAccountScreen()));
           }
           else{
             Navigator.pushReplacement(
-                context, FadeNavigation(widget: AddBankAccountScreen()));
+                context, FadeNavigation(widget: UploadPhotoScreen()));
           }
 
         },
