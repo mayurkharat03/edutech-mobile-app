@@ -35,3 +35,6 @@ String walletTransferUrl = baseUrl + "wallet/requestTransfer";
 String walletHistoryUrl = baseUrl + "wallet/getWalletHistoryByUserId";
 String studentDetailsUrl = baseUrl + "package/addStudent";
 
+String uploadPancardUrl = baseUrl +"photo/28/uploadPancardPhoto";
+
+

@@ -61,31 +61,6 @@ class _DashBoardState extends State<DashBoard> {
   }
 
   Future<bool> _onBackPressed() {
-    // return showDialog(
-    //       context: context,
-    //       builder: (context) => new AlertDialog(
-    //         title: new Text('Are you sure?'),
-    //         content: new Text('Do you want to exit an App'),
-    //         actions: <Widget>[
-    //           new GestureDetector(
-    //             onTap: () => Navigator.of(context).pop(false),
-    //             child: roundedButton(
-    //                 "No",  Color(0xFF167F67), const Color(0xFFFFFFFF)),
-    //           ),
-    //           new GestureDetector(
-    //             onTap: () {
-    //               dataStorage.remove("user_id");
-    //               Navigator.of(context).pushAndRemoveUntil(
-    //                   MaterialPageRoute(builder: (context) => LoginScreen()),
-    //                   (Route<dynamic> route) => false);
-    //             },
-    //             child: roundedButton(
-    //                 " Yes ", AppColors.primaryColor, Colors.white),
-    //           ),
-    //         ],
-    //       ),
-    //     )
-    //
     return confirmationPopup(context)
         ??
         false;
@@ -124,34 +99,12 @@ class _DashBoardState extends State<DashBoard> {
               style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: Strings.montserrat),
             ),
             onPressed: () {
+              dataStorage.remove("user_id");
               Navigator.pop(context);
             },
             color: AppColors.primaryColor,
           )
         ]).show();
-  }
-  Widget roundedButton(String buttonLabel, Color bgColor, Color textColor) {
-    var loginBtn = new Container(
-      padding: EdgeInsets.all(5.0),
-      alignment: FractionalOffset.center,
-      decoration: new BoxDecoration(
-        color: bgColor,
-        borderRadius: new BorderRadius.all(const Radius.circular(10.0)),
-        // boxShadow: <BoxShadow>[
-        //   BoxShadow(
-        //     color: const Color(0xFF696969),
-        //     offset: Offset(1.0, 6.0),
-        //     blurRadius: 0.001,
-        //   ),
-        // ],
-      ),
-      child: Text(
-        buttonLabel,
-        style: new TextStyle(
-         color: textColor, fontSize: 16.0, fontWeight: FontWeight.bold),
-      ),
-    );
-    return loginBtn;
   }
 
   @override

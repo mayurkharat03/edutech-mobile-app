@@ -146,14 +146,6 @@ class RegistrationController extends GetxController {
     return emailVerify;
   }
 
-  void goToNextScreen(int stepper, double percentage) {
-    if(isEmailVerify.value){
-      stepper++;
-      percentage = percentage + 20;
-      update(); // use update() to  update counter variable on UI when increment be called
-    }
-  }
-
   /// Add user details..registration process
   void addUserDetails(BuildContext context,String salutation,String mobileNo,String billingAdd,
       String shippingAdd,String dob) async {
@@ -208,8 +200,6 @@ class RegistrationController extends GetxController {
       res.listen((value) {
         response=value.toString();
         if (response.contains(Strings.profile_success)) {
-          //ToastComponent.showDialog("Profile Picture Uploaded Successfully.", context);
-          //ToastComponent.showDialog("User added Successfully.", context);
           uploadAadharFrontImage(context);
         }
         else {

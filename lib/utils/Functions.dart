@@ -65,6 +65,23 @@ Widget button(String nameButton) {
   );
 }
 
+Widget addPackagesButton(String nameButton) {
+  return Material(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.0)),
+    color: AppColors.primaryColor,
+    child: FlatButton(
+      splashColor: Colors.white,
+      height: 20.0,
+      minWidth: Get.width,
+      child: Text(
+        nameButton,
+        style: TextStyle(
+            fontSize: 14, fontFamily: Strings.montserrat, color: Colors.white),
+      ),
+    ),
+  );
+}
+
 Widget buttonRow(String nameButton, Color textColor, Color backColor) {
   return Material(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22.0)),

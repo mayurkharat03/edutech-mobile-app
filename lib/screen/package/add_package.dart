@@ -212,26 +212,41 @@ class _AddPackageState extends State<AddPackage> {
                                             ),
                                           ),
                                           Divider(height: 1, thickness: 1, color: Colors.grey,),
-                                          Expanded(child: InkWell(
-                                            onTap: (){
-                                              Navigator.of(context).pushAndRemoveUntil(
-                                                  MaterialPageRoute(builder: (context) => StudentDetailsScreen(
-                                                    boardName: controller.showAddPackagesBoardName[index],
-                                                    stdName: controller.showAddPackagesStdName[index],
-                                                    id: Strings.packagePurchaseList[index],
-                                                  )),
-                                                      (Route<dynamic> route) => false);
-                                            },
-                                            child:_myAddedListView(context,controller.showAddPackagesSubName[index]
-                                          )),),
-                                          Padding(
-                                            padding: EdgeInsets.only(left:20.0,right:20.0,bottom: 5.0),
-                                            child:GestureDetector(
-                                              onTap: (){
-                                               controller.deletePackage(context, Strings.packagePurchaseList[index].toString());
-                                              },
-                                              child:button("Delete"),
-                                            )
+                                          Expanded(child:_myAddedListView(context,controller.showAddPackagesSubName[index])),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Flexible(
+                                                child:GestureDetector(
+                                                  onTap: (){
+                                                    Navigator.of(context).pushAndRemoveUntil(
+                                                        MaterialPageRoute(builder: (context) => StudentDetailsScreen(
+                                                          boardName: controller.showAddPackagesBoardName[index],
+                                                          stdName: controller.showAddPackagesStdName[index],
+                                                          id: Strings.packagePurchaseList[index],
+                                                        )),
+                                                        (Route<dynamic> route) => false);   },
+                                                  child:Padding
+                                                    (
+                                                    padding: EdgeInsets.only(left:10.0,right:10.0,bottom:5.0),
+                                                    child:addPackagesButton("Add Student")
+                                                  ),
+                                                ),
+                                              ),
+                                              Flexible(
+                                                  child:GestureDetector(
+                                                    onTap: (){
+                                                      controller.deletePackage(context, Strings.packagePurchaseList[index].toString());
+                                                    },
+                                                    child:Padding
+                                                      (
+                                                        padding: EdgeInsets.only(left:10.0,right:10.0,bottom:5.0),
+                                                        child:addPackagesButton("Delete")
+                                                    ),
+                                                  )
+                                              )
+                                            ],
                                           )
                                         ],
                                       )),
