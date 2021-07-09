@@ -45,6 +45,7 @@ Widget textWidget(String value, Color color, double fontSize,
         color: color,
         fontSize: fontSize,
         fontWeight: weight),
+    maxLines: 2,
   );
 }
 

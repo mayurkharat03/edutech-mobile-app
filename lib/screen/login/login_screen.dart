@@ -1,6 +1,9 @@
+import 'dart:convert' show utf8;
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:edutech/navigation-Animator/navigation.dart';
 import 'package:edutech/screen/forgot_password/forgot_password.dart';
@@ -11,6 +14,8 @@ import 'package:edutech/utils/colors.dart';
 import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter/material.dart';
+import 'package:crypto/crypto.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,11 +26,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginController _loginController = Get.put(LoginController());
   final _formKey = GlobalKey<FormState>();
   bool _rememberMe = false;
+  static final dataStorage = GetStorage();
+  String user_email="";
+  String password="";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    user_email = dataStorage.read("email");
+    password = dataStorage.read("password");
   }
 
   @override
@@ -210,6 +220,14 @@ class _LoginScreenState extends State<LoginScreen> {
               onChanged: (value) {
                 setState(() {
                   _rememberMe = value;
+                  if(value){
+                    user_email = dataStorage.read("email");
+                    _loginController.emailTextController.text = user_email;
+                  }
+                  else{
+                    user_email = "Email";
+                    _loginController.emailTextController.text="";
+                  }
                 });
               },
             ),

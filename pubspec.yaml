@@ -47,6 +47,7 @@ dependencies:
   image_cropper: ^1.4.1
   flutter_share: ^2.0.0
   rflutter_alert: ^2.0.2
+  encrypt:
 
 dev_dependencies:
   flutter_test:

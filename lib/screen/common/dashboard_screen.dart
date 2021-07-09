@@ -34,6 +34,7 @@ class _DashBoardState extends State<DashBoard> {
   int referral_count;
   bool isLoading=false;
   int kyc_completed;
+  String photo="";
 
   @override
   void initState() {
@@ -50,6 +51,7 @@ class _DashBoardState extends State<DashBoard> {
     walletAmount = dataStorage.read("wallet_amount");
     referral_count = dataStorage.read("immediateReferralCount");
     kyc_completed = dataStorage.read("kyc_completed");
+    photo = dataStorage.read("photo");
     var user_id = dataStorage.read("user_id");
     print("Id");print(user_id);
     if(user_first_name==null){
@@ -100,7 +102,7 @@ class _DashBoardState extends State<DashBoard> {
             ),
             onPressed: () {
               dataStorage.remove("user_id");
-              Navigator.pop(context);
+              Navigator.pushReplacement(context, FadeNavigation(widget: LoginScreen()));
             },
             color: AppColors.primaryColor,
           )
@@ -143,10 +145,11 @@ class _DashBoardState extends State<DashBoard> {
                           children: [
                             Column(
                               children: [
-                                textWidget("Welcome, ", Colors.white, 20,
-                                weight: FontWeight.bold, letterSpacing: 1.0),
-                                SizedBox(height: 6,),
-                                textWidget(user_first_name+ " "+ user_last_name, Colors.white, 14,weight: FontWeight.w500),
+                                textWidget("Welcome, ", Colors.white, 14,
+                                    weight: FontWeight.bold, letterSpacing: 1.0),
+                                SizedBox(height: 6),
+                                textWidget(user_first_name+ " "+ user_last_name, Colors.white, 20,
+                                    weight: FontWeight.w500)
                               ],
                             ),
                           ],
@@ -172,14 +175,16 @@ class _DashBoardState extends State<DashBoard> {
                   top: Get.height * 0.05,
                   left: 250.0,
                   right: 35.0,
-                  child: Stack(
+                  child:
+                  Stack(
                     children: [
                       CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 60.0,
                         child: CircleAvatar(
                           radius: 57.0,
-                          backgroundColor: AppColors.primaryColor,
+                          backgroundColor:  photo =="undefined"
+                              ? Colors.white :AppColors.primaryColor,
                           child:
                           Container(
                             width: 100,
@@ -188,7 +193,10 @@ class _DashBoardState extends State<DashBoard> {
                               shape: BoxShape.circle,
                               image: new DecorationImage(
                                 fit: BoxFit.fill,
-                                image: AssetImage('assets/images/profile.png'),
+                                 image:
+                                     photo =="undefined"
+                                  ? AssetImage('assets/images/edutecklauncher.png')
+                                  : NetworkImage(photo),
                               ),
                             ),
                           ),
@@ -283,7 +291,7 @@ class _DashBoardState extends State<DashBoard> {
         label: textWidget("Become A Seller", AppColors.primaryColor, 14,
             weight: FontWeight.bold),
         onPressed: () {
-          if(isPhotoUploaded==1 || isPanUploaded==1){
+          if(isPhotoUploaded==1 || isPanUploaded==0){
             Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
           }
           else{
@@ -363,7 +371,7 @@ class _DashBoardState extends State<DashBoard> {
                       height: MediaQuery.of(context).size.height * 0.015,
                     ),
                     textWidget("Active ", AppColors.buttonTextColor, 14),
-                    textWidget("Package", AppColors.buttonTextColor, 14),
+                    textWidget("(Packages)", AppColors.buttonTextColor, 14),
                   ],
                 ),
                 onTap: () {},
@@ -386,7 +394,7 @@ class _DashBoardState extends State<DashBoard> {
                       height: MediaQuery.of(context).size.height * 0.015,
                     ),
                     textWidget("Inactive", AppColors.buttonTextColor, 14),
-                    textWidget("Package", AppColors.buttonTextColor, 14)
+                    textWidget("(Packages)", AppColors.buttonTextColor, 14)
                   ],
                 ),
                 onTap: () {},
@@ -441,7 +449,7 @@ class _DashBoardState extends State<DashBoard> {
                   children: [
                     Row(
                       children: [
-                        textWidget("Total Referrals : ", Colors.white, 13),
+                        textWidget("Total Referrals: ", Colors.white, 13),
                         textWidget("${referral_count}", Colors.white, 14, weight: FontWeight.w600),
                       ],
                     ),
@@ -458,7 +466,7 @@ class _DashBoardState extends State<DashBoard> {
                     Column(children: [
                       textWidget("MY WALLET",Colors.white, 13,),
                       SizedBox(height: 3,),
-                      textWidget("Rs."+ "${walletAmount}", Colors.white, 14, weight: FontWeight.w600),
+                      textWidget(Strings.currency+ "${walletAmount}", Colors.white, 14, weight: FontWeight.w600),
                     ],),
                     Column(children: [
                       textWidget("TOTAL EARNINGS",Colors.white, 13,),

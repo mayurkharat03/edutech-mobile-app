@@ -51,6 +51,7 @@ class LoginController extends GetxController {
       ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
+      ApiService.dataStorage.write("password", res["result"][0]["password"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
       ApiService.dataStorage.write("phone", res["result"][0]["phone_number"]);
       ApiService.dataStorage.write("billing_address", res["result"][0]["billing_address"]);

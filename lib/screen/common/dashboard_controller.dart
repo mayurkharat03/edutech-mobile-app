@@ -51,12 +51,14 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("wallet_amount", res["result"]["wallet_amount"]);
       ApiService.dataStorage.write("total_earning", res["result"]["total_earning"]);
       ApiService.dataStorage.write("immediateReferralCount", res["result"]["immediateReferralCount"]);
-      ApiService.dataStorage.write("id_users_bank_details", res["result"]["bankDetails"]["id_users_bank_details"]??"");
-      ApiService.dataStorage.write("bank_name", res["result"]["bankDetails"]["bank_name"]??"");
-      ApiService.dataStorage.write("account_number", res["result"]["bankDetails"]["account_number"]??"");
-      ApiService.dataStorage.write("account_name", res["result"]["bankDetails"]["account_name"]??"");
-      ApiService.dataStorage.write("ifsc_code", res["result"]["bankDetails"]["ifsc_code"]??"");
-      ApiService.dataStorage.write("upi_id", res["result"]["bankDetails"]["upi_id"]??"");
+      if(res['result'].contains(res['result']['bankDetails'])){
+        ApiService.dataStorage.write("id_users_bank_details", res["result"]["bankDetails"]["id_users_bank_details"]??"");
+        ApiService.dataStorage.write("bank_name", res["result"]["bankDetails"]["bank_name"]??"");
+        ApiService.dataStorage.write("account_number", res["result"]["bankDetails"]["account_number"]??"");
+        ApiService.dataStorage.write("account_name", res["result"]["bankDetails"]["account_name"]??"");
+        ApiService.dataStorage.write("ifsc_code", res["result"]["bankDetails"]["ifsc_code"]??"");
+        ApiService.dataStorage.write("upi_id", res["result"]["bankDetails"]["upi_id"]??"");
+      }
     }
     update();
   }

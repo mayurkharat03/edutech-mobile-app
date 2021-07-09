@@ -26,7 +26,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
     DashBoard(),
     WalletScreen(),
     StudentDetailsScreen(),
-    DashBoard(),
     EditUserDetails()
   ];
 
@@ -35,9 +34,9 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
       _selectedTabIndex = index;
        var currentpage = _pages[index];
       print("index..." + index.toString());
-      if(_selectedTabIndex == 3){
-        share();
-      }
+      // if(_selectedTabIndex == 3){
+      //   share();
+      // }
     });
   }
 
@@ -97,10 +96,10 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
                 title: Text('Referrals',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 2 ? AppColors.primaryColor : Colors.grey,)),
               ),
 
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/share_nav.png'), color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,),
-                title: Text('Share',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,)),
-                ),
+              // BottomNavigationBarItem(
+              //   icon: ImageIcon(AssetImage('assets/images/share_nav.png'), color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,),
+              //   title: Text('Share',style:TextStyle(fontSize: 11.0,fontFamily: Strings.montserrat, color: _selectedTabIndex == 3 ? AppColors.primaryColor : Colors.grey,)),
+              //   ),
 
               BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/images/person_nav.png'), color: _selectedTabIndex == 4 ? AppColors.primaryColor : Colors.grey,),

@@ -26,7 +26,9 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   final ImagePicker picker = ImagePicker();
   int isPanUploaded;
   int isProfileUploaded;
-  int tabBarIndex;
+  int tabBarIndex = 0;
+  bool isProfilePhotoUploaded = false;
+  bool isPanCardUploaded = false;
 
   @override
   void initState() {
@@ -376,8 +378,7 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
               onTap: () {
-               // Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
-
+                //openCamera(context);
               },
               child: buttonSell("Take a Photo", Colors.white, AppColors.textColor)),
         ),
@@ -403,7 +404,10 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
               onTap: () {
                 _addBankDetailsController.uploadSellerPhoto(context);
               },
-              child: buttonSell("Next", Colors.grey, AppColors.primaryColor.withOpacity(0.2))),
+              child: buttonSell("Next", _imageFile == null?Colors.grey:Colors.white,
+                  _imageFile == null
+                      ? AppColors.primaryColor.withOpacity(0.2)
+                      : AppColors.primaryColor)),
         ),
       ],
     );
@@ -436,7 +440,10 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
               onTap: () {
                 _addBankDetailsController.uploadPancardPhoto(context);
               },
-              child: buttonSell("Next", Colors.grey, AppColors.primaryColor.withOpacity(0.2))),
+              child: buttonSell("Next", _pancardFile == null?Colors.grey:Colors.white,
+                  _pancardFile == null
+                    ? AppColors.primaryColor.withOpacity(0.2)
+                    : AppColors.primaryColor)),
         ),
       ],
     );
@@ -481,9 +488,34 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
               decoration: BoxDecoration(
                 image: new DecorationImage(
                   fit: BoxFit.fill,
-                  image: _pancardFile == null
+                  image: _imageFile == null
                   ? AssetImage('assets/images/camera_main.png')
-                  : FileImage(File(_pancardFile.path))
+                  : FileImage(File(_imageFile.path))
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /*Step 1 camera icon profile*/
+  Widget cameraIconPancard() {
+    return Container(
+      height: Get.height * 0.4,
+      child: Center(
+        child: Stack(
+          children: [
+            Container(
+              width: Get.width * 0.5,
+              height: Get.height * 0.18,
+              decoration: BoxDecoration(
+                image: new DecorationImage(
+                    fit: BoxFit.fill,
+                    image: _pancardFile == null
+                        ? AssetImage('assets/images/camera_main.png')
+                        : FileImage(File(_pancardFile.path))
                 ),
               ),
             ),
@@ -669,6 +701,27 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
   openGallery(BuildContext buildContext) async {
     var selectedImage;
     selectedImage = await picker.getImage(source: ImageSource.gallery);
+
+    if(tabBarIndex == 0){
+      setState(() {
+        _imageFile = selectedImage;
+        picture = selectedImage;
+        _addBankDetailsController.profileImage=_imageFile;
+        isProfilePhotoUploaded = true;
+      });
+    }
+    else{
+      setState(() {
+        _pancardFile = selectedImage;
+        pancardPicture = selectedImage;
+        _addBankDetailsController.pancardImage=_pancardFile;
+        isPanCardUploaded = true;
+      });
+    }
+  }
+  openCamera(BuildContext buildContext) async {
+    var selectedImage;
+    selectedImage = await picker.getImage(source: ImageSource.camera);
 
     if(tabBarIndex == 0){
       setState(() {

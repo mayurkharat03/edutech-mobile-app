@@ -138,7 +138,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     decoration: InputDecoration(
                                       labelStyle: TextStyle(
                                           fontFamily: Strings.montserrat, fontSize: 12),
-                                      labelText: 'Add Withdraw Amount '+Strings.currency,
+                                      labelText: 'Add Withdrawal Amount '+Strings.currency,
                                       contentPadding: EdgeInsets.all(15.0),
                                       isDense: true,
                                       border: OutlineInputBorder(
@@ -152,7 +152,7 @@ class _WalletScreenState extends State<WalletScreen> {
                               height: Get.height * 0.01,
                             ),
                             showError == false
-                                ? textWidget("Your wallet should contain minimum amount of " +Strings.currency+"2,000", Colors.black, 12,
+                                ? textWidget("Your wallet should contain minimum amount of " +Strings.currency+"2,000.", Colors.black, 12,
                                 weight: FontWeight.normal)
                                 : textWidget("Not a valid Amount ", Colors.red, 12,
                                 weight: FontWeight.normal),

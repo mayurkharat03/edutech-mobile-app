@@ -136,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: <Widget>[
         bodySection(),
         Center(
-          child:Text("Don't have referral",style: TextStyle(decoration: TextDecoration.underline,
+          child:Text("Don't have a referral code?",style: TextStyle(decoration: TextDecoration.underline,
               decorationColor: AppColors.primaryColor)),
         ),
         SizedBox(height:10.0),
