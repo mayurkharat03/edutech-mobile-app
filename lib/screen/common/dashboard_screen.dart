@@ -12,6 +12,7 @@ import 'package:edutech/screen/seller/upload_photo_screen.dart';
 import 'package:edutech/utils/Functions.dart';
 import 'package:edutech/utils/colors.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import '../package/add_package.dart';
 
@@ -35,6 +36,10 @@ class _DashBoardState extends State<DashBoard> {
   bool isLoading=false;
   int kyc_completed;
   String photo="";
+  var date="";
+  var date1;
+  var formattedDate;
+  int activePackageCount=0;
 
   @override
   void initState() {
@@ -53,6 +58,9 @@ class _DashBoardState extends State<DashBoard> {
     kyc_completed = dataStorage.read("kyc_completed");
     photo = dataStorage.read("photo");
     var user_id = dataStorage.read("user_id");
+    date = dataStorage.read("date");
+    date1 = DateTime.parse(date);
+    formattedDate = "${date1.day}-${date1.month}-${date1.year}";
     print("Id");print(user_id);
     if(user_first_name==null){
       user_first_name="";
@@ -60,6 +68,7 @@ class _DashBoardState extends State<DashBoard> {
     if(user_last_name==null){
       user_last_name="";
     }
+    activePackageCount = dataStorage.read("totalPackageCount");
   }
 
   Future<bool> _onBackPressed() {
@@ -291,7 +300,7 @@ class _DashBoardState extends State<DashBoard> {
         label: textWidget("Become A Seller", AppColors.primaryColor, 14,
             weight: FontWeight.bold),
         onPressed: () {
-          if(isPhotoUploaded==1 || isPanUploaded==0){
+          if(isPhotoUploaded==0 || isPanUploaded==0){
             Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
           }
           else{
@@ -366,7 +375,7 @@ class _DashBoardState extends State<DashBoard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    textWidget("13", Colors.black, 18, weight: FontWeight.bold),
+                    textWidget("${activePackageCount}", Colors.black, 18, weight: FontWeight.bold),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.015,
                     ),
@@ -453,7 +462,7 @@ class _DashBoardState extends State<DashBoard> {
                         textWidget("${referral_count}", Colors.white, 14, weight: FontWeight.w600),
                       ],
                     ),
-                    textWidget("30 April 2020", Colors.white, 13),
+                    textWidget("${formattedDate}", Colors.white, 13),
                   ],
                 ),
               ),

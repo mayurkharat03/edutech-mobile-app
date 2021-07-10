@@ -33,16 +33,16 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
 
   Future<bool> onWillPop() async {
 
-    if(isPanUploaded == 0 || isProfileUploaded ==0){
+    if(isPanUploaded == 0 || isProfileUploaded == 0){
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => UploadPhotoScreen()),
+              builder: (context) => BottomNavigationScreen()),
               (Route<dynamic> route) => false);
     }
     else{
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => BottomNavigationScreen()),
+              builder: (context) => UploadPhotoScreen()),
               (Route<dynamic> route) => false);
     }
   }

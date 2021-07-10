@@ -37,4 +37,4 @@ String studentDetailsUrl = baseUrl + "package/addStudent";
 
 String uploadPancardUrl = baseUrl +"photo/28/uploadPancardPhoto";
 
-
+String getReferralListUrl = baseUrl + "admin/getDistributorTreeById";

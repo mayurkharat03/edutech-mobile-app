@@ -215,8 +215,8 @@ class VerifyOtpState extends State<VerifyOtp>  with WidgetsBindingObserver{
                          gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
                     return;
                   } else {
-                    showAlertDialog(context);
-                    //_loginController.apiVerifyOtp(context);
+                    //showAlertDialog(context);
+                    _loginController.apiVerifyOtp(context);
                   }
                 },
                 child: Padding(

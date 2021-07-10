@@ -60,6 +60,7 @@ class Strings {
   static const String get_board_list_success = "Boards List";
   static const String get_standard_list_success = "Standard List by Boards";
   static const String profile_success = "Profile uploaded successfully";
+  static const String pancard_success = "Pancard uploaded successfully";
   static const String aadhar_card_front_success = "Aadhaar Front uploaded successfully";
   static const String email_check_success = "Email ID Verified!";
   static const String email_check_failed = "Email ID Already Exist!";
@@ -79,6 +80,7 @@ class Strings {
   static const String add_student_success = "Student added successfully";
   static const String wallet_transfer_success = "";
   static const String update_address_success = "Billing and Shipping Address updated successfully!";
+  static const String referral_list_success = "";
   //static const String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heXVyMTJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIxMjM0IiwiaWF0IjoxNjIwNDQ1NzQ5fQ.ncouRhbXfOtWhn_wjhyWL1ROI3Mw_p3FctKT5_9EZYg";
   static List<String> allBoards=[];
   static List<int> allBoardsId=[];
@@ -104,4 +106,7 @@ class Strings {
   static var key = "VUQXAWELXZ";
   static var salt = "7ESY3PUI2B";
   static var email = "enquiry@edu-teck.com";
+
+  static String launchReferralUrl = "https://edu-teck.com/refer_code.php";
+  //static String launchReferralUrl = "www.google.com";
 }

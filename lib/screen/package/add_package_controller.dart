@@ -124,6 +124,8 @@ class AddPackageController extends GetxController{
   void getPackagesList() async {
     int user_id = dataStorage.read("user_id");
     var res = await ApiService.get(getPackageUrl,params:user_id.toString(),tokenOptional: false);
+    int totalPackageCount = res["result"].length;
+    dataStorage.write("totalPackageCount", totalPackageCount);
     showAddPackagesPrice.clear();
     showAddPackagesBoardName.clear();
     showAddPackagesStdName.clear();

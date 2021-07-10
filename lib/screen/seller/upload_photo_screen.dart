@@ -37,333 +37,343 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
     isProfileUploaded = dataStorage.read("isProfileUploaded");
   }
 
+  Future<bool> onWillPop() async {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => BottomNavigationScreen()),
+            (Route<dynamic> route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColors.primaryColor,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 2.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      BottomNavigationScreen()),
-                                  (Route<dynamic> route) => false);
-                        },
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 28,
-                        ),
-                      ),
-                      Transform(
-                          transform:
-                          Matrix4.translationValues(-5.0, 0.0, 0.0),
-                          child: GestureDetector(
-                            onTap: () {
+        child: WillPopScope(
+          onWillPop: onWillPop,
+          child:Scaffold(
+              appBar: AppBar(
+                backgroundColor: AppColors.primaryColor,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 2.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                            onPressed: () {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           BottomNavigationScreen()),
                                       (Route<dynamic> route) => false);
                             },
-                            child: textWidget("Step 1", Colors.white, 20,
-                                weight: FontWeight.bold),
-                          )),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            bottom: TabBar(
-              onTap: (index){
-                print("Index: "+ "${index}");
-                tabBarIndex = index;
-              },
-              tabs: [
-                Tab(
-                  text: 'Profile',
-                ),
-                Tab(
-                  text: 'Pan card',
-                ),
-              ],
-              labelColor: Colors.white,
-              isScrollable: true,
-              labelPadding: EdgeInsets.only( left:50.0,right:50.0),
-              labelStyle: TextStyle(fontSize: 16.0),
-              indicatorColor: Colors.white,
-            ),
-          ),
-          backgroundColor: AppColors.formBackground,
-            body: TabBarView(
-              children: [
-                SafeArea(
-                  child:
-                   Stack(
-                    children: <Widget>[
-                      Positioned(
-                        left: 0.0,
-                        right: 0.0,
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 3.0,
-                          color: AppColors.primaryColor,
-                          child: Container(
-                            width: double.infinity,
-                            height: Get.height * 0.24,
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: Get.height * 0.04,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            isProfileUploaded ==0
-                            ? Padding(
-                              padding: const EdgeInsets.only(left: 20.0,),
-                              child: Text("Already present !",
-                                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
-                              ),
-                            )
-                            : Padding(
-                              padding: const EdgeInsets.only(left: 20.0,),
-                              child: Text("Take your photo",
-                                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
-                              ),
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 28,
                             ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        top: Get.height * 0.13,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 3.0,
-                          color: AppColors.formBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(30.0),
-                                topLeft: Radius.circular(30.0)),
                           ),
-                          child: Container(
-                            width: double.infinity,
-                            height: Get.height,
-                          ),
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(height: Get.height * 0.15,),
-                          isProfileUploaded == 0
-                          ? Center(child:Padding(
-                            padding: EdgeInsets.only(top: 10.0),
-                            child:Text("Profile Already uploaded !",style: TextStyle(fontFamily: Strings.montserrat,
-                                fontWeight: FontWeight.bold),)
-                          ))
-                          : cameraIconProfile()
-                          // selectedProfile(),
+                          Transform(
+                              transform:
+                              Matrix4.translationValues(-5.0, 0.0, 0.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BottomNavigationScreen()),
+                                          (Route<dynamic> route) => false);
+                                },
+                                child: textWidget("Step 1", Colors.white, 20,
+                                    weight: FontWeight.bold),
+                              )),
                         ],
                       ),
-                      isProfileUploaded == 0
-                          ? Opacity(opacity: 0.0,)
-                          :
-                      Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                SafeArea(
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned(
-                        left: 0.0,
-                        right: 0.0,
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 3.0,
-                          color: AppColors.primaryColor,
-                          child: Container(
-                            width: double.infinity,
-                            height: Get.height * 0.24,
+                bottom: TabBar(
+                  onTap: (index){
+                    print("Index: "+ "${index}");
+                    tabBarIndex = index;
+                  },
+                  tabs: [
+                    Tab(
+                      text: 'Profile',
+                    ),
+                    Tab(
+                      text: 'Pan card',
+                    ),
+                  ],
+                  labelColor: Colors.white,
+                  isScrollable: true,
+                  labelPadding: EdgeInsets.only( left:50.0,right:50.0),
+                  labelStyle: TextStyle(fontSize: 16.0),
+                  indicatorColor: Colors.white,
+                ),
+              ),
+              backgroundColor: AppColors.formBackground,
+              body: TabBarView(
+                children: [
+                  SafeArea(
+                    child:
+                    Stack(
+                      children: <Widget>[
+                        Positioned(
+                          left: 0.0,
+                          right: 0.0,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 3.0,
+                            color: AppColors.primaryColor,
+                            child: Container(
+                              width: double.infinity,
+                              height: Get.height * 0.24,
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: Get.height * 0.04,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            isPanUploaded ==0
-                                ? Padding(
-                              padding: const EdgeInsets.only(left: 20.0,),
-                              child: Text("Already present !",
-                                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+                        Positioned(
+                          top: Get.height * 0.04,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              isProfileUploaded ==0
+                                  ? Padding(
+                                padding: const EdgeInsets.only(left: 20.0,),
+                                child: Text("Already present !",
+                                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+                                ),
+                              )
+                                  : Padding(
+                                padding: const EdgeInsets.only(left: 20.0,),
+                                child: Text("Take your photo",
+                                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+                                ),
                               ),
-                            )
-                                :
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20.0,),
-                              child: Text("Take your photo",
-                                style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
-                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: Get.height * 0.13,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 3.0,
+                            color: AppColors.formBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30.0),
+                                  topLeft: Radius.circular(30.0)),
                             ),
+                            child: Container(
+                              width: double.infinity,
+                              height: Get.height,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(height: Get.height * 0.15,),
+                            isProfileUploaded == 0
+                                ? Center(child:Padding(
+                                padding: EdgeInsets.only(top: 10.0),
+                                child:Text("Profile Already uploaded !",style: TextStyle(fontFamily: Strings.montserrat,
+                                    fontWeight: FontWeight.bold),)
+                            ))
+                                : cameraIconProfile()
+                            // selectedProfile(),
                           ],
                         ),
-                      ),
-                      Positioned(
-                        top: Get.height * 0.13,
-                        left: 0.0,
-                        right: 0.0,
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 3.0,
-                          color: AppColors.formBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(30.0),
-                                topLeft: Radius.circular(30.0)),
-                          ),
-                          child: Container(
-                            width: double.infinity,
-                            height: Get.height,
+                        isProfileUploaded == 0
+                            ? Opacity(opacity: 0.0,)
+                            :
+                        Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
+                      ],
+                    ),
+                  ),
+                  SafeArea(
+                    child: Stack(
+                      children: <Widget>[
+                        Positioned(
+                          left: 0.0,
+                          right: 0.0,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 3.0,
+                            color: AppColors.primaryColor,
+                            child: Container(
+                              width: double.infinity,
+                              height: Get.height * 0.24,
+                            ),
                           ),
                         ),
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(height: Get.height * 0.15,),
-                          isPanUploaded == 0
-                              ? Center(child:Padding(
-                              padding: EdgeInsets.only(top: 10.0),
-                              child:Text("Pancard Already uploaded !",style: TextStyle(fontFamily: Strings.montserrat,
-                                  fontWeight: FontWeight.bold),)
-                          ))
-                              : cameraIconProfile()
-                          // selectedProfile(),
-                        ],
-                      ),
-                      isPanUploaded == 0
-                          ? Opacity(opacity: 0.0,)
-                          : Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
-                    ],
+                        Positioned(
+                          top: Get.height * 0.04,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              isPanUploaded == 0
+                                  ? Padding(
+                                padding: const EdgeInsets.only(left: 20.0,),
+                                child: Text("Already present !",
+                                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+                                ),
+                              )
+                                  :
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20.0,),
+                                child: Text("Take your photo",
+                                  style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: Get.height * 0.13,
+                          left: 0.0,
+                          right: 0.0,
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            elevation: 3.0,
+                            color: AppColors.formBackground,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30.0),
+                                  topLeft: Radius.circular(30.0)),
+                            ),
+                            child: Container(
+                              width: double.infinity,
+                              height: Get.height,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            SizedBox(height: Get.height * 0.15,),
+                            isPanUploaded == 0
+                                ? Center(child:Padding(
+                                padding: EdgeInsets.only(top: 10.0),
+                                child:Text("Pancard Already uploaded !",style: TextStyle(fontFamily: Strings.montserrat,
+                                    fontWeight: FontWeight.bold),)
+                            ))
+                                : cameraIconPancard()
+                            // selectedProfile(),
+                          ],
+                        ),
+                        isPanUploaded == 0
+                            ? Opacity(opacity: 0.0,)
+                            : Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            )
-          // body: SafeArea(
-          //   child: Stack(
-          //     children: <Widget>[
-          //       Positioned(
-          //         left: 0.0,
-          //         right: 0.0,
-          //         child: Card(
-          //           margin: EdgeInsets.zero,
-          //           elevation: 3.0,
-          //           color: AppColors.primaryColor,
-          //           child: Container(
-          //             width: double.infinity,
-          //             height: Get.height * 0.24,
-          //           ),
-          //         ),
-          //       ),
-          //       Positioned(
-          //         top: Get.height * 0.04,
-          //         left: 0.0,
-          //         right: 0.0,
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             Padding(
-          //               padding: const EdgeInsets.only(left: 10.0),
-          //               child: Row(
-          //                 mainAxisAlignment: MainAxisAlignment.start,
-          //                 children: [
-          //                   IconButton(
-          //                     onPressed: () {
-          //                       Navigator.of(context).pushAndRemoveUntil(
-          //                           MaterialPageRoute(
-          //                               builder: (context) => BottomNavigationScreen()),
-          //                           (Route<dynamic> route) => false);
-          //                     },
-          //                     icon: Icon(
-          //                       Icons.arrow_back,
-          //                       color: Colors.white,
-          //                       size: 28,
-          //                     ),
-          //                   ),
-          //                   Transform(
-          //                       transform:
-          //                           Matrix4.translationValues(-5.0, 0.0, 0.0),
-          //                       child: GestureDetector(
-          //                         onTap: () {
-          //                           Navigator.of(context).pushAndRemoveUntil(
-          //                               MaterialPageRoute(
-          //                                   builder: (context) => BottomNavigationScreen()),
-          //                               (Route<dynamic> route) => false);
-          //                         },
-          //                         child: textWidget("Step 1", Colors.white, 16, weight: FontWeight.bold),
-          //                       )),
-          //                 ],
-          //               ),
-          //             ),
-          //             SizedBox(
-          //               height: 7,
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.only(left: 20.0,),
-          //               child: Text("Take your photo",
-          //                 style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //       Positioned(
-          //         top: Get.height * 0.21,
-          //         left: 0.0,
-          //         right: 0.0,
-          //         child: Card(
-          //           margin: EdgeInsets.zero,
-          //           elevation: 3.0,
-          //           color: AppColors.formBackground,
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.only(
-          //                 topRight: Radius.circular(30.0),
-          //                 topLeft: Radius.circular(30.0)),
-          //           ),
-          //           child: Container(
-          //             width: double.infinity,
-          //             height: Get.height,
-          //           ),
-          //         ),
-          //       ),
-          //       Column(
-          //         children: [
-          //           SizedBox(height: Get.height * 0.26,),
-          //           cameraIconProfile(),
-          //           // selectedProfile(),
-          //         ],
-          //       ),
-          //       Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
-          //     ],
-          //   ),
-          // ),
+                ],
+              )
+            // body: SafeArea(
+            //   child: Stack(
+            //     children: <Widget>[
+            //       Positioned(
+            //         left: 0.0,
+            //         right: 0.0,
+            //         child: Card(
+            //           margin: EdgeInsets.zero,
+            //           elevation: 3.0,
+            //           color: AppColors.primaryColor,
+            //           child: Container(
+            //             width: double.infinity,
+            //             height: Get.height * 0.24,
+            //           ),
+            //         ),
+            //       ),
+            //       Positioned(
+            //         top: Get.height * 0.04,
+            //         left: 0.0,
+            //         right: 0.0,
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Padding(
+            //               padding: const EdgeInsets.only(left: 10.0),
+            //               child: Row(
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 children: [
+            //                   IconButton(
+            //                     onPressed: () {
+            //                       Navigator.of(context).pushAndRemoveUntil(
+            //                           MaterialPageRoute(
+            //                               builder: (context) => BottomNavigationScreen()),
+            //                           (Route<dynamic> route) => false);
+            //                     },
+            //                     icon: Icon(
+            //                       Icons.arrow_back,
+            //                       color: Colors.white,
+            //                       size: 28,
+            //                     ),
+            //                   ),
+            //                   Transform(
+            //                       transform:
+            //                           Matrix4.translationValues(-5.0, 0.0, 0.0),
+            //                       child: GestureDetector(
+            //                         onTap: () {
+            //                           Navigator.of(context).pushAndRemoveUntil(
+            //                               MaterialPageRoute(
+            //                                   builder: (context) => BottomNavigationScreen()),
+            //                               (Route<dynamic> route) => false);
+            //                         },
+            //                         child: textWidget("Step 1", Colors.white, 16, weight: FontWeight.bold),
+            //                       )),
+            //                 ],
+            //               ),
+            //             ),
+            //             SizedBox(
+            //               height: 7,
+            //             ),
+            //             Padding(
+            //               padding: const EdgeInsets.only(left: 20.0,),
+            //               child: Text("Take your photo",
+            //                 style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold,letterSpacing: 1.0),
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //       Positioned(
+            //         top: Get.height * 0.21,
+            //         left: 0.0,
+            //         right: 0.0,
+            //         child: Card(
+            //           margin: EdgeInsets.zero,
+            //           elevation: 3.0,
+            //           color: AppColors.formBackground,
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.only(
+            //                 topRight: Radius.circular(30.0),
+            //                 topLeft: Radius.circular(30.0)),
+            //           ),
+            //           child: Container(
+            //             width: double.infinity,
+            //             height: Get.height,
+            //           ),
+            //         ),
+            //       ),
+            //       Column(
+            //         children: [
+            //           SizedBox(height: Get.height * 0.26,),
+            //           cameraIconProfile(),
+            //           // selectedProfile(),
+            //         ],
+            //       ),
+            //       Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
+            //     ],
+            //   ),
+            // ),
+          )
         ));
   }
 
@@ -377,8 +387,8 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: InkWell(
-              onTap: () {
-                //openCamera(context);
+              onTap: () async {
+                openCamera(context);
               },
               child: buttonSell("Take a Photo", Colors.white, AppColors.textColor)),
         ),
@@ -708,21 +718,23 @@ class _UploadPhotoScreenState extends State<UploadPhotoScreen> {
         picture = selectedImage;
         _addBankDetailsController.profileImage=_imageFile;
         isProfilePhotoUploaded = true;
+        _addBankDetailsController.uploadSellerPhoto(context);
       });
     }
     else{
       setState(() {
         _pancardFile = selectedImage;
         pancardPicture = selectedImage;
-        _addBankDetailsController.pancardImage=_pancardFile;
+        _addBankDetailsController.pancardImage = _pancardFile;
         isPanCardUploaded = true;
+        _addBankDetailsController.uploadPancardPhoto(context);
       });
     }
   }
   openCamera(BuildContext buildContext) async {
     var selectedImage;
     selectedImage = await picker.getImage(source: ImageSource.camera);
-
+    print(selectedImage);
     if(tabBarIndex == 0){
       setState(() {
         _imageFile = selectedImage;

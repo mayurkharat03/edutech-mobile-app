@@ -1,7 +1,5 @@
-import 'dart:convert' show utf8;
-import 'package:encrypt/encrypt.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:flutter/material.dart';
+import 'package:flutter_string_encryption/flutter_string_encryption.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +13,6 @@ import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto/crypto.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -29,6 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
   static final dataStorage = GetStorage();
   String user_email="";
   String password="";
+  String encryptedS,decryptedS;
+  PlatformStringCryptor cryptor;
+  var key = "null";
 
   @override
   void initState() {
@@ -36,6 +36,18 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     user_email = dataStorage.read("email");
     password = dataStorage.read("password");
+    //getPassword();
+  }
+
+  void getPassword() async{
+    cryptor = PlatformStringCryptor();
+    final salt = await cryptor.generateSalt();
+    key = await cryptor.generateKeyFromPassword(password, salt);
+    // here pass the password entered by user and the key
+    encryptedS = await cryptor.encrypt(password, key);
+    decryptedS = await cryptor.decrypt(encryptedS, key);
+    print(encryptedS);
+    print(decryptedS);
   }
 
   @override
@@ -97,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Container(
-                          height: Get.height * 0.08 ,
+                          height: Get.height * 0.08,
                         child:Card(
                           elevation: 5,
                           child: Padding(

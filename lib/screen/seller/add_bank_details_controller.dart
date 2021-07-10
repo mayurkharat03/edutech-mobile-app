@@ -87,13 +87,13 @@ class AddBankDetailsController extends GetxController{
     String response;
     res.listen((value) {
       response=value.toString();
-      if (response.contains(Strings.profile_success)) {
+      if (response.contains(Strings.pancard_success)) {
         if(isProfileUploaded == 0)
         {
           Navigator.pushReplacement(context, FadeNavigation(widget: AddBankAccountScreen()));
         }
         else{
-          ToastComponent.showDialog("Uploaded Successfully", context);
+          ToastComponent.showDialog("Pancard uploaded successfully", context);
         }
       }
       else {

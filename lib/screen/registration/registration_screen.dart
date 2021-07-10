@@ -9,6 +9,7 @@ import 'package:edutech/utils/colors.dart';
 import 'package:edutech/utils/strings.dart';
 import 'package:edutech/utils/toast_component.dart';
 import 'package:toast/toast.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -136,8 +137,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: <Widget>[
         bodySection(),
         Center(
-          child:Text("Don't have a referral code?",style: TextStyle(decoration: TextDecoration.underline,
-              decorationColor: AppColors.primaryColor)),
+          child:GestureDetector(
+            onTap: (){
+              openUrl();
+            },
+            child:Text("Don't have a referral code?",style: TextStyle(decoration: TextDecoration.underline,
+    decorationColor: AppColors.primaryColor))
+          ),
         ),
         SizedBox(height:10.0),
         fixedBottomSection(),
@@ -145,5 +151,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
         //Center(child: textWidget("Need help?", AppColors.labelColor, 14))
       ],
     );
+  }
+
+  /// Open referral code url
+  openUrl() async {
+    if(Strings.launchReferralUrl==null){
+      ToastComponent.showDialog("Url is not added",context);
+    }
+    else{
+      if (await canLaunch(Strings.launchReferralUrl)) {
+        await launch(Strings.launchReferralUrl);
+      } else {
+        throw 'Could not launch $Strings.launchReferralUrl';
+      }
+    }
   }
 }

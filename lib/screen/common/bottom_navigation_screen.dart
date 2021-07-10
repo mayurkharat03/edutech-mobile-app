@@ -1,3 +1,4 @@
+import 'package:edutech/screen/common/referral_screen.dart';
 import 'package:edutech/screen/login/edit_user_details.dart';
 import 'package:edutech/screen/student/student_details_screen.dart';
 import 'package:edutech/screen/wallet/wallet_screen.dart';
@@ -25,7 +26,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   List _pages = [
     DashBoard(),
     WalletScreen(),
-    StudentDetailsScreen(),
+    ReferralScreen(),
     EditUserDetails()
   ];
 
@@ -75,11 +76,6 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
             currentIndex: _selectedTabIndex,
             onTap: _changeIndex,
             type: BottomNavigationBarType.fixed,
-            // selectedFontSize: 12,
-            // unselectedFontSize: 12,
-            // selectedItemColor: AppColors.primaryColor,
-            // unselectedItemColor: Colors.grey[500],
-           // showUnselectedLabels: true,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: new Icon(Icons.home_filled,color: _selectedTabIndex == 0 ? AppColors.primaryColor : Colors.grey,),
