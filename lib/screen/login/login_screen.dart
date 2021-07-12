@@ -234,11 +234,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   _rememberMe = value;
                   if(value){
                     user_email = dataStorage.read("email");
+                    password = dataStorage.read("password");
                     _loginController.emailTextController.text = user_email;
+                    _loginController.passwordTextController.text = password;
                   }
                   else{
                     user_email = "Email";
-                    _loginController.emailTextController.text="";
+                    password = "Password";
+                    _loginController.emailTextController.text = "";
+                    _loginController.passwordTextController.text = "";
                   }
                 });
               },

@@ -75,6 +75,7 @@ class Strings {
   static const String otp_for_forgot_password_success = "OTP Sent!";
   static const String delete_success = "Package deleted successfully";
   static const String otp_verify_for_forgot_password = "OTP Verified Successfull!";
+  static const String otp_verify_success = "OTP Verified Successfully";
   static const String update_forgot_password = "Password updated successfully!";
   static const String wallet_history_success = "Wallet transaction history!";
   static const String add_student_success = "Student added successfully";

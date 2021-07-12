@@ -232,7 +232,8 @@ void showOtpAlertDialog(BuildContext context) {
                 fit: BoxFit.contain,
               ),
               Text(
-                "Your mobile number is successfully verified!",
+                //"Your mobile number is successfully verified!",
+                "OTP is successfully verified!",
                 style: TextStyle(
                   fontFamily: Strings.montserrat,
                   color: AppColors.labelColor,

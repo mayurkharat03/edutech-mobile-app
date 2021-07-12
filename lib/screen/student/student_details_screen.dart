@@ -167,7 +167,7 @@ class _StudentDetailsScreenState extends State<StudentDetailsScreen> {
                     padding: const EdgeInsets.all(2.0),
                     child: ElevatedButton(
                       child: Text(
-                        "Cancle",
+                        "Cancel",
                         style: styleForLabel(12, AppColors.primaryColor),
                       ),
                       onPressed: () {},

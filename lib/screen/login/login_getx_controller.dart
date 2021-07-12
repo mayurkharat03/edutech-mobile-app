@@ -51,7 +51,7 @@ class LoginController extends GetxController {
       ApiService.dataStorage.write("first_name", res["result"][0]["first_name"]);
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
-      ApiService.dataStorage.write("password", res["result"][0]["password"]);
+      //ApiService.dataStorage.write("password", res["result"][0]["password"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
       ApiService.dataStorage.write("phone", res["result"][0]["phone_number"]);
       ApiService.dataStorage.write("billing_address", res["result"][0]["billing_address"]);
@@ -61,10 +61,10 @@ class LoginController extends GetxController {
       ApiService.dataStorage.write("isPanUploaded", res["result"][0]["isPanUploaded"]);
       ApiService.dataStorage.write("isProfileUploaded", res["result"][0]["isProfileUploaded"]);
       ApiService.dataStorage.write("token", res["token"]);
+      ApiService.dataStorage.write("password",passwordTextController.text);
 
       ToastComponent.showDialog("Login Successful", context);
       Navigator.pushReplacement(context, FadeNavigation(widget: BottomNavigationScreen()));
-      //Navigator.pushReplacement(context, FadeNavigation(widget: StudentDetailsScreen()));
     } else {
       isLoading.value = false;
       ToastComponent.showDialog(res["message"], context);
@@ -89,7 +89,7 @@ class LoginController extends GetxController {
   void apiVerifyOtp(BuildContext context) async {
     isReferLoading.value = true;
     var res = await ApiService.verifyOTPService(verifyOtp, mobileNoController.text, otpController.text, tokenOptional: true);
-    if (res["message"] == Strings.referral_success) {
+    if (res["message"] == Strings.otp_verify_success) {
       isReferLoading.value = false;
       showOtpAlertDialog(context);
     } else {

@@ -31,7 +31,7 @@ class VerifyOtpState extends State<VerifyOtp>  with WidgetsBindingObserver{
   StreamController<ErrorAnimationType> errorController;
   bool loading = false;
   Timer _timer;
-  int _start = 9;
+  int _start = 60;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);

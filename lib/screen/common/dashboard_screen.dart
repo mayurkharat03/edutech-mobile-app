@@ -475,12 +475,12 @@ class _DashBoardState extends State<DashBoard> {
                     Column(children: [
                       textWidget("MY WALLET",Colors.white, 13,),
                       SizedBox(height: 3,),
-                      textWidget(Strings.currency+ "${walletAmount}", Colors.white, 14, weight: FontWeight.w600),
+                      textWidget(Strings.currency+ " "+"${walletAmount}", Colors.white, 14, weight: FontWeight.w600),
                     ],),
                     Column(children: [
                       textWidget("TOTAL EARNINGS",Colors.white, 13,),
                       SizedBox(height: 3,),
-                      textWidget(total_earning, Colors.white, 14, weight: FontWeight.w600),
+                      textWidget(Strings.currency+" "+ "${total_earning}", Colors.white, 14, weight: FontWeight.w600),
                     ],),
                   ],
                 ),

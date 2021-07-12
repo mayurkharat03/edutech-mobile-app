@@ -162,7 +162,7 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
               Align(alignment: Alignment.bottomCenter, child: buttonForBottom()),
             ],
           ),
-        ),
+        )
       )
     );
   }
@@ -214,128 +214,124 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
 /*Bank Account details*/
   Widget bankDetails() {
     TextStyle style = TextStyle(fontFamily: Strings.montserrat, fontSize: 13);
-    return Expanded(
-        child: KeyboardAvoider(
-           autoScroll: true,
-         child: Form(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: TextFormField(
-                      controller: _addBankDetailsController.bankNameController,
-                      decoration: InputDecoration(
-                        labelStyle: style,
-                        labelText: 'Bank Name',
-                        contentPadding: EdgeInsets.all(15.0),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+    return Form(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextFormField(
+                    controller: _addBankDetailsController.bankNameController,
+                    decoration: InputDecoration(
+                      labelStyle: style,
+                      labelText: 'Bank Name',
+                      contentPadding: EdgeInsets.all(15.0),
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: TextFormField(
-                      controller: _addBankDetailsController.accountNumberController,
-                      decoration: InputDecoration(
-                        labelStyle: style,
-                        labelText: 'Bank Account Number',
-                        contentPadding: EdgeInsets.all(15.0),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextFormField(
+                    controller: _addBankDetailsController.accountNumberController,
+                    decoration: InputDecoration(
+                      labelStyle: style,
+                      labelText: 'Bank Account Number',
+                      contentPadding: EdgeInsets.all(15.0),
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: TextFormField(
-                      controller: _addBankDetailsController.ifscCodeController,
-                      decoration: InputDecoration(
-                        labelStyle: style,
-                        labelText: 'IFSC Code',
-                        contentPadding: EdgeInsets.all(15.0),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextFormField(
+                    controller: _addBankDetailsController.ifscCodeController,
+                    decoration: InputDecoration(
+                      labelStyle: style,
+                      labelText: 'IFSC Code',
+                      contentPadding: EdgeInsets.all(15.0),
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: TextFormField(
-                      controller: _addBankDetailsController.accountNameController,
-                      decoration: InputDecoration(
-                        labelStyle: style,
-                        labelText: 'Account Holder Name',
-                        contentPadding: EdgeInsets.all(15.0),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextFormField(
+                    controller: _addBankDetailsController.accountNameController,
+                    decoration: InputDecoration(
+                      labelStyle: style,
+                      labelText: 'Account Holder Name',
+                      contentPadding: EdgeInsets.all(15.0),
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
               ),
-              Padding(
-                  padding: const EdgeInsets.all(11.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child:
-                    textWidget("OR", Colors.black, 14, weight: FontWeight.bold),
-                  )),
-              Padding(
-                padding: const EdgeInsets.only(left:5.0,right:5.0,top:5.0,bottom: 60.0),
-                child: Card(
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: TextFormField(
-                      controller: _addBankDetailsController.upiIdController,
-                      decoration: InputDecoration(
-                        labelStyle: style,
-                        labelText: 'UPI ID',
-                        contentPadding: EdgeInsets.all(15.0),
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                        ),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(11.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child:
+                  textWidget("OR", Colors.black, 14, weight: FontWeight.bold),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(left:5.0,right:5.0,top:5.0,bottom: 60.0),
+              child: Card(
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: TextFormField(
+                    controller: _addBankDetailsController.upiIdController,
+                    decoration: InputDecoration(
+                      labelStyle: style,
+                      labelText: 'UPI ID',
+                      contentPadding: EdgeInsets.all(15.0),
+                      isDense: true,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
                       ),
                     ),
                   ),
                 ),
               ),
-              //SizedBox(height: Get.height * 0.2,)
-            ],
-          )),
-    ));
+            ),
+            //SizedBox(height: Get.height * 0.2,)
+          ],
+        ));
   }
 }
