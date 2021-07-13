@@ -49,7 +49,7 @@ class AddBankDetailsController extends GetxController{
       "accountNumber":accountNumberController.text,
       "accountName":accountNameController.text,
       "ifscCode":ifscCodeController.text,
-      "upiId":upiIdController.text??"NA",
+      //"upiId":upiIdController.text??"NA",
     };
     var res = await ApiService.postWithDynamic(addBackDetailsUrl, params,tokenOptional:false);
     if (res["message"] == Strings.added_bank_details_success) {

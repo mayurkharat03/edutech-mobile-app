@@ -183,23 +183,18 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
                String accountHolderName = _addBankDetailsController.accountNameController.text;
                String upi = _addBankDetailsController.upiIdController.text;
 
-               if(upi.isEmpty){
-                 if (accountNo.isEmpty) {
-                   ToastComponent.showDialog("Please Enter account number", context,
-                       gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-                 } else if (ifscCode.isEmpty) {
-                   ToastComponent.showDialog("Please Enter IFSC Code", context,
-                       gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-                 } else if (accountHolderName.isEmpty) {
-                   ToastComponent.showDialog("Please Enter account holder's name ", context,
-                       gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-                 }else if (bankName.isEmpty) {
-                   ToastComponent.showDialog("Please Enter bank name ", context,
-                       gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
-                 }
-                 else{
-                   Navigator.pushReplacement(context, FadeNavigation(widget: TermsAndConditionsScreen()));
-                 }
+               if (accountNo.isEmpty) {
+                 ToastComponent.showDialog("Please Enter account number", context,
+                     gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+               } else if (ifscCode.isEmpty) {
+                 ToastComponent.showDialog("Please Enter IFSC Code", context,
+                     gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+               } else if (accountHolderName.isEmpty) {
+                 ToastComponent.showDialog("Please Enter account holder's name ", context,
+                     gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
+               }else if (bankName.isEmpty) {
+                 ToastComponent.showDialog("Please Enter bank name ", context,
+                     gravity: Toast.CENTER, duration: Toast.LENGTH_LONG);
                }
                else{
                  Navigator.pushReplacement(context, FadeNavigation(widget: TermsAndConditionsScreen()));
@@ -302,34 +297,34 @@ class _AddBankAccountScreenState extends State<AddBankAccountScreen> {
                 ),
               ),
             ),
-            Padding(
-                padding: const EdgeInsets.all(11.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child:
-                  textWidget("OR", Colors.black, 14, weight: FontWeight.bold),
-                )),
-            Padding(
-              padding: const EdgeInsets.only(left:5.0,right:5.0,top:5.0,bottom: 60.0),
-              child: Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: TextFormField(
-                    controller: _addBankDetailsController.upiIdController,
-                    decoration: InputDecoration(
-                      labelStyle: style,
-                      labelText: 'UPI ID',
-                      contentPadding: EdgeInsets.all(15.0),
-                      isDense: true,
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //     padding: const EdgeInsets.all(11.0),
+            //     child: Align(
+            //       alignment: Alignment.centerLeft,
+            //       child:
+            //       textWidget("OR", Colors.black, 14, weight: FontWeight.bold),
+            //     )),
+            // Padding(
+            //   padding: const EdgeInsets.only(left:5.0,right:5.0,top:5.0,bottom: 60.0),
+            //   child: Card(
+            //     elevation: 5,
+            //     child: Padding(
+            //       padding: const EdgeInsets.only(top: 5),
+            //       child: TextFormField(
+            //         controller: _addBankDetailsController.upiIdController,
+            //         decoration: InputDecoration(
+            //           labelStyle: style,
+            //           labelText: 'UPI ID',
+            //           contentPadding: EdgeInsets.all(15.0),
+            //           isDense: true,
+            //           border: OutlineInputBorder(
+            //             borderSide: BorderSide.none,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             //SizedBox(height: Get.height * 0.2,)
           ],
         ));

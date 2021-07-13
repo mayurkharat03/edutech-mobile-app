@@ -23,6 +23,8 @@ class DashboardController extends GetxController{
       ApiService.dataStorage.write("last_name", res["result"][0]["last_name"]);
       ApiService.dataStorage.write("email", res["result"][0]["email"]);
       ApiService.dataStorage.write("phone_number", res["result"][0]["phone_number"]);
+      ApiService.dataStorage.write("billing_address", res["result"][0]["billing_address"]);
+      ApiService.dataStorage.write("shipping_address", res["result"][0]["shipping_address"]);
       ApiService.dataStorage.write("kyc_completed", res["result"][0]["kyc_completed"]);
       ApiService.dataStorage.write("referred_by", res["result"][0]["referred_by"]);
       ApiService.dataStorage.write("photo", res["result"][0]["photo"]);
